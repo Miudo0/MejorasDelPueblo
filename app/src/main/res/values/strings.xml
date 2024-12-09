@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Saul</string>
+    <string name="reporte_de_problemas_y_sugerencias">Reporte de problemas y sugerencias</string>
+    <string name="informa">“Informa sobre baches, alumbrado o cualquier inconveniente en tu comunidad. Ayúdanos a mejorar juntos con tus reportes y sugerencias.”</string>
+    <string name="proyectos_comunitarios">Proyectos comunitarios</string>
+    <string name="texto_proyectos">“Únete a iniciativas para mejorar el pueblo, desde restaurar espacios hasta organizar eventos. Tu participación hace la diferencia, ¡construyamos juntos un lugar mejor!”</string>
+    <string name="notificaciones_e_informaci_n_relevante">Notificaciones e información relevante</string>
+    <string name="texto_notificaciones">“Recibe alertas personalizadas y noticias importantes sobre reparaciones, eventos y emergencias en tu comunidad. Mantente siempre informado y conectado con tu pueblo.”</string>
+    <string name="voluntariado_y_ayudas">Voluntariado y ayudas</string>
+    <string name="texto_voluntariado">“Únete como voluntario en proyectos comunitarios o solicita ayuda en situaciones específicas. Tu apoyo hace la diferencia.”</string>
+    <string name="titulo_aplicacion">Mejoras del Pueblo</string>
+</resources>
