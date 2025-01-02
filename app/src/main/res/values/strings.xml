@@ -9,4 +9,8 @@
     <string name="voluntariado_y_ayudas">Voluntariado y ayudas</string>
     <string name="texto_voluntariado">“Únete como voluntario en proyectos comunitarios o solicita ayuda en situaciones específicas. Tu apoyo hace la diferencia.”</string>
     <string name="titulo_aplicacion">Mejoras del Pueblo</string>
+    <string name="reportar">reportar</string>
+    <string name="notificaciones">notificaciones</string>
+    <string name="voluntariado">voluntariado</string>
+    <string name="proyectos">proyectos</string>
 </resources>
