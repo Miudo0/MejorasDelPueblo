@@ -13,4 +13,8 @@
     <string name="notificaciones">notificaciones</string>
     <string name="voluntariado">voluntariado</string>
     <string name="proyectos">proyectos</string>
+    <string name="infraestructura">Infraestructura</string>
+    <string name="trafico">Trafico</string>
+    <string name="seguridad">Seguridad</string>
+    <string name="medio_ambiente">Medio ambiente</string>"
 </resources>
