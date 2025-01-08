@@ -77,5 +77,15 @@ val TAG = this.javaClass.simpleName//MainActivity
         super.onLowMemory()
         Log.d(TAG, "onLowMemory: La aplicación  ha agotado la memoria.")
     }
+
+    override fun onConfigurationChanged(newConfig: android.content.res.Configuration) {
+        super.onConfigurationChanged(newConfig)
+        if (newConfig.orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE) {
+            Log.d(TAG, "Rotación detectada: Modo horizontal")
+        } else if (newConfig.orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT) {
+            Log.d(TAG, "Rotación detectada: Modo vertical")
+        }
+    }
+
 }
 
