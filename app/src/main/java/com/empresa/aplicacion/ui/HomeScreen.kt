@@ -48,7 +48,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.empresa.aplicacion.R
-import com.empresa.aplicacion.ui.theme.AppTheme
+import com.empresa.aplicacion.ui.ui.theme.AppTheme
 
 
 //base de la app con el Scaffold

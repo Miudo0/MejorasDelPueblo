@@ -1,4 +1,4 @@
-package com.empresa.aplicacion.ui.theme
+package com.empresa.aplicacion.ui.ui.theme
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

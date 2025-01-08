@@ -1,4 +1,4 @@
-package com.empresa.aplicacion.ui.navigation
+package com.empresa.aplicacion.ui.ui.navigation
 
 import android.util.Log
 import androidx.compose.runtime.Composable
