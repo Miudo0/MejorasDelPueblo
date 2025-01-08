@@ -5,17 +5,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,7 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun appLogin(){
+fun LoginScreen(navigateToHome: () -> Unit ){
 
     Column(modifier = Modifier
         .fillMaxSize()
@@ -74,7 +70,7 @@ fun appLogin(){
                 .height(24.dp)
         )
        Button(
-            onClick = { /*TODO*/ },
+            onClick = { navigateToHome() },
             modifier = Modifier
                 .height(60.dp)
         ) {
@@ -96,6 +92,6 @@ fun appLogin(){
 
 @Preview(showBackground = true)
 @Composable
-fun appLoginPreview(){
-    appLogin()
+fun AppLoginPreview(){
+
 }

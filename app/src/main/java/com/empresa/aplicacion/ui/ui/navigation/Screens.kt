@@ -9,3 +9,5 @@ object Home
 @Serializable
 object ReporteProblemas
 
+@Serializable
+object Login

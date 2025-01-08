@@ -1,4 +1,4 @@
-package com.empresa.aplicacion.ui
+package com.empresa.aplicacion.ui.ui
 
 import android.content.res.Configuration
 import android.util.Log
@@ -48,6 +48,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.empresa.aplicacion.R
+import com.empresa.aplicacion.ui.ColumnaCartas
+import com.empresa.aplicacion.ui.listaElementosAccesibles
 import com.empresa.aplicacion.ui.ui.theme.AppTheme
 
 
@@ -59,9 +61,9 @@ fun HomeScreen(navigateTo: (Int) -> Unit) {
         topBar = {
             AplicacionTopAppBar()
         },
-        bottomBar = {
-            AplicacionBottomAppBar()
-        }
+//        bottomBar = {
+//            AplicacionBottomAppBar()
+//        }
     ) { paddingValues ->
         App(
             navigateTo = navigateTo,
@@ -81,7 +83,7 @@ fun App(
             .padding(paddingValues)
     ) {
         item {
-            Spacer(modifier = Modifier.height(16.dp))//este espacio mejor que el padding de fila
+            Spacer(modifier = Modifier.height(16.dp))
         }
         item {
             FilaElementosAccesibles(

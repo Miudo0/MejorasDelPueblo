@@ -9,19 +9,19 @@ import androidx.room.Query
 @Dao
 interface UsuariosDao {
     @Query("SELECT * FROM Usuario")
-    fun getAll(): List<Usuarios.Usuario>;
+    fun getAll(): List<Usuario>;
 
     @Query("SELECT * FROM Usuario WHERE uid IN (:userIds)")
-    fun loadAllByIds(userIds: IntArray): List<Usuarios.Usuario>;
+    fun loadAllByIds(userIds: IntArray): List<Usuario>;
 
     @Query("SELECT * FROM Usuario WHERE username LIKE :first AND " +
    "pass LIKE :last ")
-    fun findByName(first: String, last: String): Usuarios.Usuario
+    fun findByName(first: String, last: String): Usuario
 
     @Insert
-    fun insertAll(vararg users: Usuarios.Usuario)
+    fun insertAll(vararg users: Usuario)
 
     @Delete
-    fun delete(user: Usuarios.Usuario)
+    fun delete(user: Usuario)
 
 }

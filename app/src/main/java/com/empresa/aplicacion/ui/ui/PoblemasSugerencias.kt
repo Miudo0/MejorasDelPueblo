@@ -1,4 +1,4 @@
-package com.empresa.aplicacion.ui
+package com.empresa.aplicacion.ui.ui
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -57,14 +57,14 @@ var listaCartasProblemas: List<CartaProblemas> = listOf(
 )
 
 @Composable
-fun AppProblemas(
+fun ProblemasScreen(
 
 ) {
     Column(
         Modifier
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.onBackground),
-        verticalArrangement = Arrangement.Top,
+        verticalArrangement = Arrangement.SpaceAround,
         horizontalAlignment = Alignment.CenterHorizontally
 
     ) {
@@ -138,5 +138,5 @@ private fun TextoCarta(
 @Preview
 @Composable
 fun AppPreview() {
-    AppProblemas()
+    ProblemasScreen()
 }
