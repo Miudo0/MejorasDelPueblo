@@ -41,3 +41,22 @@
 ---
 
 **Mejoras del Pueblo** está en constante evolución. ¡Tu participación es clave para mejorar la comunidad!
+
+### Cambios realizados
+Se realizaron las siguientes modificaciones y mejoras en la aplicación:
+1.	Integración de Room
+•	Se añadieron las dependencias necesarias para implementar Room, facilitando la gestión de bases de datos locales en la aplicación.
+2.	Implementación de Logs
+•	Se agregaron logs para mejorar la depuración y monitorear eventos relevantes durante la ejecución de la aplicación.
+3.	Permisos
+•	Se incluyeron permisos de Internet y almacenamiento, asegurando el acceso necesario para las funcionalidades de la aplicación.
+4.	Fijación de orientación de pantalla
+•	La orientación de la pantalla fue configurada para mantenerse en modo vertical de manera predeterminada.
+5.	UI - LazyRow
+•	Se creó una LazyRow para la visualización eficiente de listas horizontales dentro de la interfaz de usuario.
+6.	Navegación
+•	Se comenzó a implementar el sistema de navegación para estructurar la transición entre pantallas de forma dinámica y escalable.
+7.	Implementación de un Theme personalizado
+•	Se configuró un Theme personalizado para la aplicación, incluyendo fuentes de Google para mejorar la estética y la experiencia de usuario.
+8.	Animaciones interactivas
+•	Se agregó una animación en las Cards que muestra texto de manera dinámica y realiza un cambio de color al interactuar con ellas, aportando una experiencia más atractiva y visualmente fluida.

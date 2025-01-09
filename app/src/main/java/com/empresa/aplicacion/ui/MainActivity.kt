@@ -11,6 +11,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.room.Room
+import com.empresa.aplicacion.ui.data.AppDatabase
+import com.empresa.aplicacion.ui.data.Usuario
 import com.empresa.aplicacion.ui.ui.navigation.NavigationWrapper
 
 import com.empresa.aplicacion.ui.ui.theme.AppTheme
@@ -21,6 +24,7 @@ val TAG = this.javaClass.simpleName//MainActivity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate: La aplicación se ha creado.")
+
         enableEdgeToEdge()
         enableEdgeToEdge()
         setContent {
@@ -29,6 +33,7 @@ val TAG = this.javaClass.simpleName//MainActivity
                     color = MaterialTheme.colorScheme.background,
                     modifier = Modifier.fillMaxSize()
                 ) {
+
                NavigationWrapper()
                 }
             }
@@ -85,6 +90,14 @@ val TAG = this.javaClass.simpleName//MainActivity
         } else if (newConfig.orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT) {
             Log.d(TAG, "Rotación detectada: Modo vertical")
         }
+    }
+    private fun crearDatabase() {
+        val db = Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java,"baseDatos"
+        ).build()
+        val userDao = db.usuariosDao()
+        val usuarios: List<Usuario> = userDao.getAll()
     }
 
 }
