@@ -13,9 +13,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.room.Room
 import com.empresa.aplicacion.ui.data.AppDatabase
-import com.empresa.aplicacion.ui.data.Usuario
 import com.empresa.aplicacion.ui.ui.navigation.NavigationWrapper
-
 import com.empresa.aplicacion.ui.ui.theme.AppTheme
 
 
@@ -25,7 +23,7 @@ val TAG = this.javaClass.simpleName//MainActivity
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate: La aplicación se ha creado.")
 
-        enableEdgeToEdge()
+
         enableEdgeToEdge()
         setContent {
             AppTheme {
@@ -33,7 +31,7 @@ val TAG = this.javaClass.simpleName//MainActivity
                     color = MaterialTheme.colorScheme.background,
                     modifier = Modifier.fillMaxSize()
                 ) {
-
+crearDatabase()
                NavigationWrapper()
                 }
             }
@@ -96,8 +94,9 @@ val TAG = this.javaClass.simpleName//MainActivity
             applicationContext,
             AppDatabase::class.java,"baseDatos"
         ).build()
-        val userDao = db.usuariosDao()
-        val usuarios: List<Usuario> = userDao.getAll()
+//        val userDao = db.usuariosDao()
+//        val usuarios: List<Usuario> = userDao.getAll()
+//        Log.d("baseDatos", "Usuarios obtenidos de la base de datos: $usuarios")
     }
 
 }

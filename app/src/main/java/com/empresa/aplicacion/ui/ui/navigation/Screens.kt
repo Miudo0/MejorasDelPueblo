@@ -7,7 +7,13 @@ import kotlinx.serialization.Serializable
 object Home
 
 @Serializable
-object ReporteProblemas
+object ProblemasSugerencias
 
 @Serializable
 object Login
+
+@Serializable
+object Registro
+
+@Serializable
+object Reportar

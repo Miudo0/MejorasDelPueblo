@@ -8,6 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import com.empresa.aplicacion.ui.ui.HomeScreen
 import com.empresa.aplicacion.ui.ui.ProblemasScreen
 import com.empresa.aplicacion.ui.ui.LoginScreen
+import com.empresa.aplicacion.ui.ui.RegistroScreen
 
 
 @Composable
@@ -18,8 +19,13 @@ fun NavigationWrapper() {
 
 
         composable<Login> {
-            LoginScreen {
-                navController.navigate(Home)
+            LoginScreen { numero ->
+                when (numero) {
+                    1 -> navController.navigate(Home)
+                    2 -> navController.navigate(Registro)
+                }
+
+
             }
         }
 
@@ -27,15 +33,19 @@ fun NavigationWrapper() {
             HomeScreen { numero ->
                 Log.d("NAVIGATE_TO", "Numero recibido: $numero")
                 when (numero) {
-                    1 -> navController.navigate(ReporteProblemas)
+                    1 -> navController.navigate(ProblemasSugerencias)
 
                 }
             }
         }
-        composable<ReporteProblemas> {
-           ProblemasScreen()
-        }
+        composable<ProblemasSugerencias> {
+            ProblemasScreen(
 
+            )
+        }
+        composable<Registro> {
+            RegistroScreen()
+        }
 
     }
 }
