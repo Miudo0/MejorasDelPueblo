@@ -60,6 +60,7 @@ fun LoginScreen(navigateTo: (Int) -> Unit) {
                     style = MaterialTheme.typography.bodyMedium,
                 )
             },
+            placeholder = {Text(text = "Ingrese su usuario")},
             isError = errorMessage.isNotEmpty(), // Mostrar error si hay mensaje
 
 
@@ -79,6 +80,7 @@ fun LoginScreen(navigateTo: (Int) -> Unit) {
                     style = MaterialTheme.typography.bodyMedium
                 )
             },
+            placeholder = {Text(text = "Ingrese su contraseña")},
             isError = errorMessage.isNotEmpty(),
             visualTransformation = PasswordVisualTransformation(), // Ocultar texto de la contraseña
 

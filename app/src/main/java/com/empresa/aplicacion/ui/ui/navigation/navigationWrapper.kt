@@ -44,7 +44,9 @@ fun NavigationWrapper() {
             )
         }
         composable<Registro> {
-            RegistroScreen()
+            RegistroScreen { navController.navigate(Home) }
+
+
         }
 
     }
