@@ -17,3 +17,6 @@ object Registro
 
 @Serializable
 object Reportar
+
+@Serializable
+object BotonesAcceso

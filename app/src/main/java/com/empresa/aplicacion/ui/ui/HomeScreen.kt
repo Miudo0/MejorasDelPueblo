@@ -61,9 +61,9 @@ fun HomeScreen(navigateTo: (Int) -> Unit) {
         topBar = {
             AplicacionTopAppBar()
         },
-//        bottomBar = {
-//            AplicacionBottomAppBar()
-//        }
+        bottomBar = {
+            AplicacionBottomAppBar(navigateTo = navigateTo)
+        }
     ) { paddingValues ->
         App(
             navigateTo = navigateTo,
@@ -160,91 +160,10 @@ private fun ElementosAccesibles(
         )
     }
 }
-//barra superior
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun AplicacionTopAppBar() {
-    TopAppBar(//Para ponerle botones
-        colors = TopAppBarDefaults.topAppBarColors(
-            MaterialTheme.colorScheme.secondary
-        ),
-        navigationIcon = {//agregar el icono en la parte derecha
 
-            IconButton(onClick = { /* No hacer nada por el momento */ }) {
-                Icon(
-                    Icons.Filled.Menu,
-                    contentDescription = "Menu",
-
-                    )
-            }
-        },
-        title = {
-
-            Text(
-                text = stringResource(R.string.titulo_aplicacion),
-                color = Color.White,
-                modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxWidth(),
-
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
-                textAlign = TextAlign.Center
-
-
-            )
-
-        },
-
-
-        actions = {//para colocarlos en el lado derecho
-            //boton para ir a la configuracion por ejemplo
-            IconButton(onClick = { /* No hacer nada por el momento */ }) {
-                Icon(
-                    Icons.Filled.AccountCircle,
-                    contentDescription = "Inicio",
-
-                    )//icono color blanco
-            }
-
-            IconButton(onClick = { /* No hacer nada por el momento */ }) {
-                Icon(
-                    Icons.Filled.MoreVert,
-                    contentDescription = "Opciones",
-
-                    )//icono color blanco
-            }
-        }
-    )
-}//fin de la barra superior
 
 //barra inferior
-@Composable
-fun AplicacionBottomAppBar() {
-    BottomAppBar(
-        modifier = Modifier,
-        MaterialTheme.colorScheme.secondary,
 
-
-        ) {
-        IconButton(onClick = { /* Acción para el botón de inicio en el BottomAppBar */ }) {
-            Icon(
-                Icons.Filled.Home,
-                contentDescription = "Inicio",
-
-                )
-        }
-        Spacer(modifier = Modifier.weight(1f)) // Espacio flexible para centrar el siguiente botón
-        IconButton(onClick = { /* Acción para el botón de configuración */ }) {
-            Icon(
-                Icons.Filled.Settings,
-                contentDescription = "Configuración",
-
-                )
-        }
-    }
-}
 
 
 

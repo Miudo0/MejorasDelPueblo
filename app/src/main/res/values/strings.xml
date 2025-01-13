@@ -16,5 +16,16 @@
     <string name="infraestructura">Infraestructura</string>
     <string name="trafico">Trafico</string>
     <string name="seguridad">Seguridad</string>
-    <string name="medio_ambiente">Medio ambiente</string>"
+    <string name="medio_ambiente">Medio ambiente</string>
+    <string name="usernameRegistro">UserName</string>
+    <string name="placeholder_registro_usuario">Escriba su nombre de usuario</string>
+    <string name="pass_registro_usuario">Contraseña</string>
+    <string name="placeholder_registro_pass">Escriba su contraseña</string>
+    <string name="email_registro">Email</string>
+    <string name="placeholder_registro_email">Escriba su email</string>
+    <string name="boton_registro">Registrarse</string>
+    <string name="usuario_login">Usuario</string>
+    <string name="placeholder_login_usuario">Ingrese su usuario</string>
+    <string name="pass_login">Contraseña</string>
+    <string name="placeholder_login_pass">Ingrese su contraseña</string>"
 </resources>

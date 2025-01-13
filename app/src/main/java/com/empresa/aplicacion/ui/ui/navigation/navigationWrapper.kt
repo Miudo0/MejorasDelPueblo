@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.empresa.aplicacion.ui.ui.AplicacionBottomAppBar
 import com.empresa.aplicacion.ui.ui.HomeScreen
 import com.empresa.aplicacion.ui.ui.ProblemasScreen
 import com.empresa.aplicacion.ui.ui.LoginScreen
@@ -47,6 +48,15 @@ fun NavigationWrapper() {
             RegistroScreen { navController.navigate(Home) }
 
 
+        }
+
+        composable<BotonesAcceso> {
+            AplicacionBottomAppBar { numero ->
+                when (numero) {
+                    1 -> navController.navigate(Home)
+                    2 -> navController.navigate(ProblemasSugerencias)
+                }
+            }
         }
 
     }

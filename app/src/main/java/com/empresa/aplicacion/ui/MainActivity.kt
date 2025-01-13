@@ -12,7 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.room.Room
-import com.empresa.aplicacion.ui.data.AppDatabase
+import com.empresa.aplicacion.data.AppDatabase
 import com.empresa.aplicacion.ui.ui.navigation.NavigationWrapper
 import com.empresa.aplicacion.ui.ui.theme.AppTheme
 

@@ -26,6 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.empresa.aplicacion.R
+import com.empresa.aplicacion.ui.ui.theme.AppTheme
 
 
 //creo la clase de cartas de la seccion Problemas
@@ -138,5 +139,8 @@ private fun TextoCarta(
 @Preview
 @Composable
 fun AppPreview() {
-    ProblemasScreen()
+    AppTheme {
+        ProblemasScreen()
+    }
+
 }

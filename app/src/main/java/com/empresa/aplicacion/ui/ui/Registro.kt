@@ -22,10 +22,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.empresa.aplicacion.R
+import com.empresa.aplicacion.ui.ui.theme.AppTheme
 
 @Composable
 fun RegistroScreen(navigatetoHome: () -> Unit) {
@@ -35,6 +38,28 @@ fun RegistroScreen(navigatetoHome: () -> Unit) {
     var email by rememberSaveable { mutableStateOf("") }
     var errorMessage by rememberSaveable { mutableStateOf("") }
 
+    val datos = listOf(
+        CajasDatos(
+            username,
+            { username = it },
+            stringResource(R.string.usernameRegistro),
+            stringResource(R.string.placeholder_registro_usuario)
+        ),
+        CajasDatos(
+            password,
+            { password = it },
+            stringResource(R.string.pass_registro_usuario),
+            stringResource(R.string.placeholder_registro_pass),
+            PasswordVisualTransformation()
+        ),
+        CajasDatos(
+            email,
+            { email = it },
+            stringResource(R.string.email_registro),
+            stringResource(R.string.placeholder_registro_email)
+        )
+    )
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -42,44 +67,30 @@ fun RegistroScreen(navigatetoHome: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
 
-
         ) {
         Text(
             text = "Registro de Usuario",
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.primary
-
         )
         Spacer(modifier = Modifier.height(16.dp))
-        CajaTexto(
-            value = username,
-            { username = it },
-            "UserName",
-            "Escriba su nombre de usuario",
-            errorMessage = errorMessage
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        CajaTexto(
-            value = password,
-            { password = it },
-            "Contraseña",
-            "Escriba su contraseña",
-            errorMessage = errorMessage,
-            visualTransformation = PasswordVisualTransformation(),
 
-
+        datos.forEach { dato ->
+            CajaTexto(
+                value = dato.value,
+                onValueChange = dato.onValueChange,
+                label = dato.label,
+                placeholder = dato.placeholder,
+                visualTransformation = dato.visualTransformation,
+                errorMessage = errorMessage
             )
-        Spacer(modifier = Modifier.height(16.dp))
-        CajaTexto(
-            value = email,
-            { email = it },
-            "Email",
-            "Escriba su email",
-            errorMessage = errorMessage
-        )
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+
         Spacer(modifier = Modifier.height(24.dp))
 
         ErrorMensaje(errorMessage)
+
         Button(
             onClick = {
                 if (username.isNotEmpty() && password.isNotEmpty() && email.isNotEmpty()) {
@@ -91,7 +102,6 @@ fun RegistroScreen(navigatetoHome: () -> Unit) {
             },
             modifier = Modifier
                 .height(60.dp)
-
         ) {
             Icon(
                 imageVector = Icons.Default.Done,
@@ -102,7 +112,7 @@ fun RegistroScreen(navigatetoHome: () -> Unit) {
                     .width(8.dp)
             )
             Text(
-                text = "Registrarse",
+                text = stringResource(R.string.boton_registro),
                 style = MaterialTheme.typography.bodyMedium
             )
         }
@@ -111,48 +121,18 @@ fun RegistroScreen(navigatetoHome: () -> Unit) {
 
 }
 
-@Composable
-fun CajaTexto(
-    value: String,
-    onValueChange: (String) -> Unit,
-    label: String,
-    placeholder: String,
-    errorMessage: String = "",
-    visualTransformation: VisualTransformation = VisualTransformation.None
-) {
 
-    OutlinedTextField(
-        value = value,
-        label = {
-            Text(
-                text = label,
-                style = MaterialTheme.typography.bodyMedium
-            )
-        },
-        onValueChange = onValueChange,
-        placeholder = { Text(text = placeholder) },
-        isError = errorMessage.isNotEmpty(),
-        visualTransformation = visualTransformation,
-    )
-}
 
-@Composable
-fun ErrorMensaje(errorMessage: String) {
-    if (errorMessage.isNotEmpty()) {
-        Text(
-            text = errorMessage,
-            color = MaterialTheme.colorScheme.error,
-            style = MaterialTheme.typography.bodySmall,
-            modifier = Modifier
-                .padding(top = 8.dp)
-        )
-    }
-}
+
+
 
 @Preview
 @Composable
 fun RegistroPreview() {
-    RegistroScreen(
-        navigatetoHome = {}
-    )
+    AppTheme {
+        RegistroScreen(
+            navigatetoHome = {}
+        )
+    }
+
 }
