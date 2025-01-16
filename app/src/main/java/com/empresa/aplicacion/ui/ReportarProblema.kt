@@ -1,4 +1,4 @@
-package com.empresa.aplicacion.ui.ui
+package com.empresa.aplicacion.ui
 
 import android.widget.RadioGroup
 import androidx.compose.foundation.background

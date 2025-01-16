@@ -1,4 +1,4 @@
-package com.empresa.aplicacion.ui.ui
+package com.empresa.aplicacion.ui
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -6,6 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -15,6 +16,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,8 +27,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
 import com.empresa.aplicacion.R
-import com.empresa.aplicacion.ui.ui.theme.AppTheme
+import com.empresa.aplicacion.ui.navigation.DestinosMejorasPueblo
+import com.empresa.aplicacion.ui.navigation.Home
+import com.empresa.aplicacion.ui.navigation.ProblemasSugerencias
+import com.empresa.aplicacion.ui.navigation.destinosMejoras
+import com.empresa.aplicacion.ui.theme.AppTheme
 
 
 //creo la clase de cartas de la seccion Problemas
@@ -58,13 +65,39 @@ var listaCartasProblemas: List<CartaProblemas> = listOf(
 )
 
 @Composable
-fun ProblemasScreen(
+fun ProblemasScreen(onTabSelected: (DestinosMejorasPueblo) -> Unit, ){
 
+
+    Scaffold(
+        topBar = {
+            AplicacionTopAppBar()
+        },
+        bottomBar = {
+            AplicacionBottomAppBar(
+                allScreens = destinosMejoras,
+                onTabSelected = { ruta ->
+                    onTabSelected(ruta)
+                },
+                currentScreen = ProblemasSugerencias
+            )
+        }
+    ) { paddingValues ->
+      ProblemasApp(
+
+          paddingValues = paddingValues
+      )
+    }
+}
+
+@Composable
+fun ProblemasApp(
+    paddingValues: PaddingValues
 ) {
     Column(
         Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.onBackground),
+
+            .padding(paddingValues),//aplicar a la columna
         verticalArrangement = Arrangement.SpaceAround,
         horizontalAlignment = Alignment.CenterHorizontally
 
@@ -74,7 +107,7 @@ fun ProblemasScreen(
             columns = GridCells.Fixed(2), // Dos columnas para el cuadrante
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(paddingValues)
         ) {
             items(listaCartasProblemas) { carta ->
                 CartaItem(carta = carta)
@@ -140,7 +173,9 @@ private fun TextoCarta(
 @Composable
 fun AppPreview() {
     AppTheme {
-        ProblemasScreen()
+        ProblemasScreen(
+            onTabSelected = {}
+        )
     }
 
 }

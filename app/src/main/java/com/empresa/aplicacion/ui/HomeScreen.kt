@@ -1,4 +1,4 @@
-package com.empresa.aplicacion.ui.ui
+package com.empresa.aplicacion.ui
 
 import android.content.res.Configuration
 import android.util.Log
@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.paddingFromBaseline
@@ -19,50 +18,44 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.empresa.aplicacion.R
-import com.empresa.aplicacion.ui.ColumnaCartas
-import com.empresa.aplicacion.ui.listaElementosAccesibles
-import com.empresa.aplicacion.ui.ui.theme.AppTheme
+import com.empresa.aplicacion.ui.navigation.Home
+import com.empresa.aplicacion.ui.navigation.Notificaciones
+import com.empresa.aplicacion.ui.navigation.ProblemasSugerencias
+import com.empresa.aplicacion.ui.navigation.Proyectos
+import com.empresa.aplicacion.ui.navigation.Voluntariado
+import com.empresa.aplicacion.ui.navigation.destinosMejoras
+import com.empresa.aplicacion.ui.theme.AppTheme
 
 
 //base de la app con el Scaffold
 
 @Composable
-fun HomeScreen(navigateTo: (Int) -> Unit) {
+fun HomeScreen(navigateTo: (String) -> Unit) {
     Scaffold(
         topBar = {
             AplicacionTopAppBar()
         },
         bottomBar = {
-            AplicacionBottomAppBar(navigateTo = navigateTo)
+            AplicacionBottomAppBar(
+                allScreens = destinosMejoras,
+                onTabSelected = { ruta ->
+                    navigateTo(ruta.route)
+                },
+                currentScreen = Home
+            )
         }
     ) { paddingValues ->
         App(
@@ -75,7 +68,7 @@ fun HomeScreen(navigateTo: (Int) -> Unit) {
 
 @Composable
 fun App(
-    navigateTo: (Int) -> Unit,
+    navigateTo: (String) -> Unit,
     paddingValues: PaddingValues
 ) {
     LazyColumn(
@@ -100,7 +93,7 @@ fun App(
 
 @Composable
 private fun FilaElementosAccesibles(
-    navigateTo: (Int) -> Unit
+    navigateTo: (String) -> Unit
 ) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -117,10 +110,11 @@ private fun FilaElementosAccesibles(
                 modifier = Modifier
                     .clickable {
                         when (item.first) {
-                            R.drawable.reporteproblemas -> navigateTo(1) // Enviar identificador de pantalla
-                            R.drawable.notificaciones -> navigateTo(2)
-                            R.drawable.voluntariado -> navigateTo(3)
-                            else -> navigateTo(0) // Pantalla por defecto
+                            R.drawable.reporteproblemas -> navigateTo(ProblemasSugerencias.route) // Enviar identificador de pantalla
+                            R.drawable.notificaciones -> navigateTo(Notificaciones.route)
+                            R.drawable.voluntariado -> navigateTo(Voluntariado.route)
+                            R.drawable.proyectoscomunitarios -> navigateTo(Proyectos.route)
+                            else -> navigateTo(Home.route) // Pantalla por defecto
                         }
                         Log.d("CLICKABLE", "item.first: ${item.first}")
                     }

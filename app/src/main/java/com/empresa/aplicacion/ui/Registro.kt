@@ -1,4 +1,4 @@
-package com.empresa.aplicacion.ui.ui
+package com.empresa.aplicacion.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -28,10 +28,10 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.empresa.aplicacion.R
-import com.empresa.aplicacion.ui.ui.theme.AppTheme
+import com.empresa.aplicacion.ui.theme.AppTheme
 
 @Composable
-fun RegistroScreen(navigatetoHome: () -> Unit) {
+fun RegistroScreen(navigateto: () -> Unit) {
 
     var username by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
@@ -95,7 +95,7 @@ fun RegistroScreen(navigatetoHome: () -> Unit) {
             onClick = {
                 if (username.isNotEmpty() && password.isNotEmpty() && email.isNotEmpty()) {
                     errorMessage = ""
-                    navigatetoHome()
+                    navigateto()
                 } else {
                     errorMessage = "Por favor, complete todos los campos"
                 }
@@ -131,7 +131,7 @@ fun RegistroScreen(navigatetoHome: () -> Unit) {
 fun RegistroPreview() {
     AppTheme {
         RegistroScreen(
-            navigatetoHome = {}
+            navigateto = {}
         )
     }
 

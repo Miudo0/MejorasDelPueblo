@@ -1,4 +1,4 @@
-package com.empresa.aplicacion.ui.ui
+package com.empresa.aplicacion.ui
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding

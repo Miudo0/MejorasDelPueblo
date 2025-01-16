@@ -1,4 +1,4 @@
-package com.empresa.aplicacion.ui.ui.theme
+package com.empresa.aplicacion.ui.theme
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -10,7 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import com.example.ui.theme.AppTypography
+import com.example.ui.theme.customAppTypography
+
 
 private val lightScheme = lightColorScheme(
     primary = primaryLight,
@@ -272,7 +273,7 @@ fun AppTheme(
 
   MaterialTheme(
     colorScheme = colorScheme,
-    typography = AppTypography,
+    typography = customAppTypography,
     content = content
   )
 }

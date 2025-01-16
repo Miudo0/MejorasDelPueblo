@@ -1,4 +1,4 @@
-package com.empresa.aplicacion.ui.ui
+package com.empresa.aplicacion.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,10 +28,12 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.empresa.aplicacion.R
-import com.empresa.aplicacion.ui.ui.theme.AppTheme
+import com.empresa.aplicacion.ui.navigation.Home
+import com.empresa.aplicacion.ui.navigation.Registro
+import com.empresa.aplicacion.ui.theme.AppTheme
 
 @Composable
-fun LoginScreen(navigateTo: (Int) -> Unit) {
+fun LoginScreen(navigateTo: (String) -> Unit) {
     Scaffold(
         topBar = {
             AplicacionTopAppBar()
@@ -51,7 +53,7 @@ fun LoginScreen(navigateTo: (Int) -> Unit) {
 
 @Composable
 fun LoginApp(
-    navigateTo: (Int) -> Unit,
+    navigateTo: (String) -> Unit,
     paddingValues: PaddingValues
 ) {
     var usuario by rememberSaveable { mutableStateOf("") }
@@ -158,7 +160,7 @@ fun LoginApp(
             onClick = {
                 if (usuario.isNotEmpty() && contraseña.isNotEmpty()) {
                     errorMessage = "" // Limpiar mensaje de error
-                    navigateTo(1)
+                    navigateTo(Home.route)
                 } else {
                     errorMessage = "Por favor, ingresa usuario y contraseña"
                 }
@@ -188,37 +190,14 @@ fun LoginApp(
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier
                 .clickable {
-                    navigateTo(2)
+                    navigateTo(Registro.route)
                 }
         )
     }
 }
 
 
-//@Composable
-//private fun CajaTexto(
-//    value: String,
-//    onValueChange: (String) -> Unit,
-//    label: String,
-//    placeholder: String,
-//    errorMessage: String = "",
-//    visualTransformation: VisualTransformation = VisualTransformation.None
-//) {
-//
-//    OutlinedTextField(
-//        value = value,
-//        label = {
-//            Text(
-//                text = label,
-//                style = MaterialTheme.typography.bodyMedium
-//            )
-//        },
-//        onValueChange = onValueChange,
-//        placeholder = { Text(text = placeholder) },
-//        isError = errorMessage.isNotEmpty(),
-//        visualTransformation = visualTransformation,
-//    )
-//}
+
 
 
 

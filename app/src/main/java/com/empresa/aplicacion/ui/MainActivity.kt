@@ -13,8 +13,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.room.Room
 import com.empresa.aplicacion.data.AppDatabase
-import com.empresa.aplicacion.ui.ui.navigation.NavigationWrapper
-import com.empresa.aplicacion.ui.ui.theme.AppTheme
+import com.empresa.aplicacion.ui.navigation.NavigationWrapper
+import com.empresa.aplicacion.ui.theme.AppTheme
 
 
 class MainActivity : ComponentActivity() {
