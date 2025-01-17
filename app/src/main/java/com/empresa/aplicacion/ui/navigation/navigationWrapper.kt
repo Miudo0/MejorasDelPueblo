@@ -21,16 +21,17 @@ fun NavigationWrapper() {
     val currentBackStack by navController.currentBackStackEntryAsState()
     val currentDestination = currentBackStack?.destination
     val currentScreen =
-       destinosMejoras.find { it.route == currentDestination?.route } ?: Home
+        destinosMejoras.find { it.route == currentDestination?.route } ?: Home
 
     NavHost(navController = navController, startDestination = Login.route) {
 
-//        //navegacion desde el login
+        //navegacion desde el login
         composable(Login.route) {
             LoginScreen { ruta ->
                 navController
                     .navigate(ruta)
             }
+
 
         }
 
@@ -48,12 +49,12 @@ fun NavigationWrapper() {
 
         //navegacion desde problemas y sugerencias
         composable(route = ProblemasSugerencias.route) {
-            ProblemasScreen (
+            ProblemasScreen(
                 onTabSelected = { ruta ->
                     navController.navigate(ruta.route)
                 },
 
-            )
+                )
         }
 //
 //        //navegacion desde el registro
@@ -67,16 +68,16 @@ fun NavigationWrapper() {
 //                navController.navigate(ruta)
 //            }
 //        }
-composable(BotonesAcceso.route) {
-    AplicacionBottomAppBar(
-        allScreens = destinosMejoras,
-        onTabSelected = { ruta ->
-            navController.navigate(ruta.route)
-        },
-        currentScreen = currentScreen,
+        composable(BotonesAcceso.route) {
+            AplicacionBottomAppBar(
+                allScreens = destinosMejoras,
+                onTabSelected = { ruta ->
+                    navController.navigate(ruta.route)
+                },
+                currentScreen = currentScreen,
 
-    )
-}
+                )
+        }
 
     }
 }

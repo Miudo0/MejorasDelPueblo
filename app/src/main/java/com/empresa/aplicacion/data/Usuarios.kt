@@ -9,5 +9,6 @@ import androidx.room.PrimaryKey
     data class Usuario(
         @PrimaryKey val uid: Int,
         @ColumnInfo(name = "username") val username: String?,
-        @ColumnInfo(name = "pass") val pass: String?
+        @ColumnInfo(name = "pass") val pass: String?,
+        @ColumnInfo(name = "email") val email: String?
     )

@@ -1,5 +1,6 @@
 package com.empresa.aplicacion.ui
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -7,7 +8,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
@@ -17,6 +20,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -27,10 +31,26 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.room.Room
 import com.empresa.aplicacion.R
+import com.empresa.aplicacion.data.AppDatabase
+import com.empresa.aplicacion.data.Usuario
+import com.empresa.aplicacion.data.UsuariosDao
+import com.empresa.aplicacion.data.network.ChucknorrisApi
 import com.empresa.aplicacion.ui.navigation.Home
 import com.empresa.aplicacion.ui.navigation.Registro
 import com.empresa.aplicacion.ui.theme.AppTheme
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+
+import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType
+import retrofit2.Retrofit
+
 
 @Composable
 fun LoginScreen(navigateTo: (String) -> Unit) {
@@ -44,20 +64,24 @@ fun LoginScreen(navigateTo: (String) -> Unit) {
     ) { paddingValues ->
         LoginApp(
             navigateTo = navigateTo,
-            paddingValues = paddingValues)
+            paddingValues = paddingValues,
+
+            )
+
+
     }
+
 }
-
-
 
 
 @Composable
 fun LoginApp(
     navigateTo: (String) -> Unit,
-    paddingValues: PaddingValues
-) {
+    paddingValues: PaddingValues,
+
+    ) {
     var usuario by rememberSaveable { mutableStateOf("") }
-    var contraseña by rememberSaveable { mutableStateOf("") }
+    var pass by rememberSaveable { mutableStateOf("") }
     var errorMessage by rememberSaveable { mutableStateOf("") }
 
     val datosLogin = listOf(
@@ -69,8 +93,8 @@ fun LoginApp(
             placeholder = stringResource(R.string.placeholder_login_usuario)
         ),
         CajasDatos(
-            value = contraseña,
-            onValueChange = { contraseña = it },
+            value = pass,
+            onValueChange = { pass = it },
             label = stringResource(R.string.pass_login),
             placeholder = stringResource(R.string.placeholder_login_pass),
             visualTransformation = PasswordVisualTransformation()
@@ -110,47 +134,6 @@ fun LoginApp(
         }
         ErrorMensaje(errorMessage = errorMessage)
 
-//        OutlinedTextField(
-//            value = usuario,
-//            onValueChange = { usuario = it },
-//            label = {
-//                Text(
-//                    text = "Usuario",
-//                    style = MaterialTheme.typography.bodyMedium,
-//                )
-//            },
-//            placeholder = { Text(text = "Ingrese su usuario") },
-//            isError = errorMessage.isNotEmpty(), // Mostrar error si hay mensaje
-//
-//
-//        )
-//
-//        Spacer(
-//            modifier = Modifier
-//                .height(16.dp)
-//        )
-//        OutlinedTextField(
-//            value = contraseña,
-//            onValueChange = { contraseña = it },
-//            label = {
-//                Text(
-//                    text = "Contraseña",
-//                    style = MaterialTheme.typography.bodyMedium
-//                )
-//            },
-//            placeholder = { Text(text = "Ingrese su contraseña") },
-//            isError = errorMessage.isNotEmpty(),
-//            visualTransformation = PasswordVisualTransformation(), // Ocultar texto de la contraseña
-//
-//        )
-//        if (errorMessage.isNotEmpty()) {
-//            Text(
-//                text = errorMessage,
-//                color = MaterialTheme.colorScheme.error,
-//                style = MaterialTheme.typography.bodySmall,
-//                modifier = Modifier.padding(top = 8.dp)
-//            )
-//        }
         Spacer(
             modifier = Modifier
                 .height(24.dp)
@@ -158,9 +141,14 @@ fun LoginApp(
         Button(
 
             onClick = {
-                if (usuario.isNotEmpty() && contraseña.isNotEmpty()) {
+                if (usuario.isNotEmpty() && pass.isNotEmpty()) {
                     errorMessage = "" // Limpiar mensaje de error
-                    navigateTo(Home.route)
+
+                    if (usuario == "admin" && pass == "admin") {
+                        navigateTo(Home.route)
+                    } else {
+                        errorMessage = "Usuario o contraseña incorrectos"
+                    }
                 } else {
                     errorMessage = "Por favor, ingresa usuario y contraseña"
                 }
@@ -193,13 +181,57 @@ fun LoginApp(
                     navigateTo(Registro.route)
                 }
         )
+
+        mostrarApi()
+    }
+
+
+}
+//funcion para mostrar la api de chuck norris.
+@Composable
+fun mostrarApi() {
+    var jokeString by rememberSaveable { mutableStateOf("") }
+
+    val json = Json {
+        ignoreUnknownKeys = true
+
+    }
+
+    val retrofit = Retrofit.Builder()
+        .baseUrl("https://api.chucknorris.io/")
+        .addConverterFactory(json.asConverterFactory(MediaType.get("application/json")))
+        .build()
+    val service = retrofit.create(ChucknorrisApi::class.java)
+    LaunchedEffect(Unit) {
+        GlobalScope.launch(Dispatchers.IO) {
+
+            val joke = service.getRandomJoke()
+            Log.d("API", "Chiste recibido: ${joke.value}")
+            jokeString = joke.value
+
+        }
+
+    }
+    Column(
+        modifier = Modifier
+            .padding(48.dp)
+            .fillMaxWidth(),
+
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = "Chiste de Chuck Norris",
+            style = MaterialTheme.typography.titleSmall
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+       Text(
+           text = jokeString,
+           style = MaterialTheme.typography.bodySmall,
+           textAlign = androidx.compose.ui.text.style.TextAlign.Center
+       )
     }
 }
-
-
-
-
-
 
 
 @Preview(showBackground = true)

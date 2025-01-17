@@ -13,12 +13,23 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.room.Room
 import com.empresa.aplicacion.data.AppDatabase
+import com.empresa.aplicacion.data.Usuario
+import com.empresa.aplicacion.data.network.ChucknorrisApi
 import com.empresa.aplicacion.ui.navigation.NavigationWrapper
 import com.empresa.aplicacion.ui.theme.AppTheme
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType
+import retrofit2.Retrofit
 
 
 class MainActivity : ComponentActivity() {
-val TAG = this.javaClass.simpleName//MainActivity
+    val TAG = this.javaClass.simpleName//MainActivity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate: La aplicación se ha creado.")
@@ -31,32 +42,53 @@ val TAG = this.javaClass.simpleName//MainActivity
                     color = MaterialTheme.colorScheme.background,
                     modifier = Modifier.fillMaxSize()
                 ) {
-crearDatabase()
-               NavigationWrapper()
+                    crearDatabase()
+                    NavigationWrapper()
                 }
             }
         }
     }
 
 
-
     override fun onStart() {
         super.onStart()
-            Log.d(TAG, "onStart: La aplicación se ha iniciado.")
+        Log.d(TAG, "onStart: La aplicación se ha iniciado.")
     }
 
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "onResume: La aplicación se ha reanudado.")
+//prueba
+//        val json = Json {
+//            ignoreUnknownKeys = true
+//
+//        }
+//
+//        val retrofit = Retrofit.Builder()
+//            .baseUrl("https://api.chucknorris.io/")
+//            .addConverterFactory(json.asConverterFactory(MediaType.get("application/json")))
+//            .build()
+//        val service = retrofit.create(ChucknorrisApi::class.java)
+//     GlobalScope.launch(Dispatchers.IO) {
+//            val joke = service.getRandomJoke()
+//            Log.d("API", "Chiste recibido: ${joke.value}")
+//        }
+
+
+
+
     }
+
     override fun onPause() {
         super.onPause()
         Log.d(TAG, "onPause: La aplicación se ha pausado.")
     }
+
     override fun onStop() {
         super.onStop()
         Log.d(TAG, "onStop: La aplicación se ha detenido.")
     }
+
     override fun onDestroy() {
         super.onDestroy()
         Log.d(TAG, "onDestroy: La aplicación se ha destruido.")
@@ -89,15 +121,26 @@ crearDatabase()
             Log.d(TAG, "Rotación detectada: Modo vertical")
         }
     }
+
     private fun crearDatabase() {
         val db = Room.databaseBuilder(
             applicationContext,
-            AppDatabase::class.java,"baseDatos"
+            AppDatabase::class.java, "baseDatos"
         ).build()
-//        val userDao = db.usuariosDao()
-//        val usuarios: List<Usuario> = userDao.getAll()
-//        Log.d("baseDatos", "Usuarios obtenidos de la base de datos: $usuarios")
+        val userDao = db.usuariosDao()
+       // val nuevoUsuario = Usuario(1, "saul", "1234")
+//      CoroutineScope(Dispatchers.IO).launch {
+//        //  userDao.insertAll(nuevoUsuario) // Insertar el usuario
+//          val usuarios = userDao.getAll()
+//          Log.d("baseDatos", "Usuarios en la base de datos: $usuarios")
+//      }
+
     }
+
+    //prueba
+
+
+
 
 }
 

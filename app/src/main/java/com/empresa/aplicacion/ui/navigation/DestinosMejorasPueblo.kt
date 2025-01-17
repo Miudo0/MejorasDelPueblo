@@ -15,6 +15,7 @@ object Home : DestinosMejorasPueblo {
     override val image = R.drawable.homeicon
    override val route = "homeScreen"
 
+
 }
 
 object ProblemasSugerencias : DestinosMejorasPueblo {

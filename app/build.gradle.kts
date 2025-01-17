@@ -73,6 +73,7 @@ dependencies {
 
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
 
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
@@ -81,7 +82,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
 
-
+    implementation (libs.retrofit)
 
 
     testImplementation(libs.junit)
