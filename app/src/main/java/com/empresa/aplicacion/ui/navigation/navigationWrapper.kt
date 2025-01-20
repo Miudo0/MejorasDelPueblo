@@ -62,12 +62,7 @@ fun NavigationWrapper() {
             RegistroScreen { navController.navigate(Home.route) }
         }
 
-//        //navegacion desde el bottom bar
-//        composable(BotonesAcceso.route) {
-//            AplicacionBottomAppBar { ruta ->
-//                navController.navigate(ruta)
-//            }
-//        }
+
         composable(BotonesAcceso.route) {
             AplicacionBottomAppBar(
                 allScreens = destinosMejoras,

@@ -11,21 +11,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.lifecycleScope
+import androidx.media3.database.DatabaseProvider
 import androidx.room.Room
 import com.empresa.aplicacion.data.AppDatabase
 import com.empresa.aplicacion.data.Usuario
-import com.empresa.aplicacion.data.network.ChucknorrisApi
 import com.empresa.aplicacion.ui.navigation.NavigationWrapper
 import com.empresa.aplicacion.ui.theme.AppTheme
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.serialization.json.Json
-import okhttp3.MediaType
-import retrofit2.Retrofit
 
 
 class MainActivity : ComponentActivity() {
@@ -42,7 +37,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background,
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    crearDatabase()
+
                     NavigationWrapper()
                 }
             }
@@ -58,23 +53,6 @@ class MainActivity : ComponentActivity() {
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "onResume: La aplicación se ha reanudado.")
-//prueba
-//        val json = Json {
-//            ignoreUnknownKeys = true
-//
-//        }
-//
-//        val retrofit = Retrofit.Builder()
-//            .baseUrl("https://api.chucknorris.io/")
-//            .addConverterFactory(json.asConverterFactory(MediaType.get("application/json")))
-//            .build()
-//        val service = retrofit.create(ChucknorrisApi::class.java)
-//     GlobalScope.launch(Dispatchers.IO) {
-//            val joke = service.getRandomJoke()
-//            Log.d("API", "Chiste recibido: ${joke.value}")
-//        }
-
-
 
 
     }
@@ -122,24 +100,22 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun crearDatabase() {
+    private fun IniciarDatabase() {
         val db = Room.databaseBuilder(
             applicationContext,
             AppDatabase::class.java, "baseDatos"
         ).build()
         val userDao = db.usuariosDao()
-       // val nuevoUsuario = Usuario(1, "saul", "1234")
-//      CoroutineScope(Dispatchers.IO).launch {
-//        //  userDao.insertAll(nuevoUsuario) // Insertar el usuario
+        // val nuevoUsuario = Usuario(1, "saul", "1234")
+//     CoroutineScope(Dispatchers.IO).launch {
+////        //  userDao.insertAll(nuevoUsuario) // Insertar el usuario
 //          val usuarios = userDao.getAll()
-//          Log.d("baseDatos", "Usuarios en la base de datos: $usuarios")
-//      }
-
+//         Log.d("baseDatos", "Usuarios en la base de datos: $usuarios")
+//     }
+Log.d("baseDatos", "base datos inicializada ")
     }
 
     //prueba
-
-
 
 
 }

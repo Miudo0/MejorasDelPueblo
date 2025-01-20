@@ -8,20 +8,27 @@ import androidx.room.Query
 
 @Dao
 interface UsuariosDao {
+
+    //le meti suspend a todas
     @Query("SELECT * FROM Usuario")
-    fun getAll(): List<Usuario>;
+    suspend fun getAll(): List<Usuario>;
 
     @Query("SELECT * FROM Usuario WHERE uid IN (:userIds)")
-    fun loadAllByIds(userIds: IntArray): List<Usuario>;
+    suspend fun loadAllByIds(userIds: IntArray): List<Usuario>;
 
-    @Query("SELECT * FROM Usuario WHERE username LIKE :first AND " +
-   "pass LIKE :last ")
-    fun findByName(first: String, last: String): Usuario
+    @Query(
+        "SELECT * FROM Usuario WHERE username LIKE :first AND " +
+                "pass LIKE :last "
+    )
+    suspend fun findByName(first: String, last: String): Usuario
+
+    @Query("SELECT username FROM Usuario WHERE username = :username AND pass = :pass")
+    suspend fun getUserName(username: String, pass: String): String?
 
     @Insert
-    fun insertAll(vararg users: Usuario)
+    suspend fun insertAll(vararg users: Usuario)
 
     @Delete
-    fun delete(user: Usuario)
+    suspend fun delete(user: Usuario)
 
 }
