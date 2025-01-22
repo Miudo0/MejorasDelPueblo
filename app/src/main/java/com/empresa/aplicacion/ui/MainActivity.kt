@@ -1,8 +1,13 @@
 package com.empresa.aplicacion.ui
 
 
+import android.app.Application
+import android.content.ContentValues
+import android.database.Cursor
+import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.provider.BaseColumns
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,16 +16,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.lifecycleScope
-import androidx.media3.database.DatabaseProvider
-import androidx.room.Room
-import com.empresa.aplicacion.data.AppDatabase
-import com.empresa.aplicacion.data.Usuario
+import com.empresa.aplicacion.data.UsuariosRegistradosDbHelper
+import com.empresa.aplicacion.data.UsuariosRegistradosSqliteContrato
 import com.empresa.aplicacion.ui.navigation.NavigationWrapper
 import com.empresa.aplicacion.ui.theme.AppTheme
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 
 class MainActivity : ComponentActivity() {
@@ -39,9 +38,12 @@ class MainActivity : ComponentActivity() {
                 ) {
 
                     NavigationWrapper()
+
                 }
             }
         }
+
+        leerDatos(context = this.application)
     }
 
 
@@ -100,23 +102,42 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun IniciarDatabase() {
-        val db = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java, "baseDatos"
-        ).build()
-        val userDao = db.usuariosDao()
-        // val nuevoUsuario = Usuario(1, "saul", "1234")
-//     CoroutineScope(Dispatchers.IO).launch {
-////        //  userDao.insertAll(nuevoUsuario) // Insertar el usuario
-//          val usuarios = userDao.getAll()
-//         Log.d("baseDatos", "Usuarios en la base de datos: $usuarios")
-//     }
-Log.d("baseDatos", "base datos inicializada ")
+
+}
+
+
+private fun leerDatos(context: Application) {
+
+    val dbHelper = UsuariosRegistradosDbHelper(context)
+
+    val projection = arrayOf(
+        BaseColumns._ID,
+        UsuariosRegistradosSqliteContrato.UsuariosRegistradosEntry.COLUMN_NAME_USERNAME,
+        UsuariosRegistradosSqliteContrato.UsuariosRegistradosEntry.COLUMN_NAME_PASS
+    )
+
+    val cursor = dbHelper.readableDatabase.query(
+        UsuariosRegistradosSqliteContrato.UsuariosRegistradosEntry.TABLE_NAME, projection,
+        null, null, null, null, null
+    )
+with(cursor) {
+    while (cursor.moveToNext()) {
+        val id = cursor.getInt(cursor.getColumnIndexOrThrow(BaseColumns._ID))
+        val username =
+            cursor.getString(cursor.getColumnIndexOrThrow(UsuariosRegistradosSqliteContrato.UsuariosRegistradosEntry.COLUMN_NAME_USERNAME))
+        val pass =
+            cursor.getString(cursor.getColumnIndexOrThrow(UsuariosRegistradosSqliteContrato.UsuariosRegistradosEntry.COLUMN_NAME_PASS))
+        Log.d("SqlLite", "ID: $id, Username: $username, Pass: $pass")
     }
+}
+    cursor.close()
 
-    //prueba
 
+}
 
+private fun borrarBD(context: Application) {
+
+    context.applicationContext.deleteDatabase(UsuariosRegistradosDbHelper.DATABASE_NAME)
+    Log.d("SqlLite", "Borrado de la base de datos")
 }
 

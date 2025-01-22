@@ -26,6 +26,8 @@ fun NavigationWrapper() {
     NavHost(navController = navController, startDestination = Login.route) {
 
         //navegacion desde el login
+
+
         composable(Login.route) {
             LoginScreen { ruta ->
                 navController
@@ -34,8 +36,6 @@ fun NavigationWrapper() {
 
 
         }
-
-        //navegacion desde el home
         composable(route = Home.route) {
             HomeScreen { ruta ->
                 Log.d("NAVIGATE_TO", "Screen recibida: $ruta")
