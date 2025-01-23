@@ -169,7 +169,7 @@ private fun ElementosAccesibles(
 @Composable
 fun Previsualizacion() {
     AppTheme {
-        HomeScreen {
+        HomeScreen() {
 
         }
 
@@ -184,7 +184,7 @@ fun Previsualizacion() {
 @Composable
 fun DarkPrevisualizacion() {
     AppTheme {
-        HomeScreen {
+        HomeScreen() {
 
         }
 

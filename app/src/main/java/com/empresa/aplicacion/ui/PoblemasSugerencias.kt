@@ -174,7 +174,8 @@ private fun TextoCarta(
 fun AppPreview() {
     AppTheme {
         ProblemasScreen(
-            onTabSelected = {}
+            onTabSelected = {},
+
         )
     }
 

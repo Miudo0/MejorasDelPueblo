@@ -1,6 +1,5 @@
 package com.empresa.aplicacion.ui.navigation
 
-import androidx.compose.ui.graphics.vector.ImageVector
 import com.empresa.aplicacion.R
 
 
@@ -46,6 +45,10 @@ object Login {
 }
 object Registro {
     val route: String = "registroScreen"
+}
+
+object Titulo {
+    val route: String = "tituloScreen"
 }
 
 //lista de las pantallas

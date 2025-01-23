@@ -1,13 +1,8 @@
 package com.empresa.aplicacion.ui
 
 
-import android.app.Application
-import android.content.ContentValues
-import android.database.Cursor
-import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.provider.BaseColumns
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,8 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.empresa.aplicacion.data.UsuariosRegistradosDbHelper
-import com.empresa.aplicacion.data.UsuariosRegistradosSqliteContrato
 import com.empresa.aplicacion.ui.navigation.NavigationWrapper
 import com.empresa.aplicacion.ui.theme.AppTheme
 
@@ -42,8 +35,13 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+        val app = application as MejorasDelpueblo
+        app.leerDatos()
+        app.actualizarPass("Admin", "3333")
+        app.leerDatos()
 
-        leerDatos(context = this.application)
+//         app.borrarDB()
+
     }
 
 
@@ -106,38 +104,4 @@ class MainActivity : ComponentActivity() {
 }
 
 
-private fun leerDatos(context: Application) {
-
-    val dbHelper = UsuariosRegistradosDbHelper(context)
-
-    val projection = arrayOf(
-        BaseColumns._ID,
-        UsuariosRegistradosSqliteContrato.UsuariosRegistradosEntry.COLUMN_NAME_USERNAME,
-        UsuariosRegistradosSqliteContrato.UsuariosRegistradosEntry.COLUMN_NAME_PASS
-    )
-
-    val cursor = dbHelper.readableDatabase.query(
-        UsuariosRegistradosSqliteContrato.UsuariosRegistradosEntry.TABLE_NAME, projection,
-        null, null, null, null, null
-    )
-with(cursor) {
-    while (cursor.moveToNext()) {
-        val id = cursor.getInt(cursor.getColumnIndexOrThrow(BaseColumns._ID))
-        val username =
-            cursor.getString(cursor.getColumnIndexOrThrow(UsuariosRegistradosSqliteContrato.UsuariosRegistradosEntry.COLUMN_NAME_USERNAME))
-        val pass =
-            cursor.getString(cursor.getColumnIndexOrThrow(UsuariosRegistradosSqliteContrato.UsuariosRegistradosEntry.COLUMN_NAME_PASS))
-        Log.d("SqlLite", "ID: $id, Username: $username, Pass: $pass")
-    }
-}
-    cursor.close()
-
-
-}
-
-private fun borrarBD(context: Application) {
-
-    context.applicationContext.deleteDatabase(UsuariosRegistradosDbHelper.DATABASE_NAME)
-    Log.d("SqlLite", "Borrado de la base de datos")
-}
 

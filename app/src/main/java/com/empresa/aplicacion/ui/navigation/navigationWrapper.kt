@@ -3,11 +3,14 @@ package com.empresa.aplicacion.ui.navigation
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.empresa.aplicacion.ui.AplicacionBottomAppBar
+import com.empresa.aplicacion.ui.AplicacionTopAppBar
 import com.empresa.aplicacion.ui.HomeScreen
 import com.empresa.aplicacion.ui.LoginScreen
 import com.empresa.aplicacion.ui.ProblemasScreen
@@ -37,14 +40,15 @@ fun NavigationWrapper() {
 
         }
         composable(route = Home.route) {
-            HomeScreen { ruta ->
+
+            HomeScreen() { ruta ->
                 Log.d("NAVIGATE_TO", "Screen recibida: $ruta")
                 when (ruta) {
                     ProblemasSugerencias.route -> navController.navigate(ProblemasSugerencias.route)
 
                 }
-            }
 
+            }
         }
 
         //navegacion desde problemas y sugerencias
@@ -72,6 +76,12 @@ fun NavigationWrapper() {
                 currentScreen = currentScreen,
 
                 )
+        }
+        composable(Titulo.route) {
+            AplicacionTopAppBar(
+
+
+            )
         }
 
     }

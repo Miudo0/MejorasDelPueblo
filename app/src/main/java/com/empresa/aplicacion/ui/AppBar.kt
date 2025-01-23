@@ -1,5 +1,7 @@
 package com.empresa.aplicacion.ui
 
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -16,9 +18,11 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.empresa.aplicacion.R
@@ -27,57 +31,75 @@ import com.empresa.aplicacion.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AplicacionTopAppBar() {
-    TopAppBar(//Para ponerle botones
+    TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             MaterialTheme.colorScheme.secondary
         ),
-        navigationIcon = {//agregar el icono en la parte derecha
-
-            IconButton(onClick = { /* No hacer nada por el momento */ }) {
-                Icon(
-                    Icons.Filled.Menu,
-                    contentDescription = "Menu",
-
-                    )
-            }
-        },
+//        navigationIcon = {//agregar el icono en la parte derecha
+//
+//            IconButton(onClick = { /* No hacer nada por el momento */ }) {
+//                Icon(
+//                    Icons.Filled.Menu,
+//                    contentDescription = "Menu",
+//
+//                    )
+//            }
+//        },
         title = {
-
-            Text(
-                text = stringResource(R.string.titulo_aplicacion),
-                color = Color.White,
+            Row (
                 modifier = Modifier
-                    .padding(16.dp)
                     .fillMaxWidth(),
+                verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
 
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
-                textAlign = TextAlign.Center
+            ){
+                Text(
+                    text = stringResource(R.string.titulo_aplicacion),
+                    color = colorResource(id = R.color.white),
+                    modifier = Modifier
+                        .padding(16.dp),
 
 
-            )
+                    style = MaterialTheme.typography.titleLarge,
+                    textAlign = TextAlign.Left
+                )
+                Spacer(modifier = Modifier.weight(1f))
+                Text(
+                    text =  "Usuario",
+                    color = colorResource(id = R.color.white),
+                    style = MaterialTheme.typography.titleMedium,
+                    textAlign = TextAlign.Right,
+                    modifier = Modifier
+                        .padding(16.dp)
+                )
+            }
+
 
         },
 
 
-        actions = {//para colocarlos en el lado derecho
-            //boton para ir a la configuracion por ejemplo
-            IconButton(onClick = { /* No hacer nada por el momento */ }) {
-                Icon(
-                    Icons.Filled.AccountCircle,
-                    contentDescription = "Inicio",
-
-                    )//icono color blanco
-            }
-
-            IconButton(onClick = { /* No hacer nada por el momento */ }) {
-                Icon(
-                    Icons.Filled.MoreVert,
-                    contentDescription = "Opciones",
-
-                    )//icono color blanco
-            }
-        }
+//        actions = {//para colocarlos en el lado derecho
+//            //boton para ir a la configuracion por ejemplo
+//            IconButton(onClick = { /* No hacer nada por el momento */ }) {
+//                Icon(
+//                    Icons.Filled.AccountCircle,
+//                    contentDescription = "Inicio",
+//
+//                    )//icono color blanco
+//            }
+//
+//            IconButton(onClick = { /* No hacer nada por el momento */ }) {
+//                Icon(
+//                    Icons.Filled.MoreVert,
+//                    contentDescription = "Opciones",
+//
+//                    )//icono color blanco
+//            }
+//        }
     )
-}//fin de la barra superior
+}
+
+@Composable
+@Preview
+fun AplicacionTopAppbarPreview() {
+    AplicacionTopAppBar()
+}

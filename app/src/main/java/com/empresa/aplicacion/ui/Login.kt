@@ -66,8 +66,6 @@ fun LoginScreen(navigateTo: (String) -> Unit) {
             paddingValues = paddingValues,
 
             )
-
-
     }
 
 }
@@ -78,16 +76,13 @@ fun LoginApp(
     navigateTo: (String) -> Unit,
     paddingValues: PaddingValues,
 
-
     ) {
-
 
     var usuario by rememberSaveable { mutableStateOf("") }
     var pass by rememberSaveable { mutableStateOf("") }
     var errorMessage by rememberSaveable { mutableStateOf("") }
 
     val context = LocalContext.current
-
 
     val datosLogin = listOf(
         CajasDatos(
@@ -104,8 +99,6 @@ fun LoginApp(
             visualTransformation = PasswordVisualTransformation()
         )
     )
-
-
 
     Column(
         modifier = Modifier
@@ -146,7 +139,6 @@ fun LoginApp(
 
             onClick = {
 
-                // Llamada asincrónica para verificar usuario
                 if (usuario.isNotEmpty() && pass.isNotEmpty()) {
                     errorMessage = "" // Limpiar mensaje de error
 
@@ -162,6 +154,7 @@ fun LoginApp(
                             withContext(Dispatchers.Main) {
                                 if (usuarioDb != null) {
                                     // Iniciar sesión si los datos son correctos
+                                    //probando pasar nombre
                                     navigateTo(Home.route)
                                 } else {
                                     errorMessage = "Usuario o contraseña incorrectos"
@@ -173,14 +166,11 @@ fun LoginApp(
                                 errorMessage = "Error al acceder a la base de datos"
                             }
                         }
-
                     }
                 } else {
                     errorMessage = "Por favor, ingresa usuario y contraseña"
                 }
             },
-
-
             modifier = Modifier
                 .height(60.dp)
         ) {
@@ -212,7 +202,6 @@ fun LoginApp(
 
         mostrarApi()
     }
-
 
 }
 

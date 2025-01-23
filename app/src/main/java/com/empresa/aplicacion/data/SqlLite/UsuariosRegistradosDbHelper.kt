@@ -1,16 +1,17 @@
-package com.empresa.aplicacion.data
+package com.empresa.aplicacion.data.SqlLite
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.provider.BaseColumns
-import androidx.room.Database
+import android.util.Log
 
 
 class UsuariosRegistradosDbHelper(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(SQL_CREATE_ENTRIES)
+        Log.d("SqlLite", "Se ha creado la base de datos")
         db.execSQL(SQL_INICIAL_USER)
     }
 
@@ -20,7 +21,7 @@ class UsuariosRegistradosDbHelper(context: Context) :
     }
 
     companion object {
-        public const val DATABASE_NAME = "UsuariosRegistrados.db";
+        const val DATABASE_NAME = "UsuariosRegistrados.db";
         private const val DATABASE_VERSION = 1
     }
 }
