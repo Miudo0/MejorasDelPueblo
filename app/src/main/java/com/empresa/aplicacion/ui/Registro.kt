@@ -100,7 +100,7 @@ fun RegistroScreen(navigateto: () -> Unit) {
 
         Button(
             onClick = {
-                val db = getDatabase(context)
+                val db = getDatabase()
                 val userDao = db.usuariosDao()
 
 

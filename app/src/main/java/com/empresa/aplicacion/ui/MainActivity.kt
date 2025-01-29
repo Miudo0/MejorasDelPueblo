@@ -13,8 +13,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.empresa.aplicacion.ui.navigation.NavigationWrapper
 import com.empresa.aplicacion.ui.theme.AppTheme
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     val TAG = this.javaClass.simpleName//MainActivity
     override fun onCreate(savedInstanceState: Bundle?) {

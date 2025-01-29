@@ -1,6 +1,5 @@
 package com.empresa.aplicacion.ui
 
-import android.app.Application
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -21,7 +20,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -33,23 +32,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.room.Room
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.empresa.aplicacion.R
 import com.empresa.aplicacion.data.AppDatabase
-import com.empresa.aplicacion.data.network.ChucknorrisApi
 import com.empresa.aplicacion.ui.navigation.Home
 import com.empresa.aplicacion.ui.navigation.Registro
 import com.empresa.aplicacion.ui.theme.AppTheme
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.empresa.aplicacion.ui.ui.LoginViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.json.Json
-import okhttp3.MediaType
-import retrofit2.Retrofit
-
 
 @Composable
 fun LoginScreen(navigateTo: (String) -> Unit) {
@@ -145,7 +139,7 @@ fun LoginApp(
                     // Acceder a la base de datos de forma asincrónica
                     CoroutineScope(Dispatchers.IO).launch {
                         try {
-                            val db = AppDatabase.getDatabase(context)
+                            val db = AppDatabase.getDatabase()
                             val userDao = db.usuariosDao()
                             val usuarioDb = userDao.getUserName(usuario, pass)
 
@@ -207,28 +201,11 @@ fun LoginApp(
 
 //funcion para mostrar la api de chuck norris.
 @Composable
-fun mostrarApi() {
-    var jokeString by rememberSaveable { mutableStateOf("") }
-
-    val json = Json {
-        ignoreUnknownKeys = true
-
-    }
-
-    val retrofit = Retrofit.Builder()
-        .baseUrl("https://api.chucknorris.io/")
-        .addConverterFactory(json.asConverterFactory(MediaType.get("application/json")))
-        .build()
-    val service = retrofit.create(ChucknorrisApi::class.java)
-    LaunchedEffect(Unit) {
+fun mostrarApi(viewModel: LoginViewModel = hiltViewModel()) {
+    val jokeString by viewModel.state.collectAsState()
 
 
-        val joke = service.getRandomJoke()
-        Log.d("API", "Chiste recibido: ${joke.value}")
-        jokeString = joke.value
 
-
-    }
     Column(
         modifier = Modifier
             .padding(48.dp)
@@ -243,7 +220,7 @@ fun mostrarApi() {
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = jokeString,
+            text = jokeString ?: "chiste no disponible",
             style = MaterialTheme.typography.bodySmall,
             textAlign = androidx.compose.ui.text.style.TextAlign.Center
         )

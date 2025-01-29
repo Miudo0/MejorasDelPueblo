@@ -2,12 +2,15 @@ package com.empresa.aplicacion.ui
 
 import android.app.Application
 import android.content.ContentValues
+import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.provider.BaseColumns
 import android.util.Log
 import com.empresa.aplicacion.data.SqlLite.UsuariosRegistradosDbHelper
 import com.empresa.aplicacion.data.SqlLite.UsuariosRegistradosSqliteContrato
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class MejorasDelpueblo : Application() {
     val TAG = "Mejoras"
 
@@ -15,7 +18,13 @@ class MejorasDelpueblo : Application() {
     override fun onCreate() {
         super.onCreate()
         Log.d(TAG, "onCreate: La aplicación se ha creado.")
+        appContext = applicationContext
        incializarDB()
+    }
+    //obtener el contexto glogal
+    companion object {
+        lateinit var appContext: Context
+            private set
     }
 
     override fun onTerminate() {
