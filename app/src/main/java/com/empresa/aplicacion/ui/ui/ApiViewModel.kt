@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(
+class ApiViewModel @Inject constructor(
     private val chuckNorrisApi: ChucknorrisApi
 ): ViewModel() {
 
@@ -30,6 +30,7 @@ class LoginViewModel @Inject constructor(
         }
     }
 }
+
 
 
 

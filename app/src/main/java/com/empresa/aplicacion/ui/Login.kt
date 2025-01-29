@@ -1,6 +1,5 @@
 package com.empresa.aplicacion.ui
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +19,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,16 +34,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.empresa.aplicacion.R
-import com.empresa.aplicacion.data.AppDatabase
 import com.empresa.aplicacion.ui.navigation.Home
 import com.empresa.aplicacion.ui.navigation.Registro
 import com.empresa.aplicacion.ui.theme.AppTheme
-import com.empresa.aplicacion.ui.ui.LoginViewModel
-import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.empresa.aplicacion.ui.ui.ApiViewModel
+import com.empresa.aplicacion.ui.ui.DatabaseViewModel
 
 @Composable
 fun LoginScreen(navigateTo: (String) -> Unit) {
@@ -69,12 +64,14 @@ fun LoginScreen(navigateTo: (String) -> Unit) {
 fun LoginApp(
     navigateTo: (String) -> Unit,
     paddingValues: PaddingValues,
-
-    ) {
+    viewModel: DatabaseViewModel = hiltViewModel()
+) {
 
     var usuario by rememberSaveable { mutableStateOf("") }
     var pass by rememberSaveable { mutableStateOf("") }
     var errorMessage by rememberSaveable { mutableStateOf("") }
+
+    val nombre by viewModel.state.collectAsState()
 
     val context = LocalContext.current
 
@@ -135,35 +132,11 @@ fun LoginApp(
 
                 if (usuario.isNotEmpty() && pass.isNotEmpty()) {
                     errorMessage = "" // Limpiar mensaje de error
-
-                    // Acceder a la base de datos de forma asincrónica
-                    CoroutineScope(Dispatchers.IO).launch {
-                        try {
-                            val db = AppDatabase.getDatabase()
-                            val userDao = db.usuariosDao()
-                            val usuarioDb = userDao.getUserName(usuario, pass)
-
-
-                            //tengo que pasarlo al hilo principal sino peta
-                            withContext(Dispatchers.Main) {
-                                if (usuarioDb != null) {
-                                    // Iniciar sesión si los datos son correctos
-                                    //probando pasar nombre
-                                    navigateTo(Home.route)
-                                } else {
-                                    errorMessage = "Usuario o contraseña incorrectos"
-                                }
-                            }
-                        } catch (e: Exception) {
-                            Log.e("LoginApp", "Error al acceder a la base de datos", e)
-                            withContext(Dispatchers.Main) {
-                                errorMessage = "Error al acceder a la base de datos"
-                            }
-                        }
-                    }
-                } else {
-                    errorMessage = "Por favor, ingresa usuario y contraseña"
+                    viewModel.getUsuario(usuario, pass)
+                }else{
+                    errorMessage ="Ingrese usuario y contraseña"
                 }
+
             },
             modifier = Modifier
                 .height(60.dp)
@@ -193,19 +166,24 @@ fun LoginApp(
                     navigateTo(Registro.route)
                 }
         )
+        LaunchedEffect(nombre) {
+            if (nombre != null && nombre != "Usuario no encontrado") {
+                // Usuario encontrado, navegar al Home
+                navigateTo(Home.route)
+            } else if (nombre == "Usuario no encontrado") {
+                errorMessage = "Usuario o contraseña incorrectos"
+            }
+        }
 
-        mostrarApi()
+        MostrarApi()
     }
 
 }
 
 //funcion para mostrar la api de chuck norris.
 @Composable
-fun mostrarApi(viewModel: LoginViewModel = hiltViewModel()) {
+fun MostrarApi(viewModel: ApiViewModel = hiltViewModel()) {
     val jokeString by viewModel.state.collectAsState()
-
-
-
     Column(
         modifier = Modifier
             .padding(48.dp)

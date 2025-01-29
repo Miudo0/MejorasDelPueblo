@@ -1,6 +1,5 @@
 package com.empresa.aplicacion.ui
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,6 +14,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -26,22 +27,23 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.empresa.aplicacion.R
-import com.empresa.aplicacion.data.AppDatabase.Companion.getDatabase
-import com.empresa.aplicacion.data.Usuario
 import com.empresa.aplicacion.ui.theme.AppTheme
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.empresa.aplicacion.ui.ui.DatabaseViewModel
 
 @Composable
-fun RegistroScreen(navigateto: () -> Unit) {
+fun RegistroScreen(
+    navigateto: () -> Unit,
+    viewModel: DatabaseViewModel = hiltViewModel()
+                   ) {
 
     var username by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var email by rememberSaveable { mutableStateOf("") }
     var errorMessage by rememberSaveable { mutableStateOf("") }
+
+    val correcto by viewModel.state.collectAsState()
 
     val context = LocalContext.current
 
@@ -100,31 +102,30 @@ fun RegistroScreen(navigateto: () -> Unit) {
 
         Button(
             onClick = {
-                val db = getDatabase()
-                val userDao = db.usuariosDao()
-
 
                 if (username.isNotEmpty() && password.isNotEmpty() && email.isNotEmpty()) {
                     errorMessage = ""
-                    CoroutineScope(Dispatchers.IO).launch {
-                        try {
-                            val nuevoUsuario = Usuario(username = username, pass = password, email = email)
-                            userDao.insertAll(nuevoUsuario)
+                    viewModel.insertarUsuario(username,password,email)
+//                    CoroutineScope(Dispatchers.IO).launch {
+//                        try {
+//                            val nuevoUsuario = Usuario(username = username, pass = password, email = email)
+//                            userDao.insertAll(nuevoUsuario)
+//
+//                            withContext(Dispatchers.Main) {
+//                                navigateto()
+//                            }
+//                        }catch (e:Exception){
+//                            Log.e("RegistroScreen", "Error al registrarse", e)
+//                            withContext(Dispatchers.Main) {
+//                                errorMessage = "Error al registrarse"
+//                            }
+//                        }
+//
+//                    }
+//                } else {
+//                    errorMessage = "Por favor, complete todos los campos"
 
-                            withContext(Dispatchers.Main) {
-                                navigateto()
-                            }
-                        }catch (e:Exception){
-                            Log.e("RegistroScreen", "Error al registrarse", e)
-                            withContext(Dispatchers.Main) {
-                                errorMessage = "Error al registrarse"
-                            }
-                        }
-
-                    }
-                } else {
-                    errorMessage = "Por favor, complete todos los campos"
-                }
+               }
             },
             modifier = Modifier
                 .height(60.dp)
@@ -141,6 +142,14 @@ fun RegistroScreen(navigateto: () -> Unit) {
                 text = stringResource(R.string.boton_registro),
                 style = MaterialTheme.typography.bodyMedium
             )
+        }
+        LaunchedEffect(correcto) {
+            if (correcto ==  "correcto"){
+              navigateto()
+            }
+            else{
+                errorMessage = "Por favor, complete todos los campos"
+            }
         }
 
     }

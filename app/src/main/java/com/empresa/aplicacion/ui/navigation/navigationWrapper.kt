@@ -3,12 +3,10 @@ package com.empresa.aplicacion.ui.navigation
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.empresa.aplicacion.ui.AplicacionBottomAppBar
 import com.empresa.aplicacion.ui.AplicacionTopAppBar
 import com.empresa.aplicacion.ui.HomeScreen
@@ -61,9 +59,9 @@ fun NavigationWrapper() {
                 )
         }
 //
-//        //navegacion desde el registro
+        //navegacion desde el registro
         composable(Registro.route) {
-            RegistroScreen { navController.navigate(Home.route) }
+            RegistroScreen(navigateto = { navController.navigate(Home.route) })
         }
 
 
