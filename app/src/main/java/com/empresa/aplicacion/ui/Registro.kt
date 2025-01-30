@@ -14,7 +14,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,7 +29,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.empresa.aplicacion.R
 import com.empresa.aplicacion.ui.theme.AppTheme
-import com.empresa.aplicacion.ui.ui.DatabaseViewModel
 
 @Composable
 fun RegistroScreen(
@@ -143,14 +141,14 @@ fun RegistroScreen(
                 style = MaterialTheme.typography.bodyMedium
             )
         }
-        LaunchedEffect(correcto) {
-            if (correcto ==  "correcto"){
-              navigateto()
-            }
-            else{
-                errorMessage = "Por favor, complete todos los campos"
-            }
-        }
+//        LaunchedEffect(correcto) {
+//            if (correcto ==  "correcto"){
+//              navigateto()
+//            }
+//            else{
+//                errorMessage = "Por favor, complete todos los campos"
+//            }
+
 
     }
 

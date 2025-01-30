@@ -1,7 +1,7 @@
 package com.empresa.aplicacion.data.network
 
 import androidx.room.Room
-import com.empresa.aplicacion.data.AppDatabase
+import com.empresa.aplicacion.data.room.AppDatabase
 import com.empresa.aplicacion.ui.MejorasDelpueblo
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
@@ -40,6 +40,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
+    //@applicationcontext context:context
     fun providesGetDatabase() =
         Room.databaseBuilder(
             MejorasDelpueblo.appContext,

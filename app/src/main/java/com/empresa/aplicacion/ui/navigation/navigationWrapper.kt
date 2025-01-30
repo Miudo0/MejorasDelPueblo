@@ -28,7 +28,6 @@ fun NavigationWrapper() {
 
         //navegacion desde el login
 
-
         composable(Login.route) {
             LoginScreen { ruta ->
                 navController

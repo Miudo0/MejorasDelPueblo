@@ -1,8 +1,7 @@
-package com.empresa.aplicacion.ui.ui
+package com.empresa.aplicacion.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.empresa.aplicacion.data.AppDatabase
 
 class MainActivityViewModel : ViewModel() {
     init {

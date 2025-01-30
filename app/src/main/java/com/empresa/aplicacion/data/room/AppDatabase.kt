@@ -1,4 +1,4 @@
-package com.empresa.aplicacion.data
+package com.empresa.aplicacion.data.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
