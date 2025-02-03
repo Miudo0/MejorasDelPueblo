@@ -8,6 +8,7 @@ interface DestinosMejorasPueblo {
     val image: Int
     val route: String
 
+
 }
 
 object Home : DestinosMejorasPueblo {

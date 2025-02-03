@@ -26,28 +26,29 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.empresa.aplicacion.R
 import com.empresa.aplicacion.ui.navigation.Home
 import com.empresa.aplicacion.ui.navigation.Registro
-import com.empresa.aplicacion.ui.theme.AppTheme
 
 @Composable
-fun LoginScreen(navigateTo: (String) -> Unit) {
+fun LoginScreen(
+    navigateTo: (String) -> Unit,
+    viewModel: DatabaseViewModel
+
+) {
+
+
     Scaffold(
         topBar = {
-            AplicacionTopAppBar()
+            AplicacionTopAppBar(viewModel=viewModel)
         },
-//        bottomBar = {
-//            AplicacionBottomAppBar()
-//        }
-    ) { paddingValues ->
+
+        ) { paddingValues ->
         LoginApp(
             navigateTo = navigateTo,
             paddingValues = paddingValues,
-
+viewModel = viewModel
             )
     }
 
@@ -58,7 +59,7 @@ fun LoginScreen(navigateTo: (String) -> Unit) {
 fun LoginApp(
     navigateTo: (String) -> Unit,
     paddingValues: PaddingValues,
-    viewModel: DatabaseViewModel = hiltViewModel()
+    viewModel: DatabaseViewModel
 ) {
 
     var usuario by rememberSaveable { mutableStateOf("") }
@@ -174,19 +175,16 @@ fun LoginApp(
                     navigateTo(Registro.route)
                 }
         )
-
         MostrarApi()
     }
-
 }
 
 
-
-@Preview(showBackground = true)
-@Composable
-fun AppLoginPreview() {
-    AppTheme {
-        LoginScreen(navigateTo = {})
-    }
-
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun AppLoginPreview() {
+//    AppTheme {
+//        LoginScreen(navigateTo = {})
+//    }
+//
+//}

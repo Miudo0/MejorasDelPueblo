@@ -3,7 +3,6 @@ package com.empresa.aplicacion.ui
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -25,15 +24,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.rememberNavController
 import com.empresa.aplicacion.R
 import com.empresa.aplicacion.ui.navigation.DestinosMejorasPueblo
-import com.empresa.aplicacion.ui.navigation.Home
 import com.empresa.aplicacion.ui.navigation.ProblemasSugerencias
 import com.empresa.aplicacion.ui.navigation.destinosMejoras
-import com.empresa.aplicacion.ui.theme.AppTheme
 
 
 //creo la clase de cartas de la seccion Problemas
@@ -65,12 +60,15 @@ var listaCartasProblemas: List<CartaProblemas> = listOf(
 )
 
 @Composable
-fun ProblemasScreen(onTabSelected: (DestinosMejorasPueblo) -> Unit, ){
+fun ProblemasScreen(
+    onTabSelected: (DestinosMejorasPueblo) -> Unit,
+viewModel: DatabaseViewModel
+    ){
 
 
     Scaffold(
         topBar = {
-            AplicacionTopAppBar()
+            AplicacionTopAppBar(viewModel = viewModel)
         },
         bottomBar = {
             AplicacionBottomAppBar(
@@ -169,14 +167,14 @@ private fun TextoCarta(
 }
 
 
-@Preview
-@Composable
-fun AppPreview() {
-    AppTheme {
-        ProblemasScreen(
-            onTabSelected = {},
-
-        )
-    }
-
-}
+//@Preview
+//@Composable
+//fun AppPreview() {
+//    AppTheme {
+//        ProblemasScreen(
+//            onTabSelected = {}
+//
+//        )
+//    }
+//
+//}

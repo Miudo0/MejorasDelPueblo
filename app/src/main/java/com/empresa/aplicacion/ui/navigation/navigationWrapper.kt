@@ -3,12 +3,14 @@ package com.empresa.aplicacion.ui.navigation
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.empresa.aplicacion.ui.AplicacionBottomAppBar
 import com.empresa.aplicacion.ui.AplicacionTopAppBar
+import com.empresa.aplicacion.ui.DatabaseViewModel
 import com.empresa.aplicacion.ui.HomeScreen
 import com.empresa.aplicacion.ui.LoginScreen
 import com.empresa.aplicacion.ui.ProblemasScreen
@@ -17,6 +19,8 @@ import com.empresa.aplicacion.ui.RegistroScreen
 
 @Composable
 fun NavigationWrapper() {
+
+    val viewModel: DatabaseViewModel = hiltViewModel()
 
     val navController = rememberNavController()
     val currentBackStack by navController.currentBackStackEntryAsState()
@@ -29,28 +33,27 @@ fun NavigationWrapper() {
         //navegacion desde el login
 
         composable(Login.route) {
-            LoginScreen { ruta ->
-                navController
-                    .navigate(ruta)
+            LoginScreen( viewModel = viewModel, navigateTo = { ruta ->
+                navController.navigate(ruta)
+
             }
-
-
+            )
         }
-        composable(route = Home.route) {
+        composable(Home.route) {
 
-            HomeScreen() { ruta ->
+            HomeScreen(viewModel = viewModel, navigateTo = { ruta ->
                 Log.d("NAVIGATE_TO", "Screen recibida: $ruta")
                 when (ruta) {
                     ProblemasSugerencias.route -> navController.navigate(ProblemasSugerencias.route)
 
                 }
 
-            }
+            })
         }
 
         //navegacion desde problemas y sugerencias
         composable(route = ProblemasSugerencias.route) {
-            ProblemasScreen(
+            ProblemasScreen(viewModel = viewModel,
                 onTabSelected = { ruta ->
                     navController.navigate(ruta.route)
                 },
@@ -60,7 +63,11 @@ fun NavigationWrapper() {
 //
         //navegacion desde el registro
         composable(Registro.route) {
-            RegistroScreen(navigateto = { navController.navigate(Home.route) })
+            RegistroScreen(
+                navigateTo = { ruta ->
+                    navController.navigate(ruta)
+                }
+            )
         }
 
 
@@ -74,26 +81,15 @@ fun NavigationWrapper() {
 
                 )
         }
+
+
+
         composable(Titulo.route) {
+
             AplicacionTopAppBar(
-
-
+                viewModel = viewModel
             )
         }
 
     }
 }
-//esto no me funciona
-//para que no haga duplicados al navegar. copiado de codelab Rally
-//fun NavHostController.navigateSingleTopTo(route: String) =
-//    this.navigate(route) {
-//
-//        popUpTo(
-//            this@navigateSingleTopTo.graph.findStartDestination().id
-//        )
-//        {
-//            saveState = true
-//        }
-//        launchSingleTop = true
-//        restoreState = true
-//    }

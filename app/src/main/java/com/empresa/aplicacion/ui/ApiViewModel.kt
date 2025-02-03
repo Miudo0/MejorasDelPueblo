@@ -3,7 +3,7 @@ package com.empresa.aplicacion.ui
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.empresa.aplicacion.domain.ApiUseCase
+import com.empresa.aplicacion.domain.DownloadJokeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ApiViewModel @Inject constructor(
     // private val chuckNorrisApi: ChucknorrisApi,
-    private val getRandomJoke: ApiUseCase
+    private val getRandomJoke: DownloadJokeUseCase
 ) : ViewModel() {
 
     private var _state = MutableStateFlow<ApiState>(ApiState.Loading)

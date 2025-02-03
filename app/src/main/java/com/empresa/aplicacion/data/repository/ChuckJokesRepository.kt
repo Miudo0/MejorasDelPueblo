@@ -5,16 +5,12 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class ApiRepository @Inject constructor(
+class ChuckJokesRepository @Inject constructor(
     private val api: ChucknorrisApi
-
-    ){
-
-      suspend fun getJoke() : String {
-          return  withContext(IO){
-              api.getRandomJoke().value
-          }
-      }
-
-
+) {
+    suspend fun getJoke(): String {
+        return withContext(IO) {
+            api.getRandomJoke().value
+        }
+    }
 }

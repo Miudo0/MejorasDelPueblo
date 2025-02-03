@@ -1,6 +1,5 @@
 package com.empresa.aplicacion.ui
 
-import android.content.res.Configuration
 import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -28,7 +27,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.empresa.aplicacion.R
 import com.empresa.aplicacion.ui.navigation.Home
@@ -37,16 +35,22 @@ import com.empresa.aplicacion.ui.navigation.ProblemasSugerencias
 import com.empresa.aplicacion.ui.navigation.Proyectos
 import com.empresa.aplicacion.ui.navigation.Voluntariado
 import com.empresa.aplicacion.ui.navigation.destinosMejoras
-import com.empresa.aplicacion.ui.theme.AppTheme
 
 
 //base de la app con el Scaffold
 
 @Composable
-fun HomeScreen(navigateTo: (String) -> Unit) {
+fun HomeScreen(
+
+    navigateTo: (String) -> Unit,
+    viewModel: DatabaseViewModel
+
+) {
+
+
     Scaffold(
         topBar = {
-            AplicacionTopAppBar()
+            AplicacionTopAppBar(viewModel=viewModel)
         },
         bottomBar = {
             AplicacionBottomAppBar(
@@ -58,19 +62,23 @@ fun HomeScreen(navigateTo: (String) -> Unit) {
             )
         }
     ) { paddingValues ->
+
         App(
             navigateTo = navigateTo,
-            paddingValues = paddingValues)
+            paddingValues = paddingValues
+        )
     }
 }
 
 
-
 @Composable
 fun App(
+
     navigateTo: (String) -> Unit,
     paddingValues: PaddingValues
 ) {
+
+
     LazyColumn(
         Modifier
             .padding(paddingValues)
@@ -88,7 +96,6 @@ fun App(
         }
     }
 }
-
 
 
 @Composable
@@ -159,34 +166,32 @@ private fun ElementosAccesibles(
 //barra inferior
 
 
-
-
 //vista previa
-@Preview(
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
-)
-@Composable
-fun Previsualizacion() {
-    AppTheme {
-        HomeScreen() {
-
-        }
-
-    }
-}
-
-//vista previa
-@Preview(
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
-)
-@Composable
-fun DarkPrevisualizacion() {
-    AppTheme {
-        HomeScreen() {
-
-        }
-
-    }
-}
+//@Preview(
+//    showBackground = true,
+//    uiMode = Configuration.UI_MODE_NIGHT_YES
+//)
+//@Composable
+//fun Previsualizacion() {
+//    AppTheme {
+//        HomeScreen() {
+//
+//        }
+//
+//    }
+//}
+//
+////vista previa
+//@Preview(
+//    showBackground = true,
+//    uiMode = Configuration.UI_MODE_NIGHT_NO
+//)
+//@Composable
+//fun DarkPrevisualizacion() {
+//    AppTheme {
+//        HomeScreen() {
+//
+//        }
+//
+//    }
+//}
