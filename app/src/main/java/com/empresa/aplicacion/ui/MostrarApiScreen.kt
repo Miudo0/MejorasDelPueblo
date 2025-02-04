@@ -19,7 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 
 
 @Composable
-    fun MostrarApi(viewModel: MostrarApiViewModel = hiltViewModel()) {
+    fun MostrarApiScreen(viewModel: MostrarApiViewModel = hiltViewModel()) {
         val jokeString by viewModel.state.collectAsState()
 
         Column(

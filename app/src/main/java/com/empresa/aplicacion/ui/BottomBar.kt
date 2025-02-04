@@ -81,68 +81,10 @@ fun AplicacionBottomAppBar(
                     selected = currentScreen == screen
                 )
 
-//            botones.forEach { boton ->
-//                Boton(
-//                    seleccion = seleccion,
-//                    navigateTo = { numero->
-//                       seleccion = numero
-//
-//                    when (seleccion) {
-//                        0 -> navigateTo(Home.route)
-//                        1 -> navigateTo(ProblemasSugerencias.route)
-////                        2 -> navigateTo("proyectosScreen")
-////                        3 -> navigateTo("notificacionesScreen")
-////                        4 -> navigateTo("voluntariadoScreen")
-//                    }
-//                    },
-//                    icono = boton.icono,
-//                    nombre = boton.nombre,
-//                    numero = boton.numero
-//                )
-//
-//            }
             }
 
         }
     }
-
-//    @Composable
-//    fun Boton(
-//        seleccion: Int,
-//        navigateTo: (Int) -> Unit,
-//        icono: Int,
-//        nombre: String,
-//        numero: Int,
-//    ) {
-//        Column(
-//            modifier = Modifier,
-//
-//            verticalArrangement = Arrangement.Center,
-//            horizontalAlignment = Alignment.CenterHorizontally
-//        ) {
-//            IconButton(
-//                onClick = { navigateTo(numero) }
-//            ) {
-//                Image(
-//                    painterResource(id = icono),
-//                    contentDescription = nombre,
-//                    modifier = Modifier
-//                        .size(if (seleccion == numero) 48.dp else 24.dp),
-//                    colorFilter = ColorFilter.tint(
-//                        if (seleccion == numero) {
-//                            MaterialTheme.colorScheme.primaryContainer
-//
-//                        } else MaterialTheme.colorScheme.surfaceVariant,
-//
-//                        )
-//                )
-//            }
-//            Text(
-//                text = if (seleccion == numero) nombre else "",
-//                style = MaterialTheme.typography.labelSmall,
-//            )
-//        }
-//    }
 }
 
 @Composable

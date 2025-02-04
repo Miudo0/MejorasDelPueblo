@@ -43,7 +43,7 @@ import com.empresa.aplicacion.ui.navigation.destinosMejoras
 fun HomeScreen(
 
     navigateTo: (String) -> Unit,
-    viewModel: DatabaseViewModel
+    viewModel: ValidarUSuarioViewModel
 
 ) {
 

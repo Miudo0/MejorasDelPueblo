@@ -10,7 +10,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.empresa.aplicacion.ui.AplicacionBottomAppBar
 import com.empresa.aplicacion.ui.AplicacionTopAppBar
-import com.empresa.aplicacion.ui.DatabaseViewModel
+import com.empresa.aplicacion.ui.ValidarUSuarioViewModel
 import com.empresa.aplicacion.ui.HomeScreen
 import com.empresa.aplicacion.ui.LoginScreen
 import com.empresa.aplicacion.ui.ProblemasScreen
@@ -20,7 +20,7 @@ import com.empresa.aplicacion.ui.RegistroScreen
 @Composable
 fun NavigationWrapper() {
 
-    val viewModel: DatabaseViewModel = hiltViewModel()
+    val viewModel: ValidarUSuarioViewModel = hiltViewModel()
 
     val navController = rememberNavController()
     val currentBackStack by navController.currentBackStackEntryAsState()

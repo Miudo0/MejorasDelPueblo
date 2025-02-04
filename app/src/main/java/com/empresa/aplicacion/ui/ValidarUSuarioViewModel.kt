@@ -3,7 +3,7 @@ package com.empresa.aplicacion.ui
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.empresa.aplicacion.domain.UsuariosUseCase
+import com.empresa.aplicacion.domain.ValidarUsuariosUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,12 +12,12 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class DatabaseViewModel @Inject constructor(
+class ValidarUSuarioViewModel @Inject constructor(
     // private val appDatabase: AppDatabase,
-    private val getUsuarioRegistrado: UsuariosUseCase,
-    private val NewUser: UsuariosUseCase
+    private val getUsuarioRegistrado: ValidarUsuariosUseCase,
 
-) : ViewModel() {
+
+    ) : ViewModel() {
     private var _state = MutableStateFlow<databaseState>(databaseState.Loading)
     val state: MutableStateFlow<databaseState> = _state
 
@@ -53,19 +53,7 @@ class DatabaseViewModel @Inject constructor(
     }
 
 
-//    fun insertarUsuario(usuario: String, pass: String, email: String) {
-//        viewModelScope.launch {
-//            try {
-//               val nuevoUsuario = NewUser(usuario, pass, email)
-//                _state.value = databaseState.Success(nuevoUsuario.toString())
-//                _navegacionState.value = NavigationState.NavigateToHome
-//            }catch (e:Exception){
-//                Log.e("DatabaseViewModel", "Error al registrarse", e)
-//                _state.value = databaseState.Error
-//                _errorMessageState.value = errorState.Success("Error al registrarse")
-//            }
-//        }
-//    }
+
 
     //state para el login
     sealed interface databaseState {

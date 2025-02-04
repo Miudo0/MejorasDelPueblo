@@ -62,7 +62,7 @@ var listaCartasProblemas: List<CartaProblemas> = listOf(
 @Composable
 fun ProblemasScreen(
     onTabSelected: (DestinosMejorasPueblo) -> Unit,
-viewModel: DatabaseViewModel
+viewModel: ValidarUSuarioViewModel
     ){
 
 

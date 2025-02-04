@@ -5,19 +5,14 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class UsuariosUseCase @Inject constructor(
+class NewUserUseCase @Inject constructor(
     private val repository: UsuariosRepository
 
 ) {
-    suspend operator fun invoke(username: String, pass: String): String? {
+    suspend operator fun invoke(username: String, pass: String, email: String){
         return withContext(IO) {
-            repository.getUsuarioRegistrado(username, pass)
+            repository.newUser(username, pass, email)
         }
     }
 
-    suspend operator fun invoke(username: String, pass: String, email: String){
-        return withContext(IO) {
-            repository.NewUser(username, pass, email)
-        }
-    }
 }

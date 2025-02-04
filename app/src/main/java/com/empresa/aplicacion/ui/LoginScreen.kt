@@ -34,7 +34,7 @@ import com.empresa.aplicacion.ui.navigation.Registro
 @Composable
 fun LoginScreen(
     navigateTo: (String) -> Unit,
-    viewModel: DatabaseViewModel
+    viewModel: ValidarUSuarioViewModel
 
 ) {
 
@@ -59,7 +59,7 @@ fun LoginScreen(
 fun LoginApp(
     navigateTo: (String) -> Unit,
     paddingValues: PaddingValues,
-    viewModel: DatabaseViewModel
+    viewModel: ValidarUSuarioViewModel
 ) {
 
     var usuario by rememberSaveable { mutableStateOf("") }
@@ -141,9 +141,9 @@ fun LoginApp(
             )
         }
         when (nombre) {
-            is DatabaseViewModel.databaseState.Error -> ErrorMensaje(errorMessage)
-            is DatabaseViewModel.databaseState.Loading -> {}
-            is DatabaseViewModel.databaseState.Success -> {}
+            is ValidarUSuarioViewModel.databaseState.Error -> ErrorMensaje(errorMessage)
+            is ValidarUSuarioViewModel.databaseState.Loading -> {}
+            is ValidarUSuarioViewModel.databaseState.Success -> {}
         }
 //        when (val current = errorState) {
 //            is DatabaseViewModel.errorState.Success ->
@@ -158,7 +158,7 @@ fun LoginApp(
         //si meto el lauchedeffect no navega?
 
             when (navigationState) {
-                is DatabaseViewModel.NavigationState.NavigateToHome -> navigateTo(Home.route)
+                is ValidarUSuarioViewModel.NavigationState.NavigateToHome -> navigateTo(Home.route)
                 else -> {}
             }
 
@@ -176,7 +176,7 @@ fun LoginApp(
                     navigateTo(Registro.route)
                 }
         )
-        MostrarApi()
+        MostrarApiScreen()
     }
 }
 

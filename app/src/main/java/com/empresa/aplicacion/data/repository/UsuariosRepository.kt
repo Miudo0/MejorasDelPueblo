@@ -12,7 +12,7 @@ class UsuariosRepository @Inject constructor(
         return userDao.getUserName( username, pass)
     }
 
-    suspend fun NewUser (username: String, pass: String, email: String){
+    suspend fun newUser (username: String, pass: String, email: String){
         val userDao = appDatabase.usuariosDao()
         val nuevoUsuario = Usuario(username = username, pass = pass, email = email)
         userDao.insertAll(nuevoUsuario)

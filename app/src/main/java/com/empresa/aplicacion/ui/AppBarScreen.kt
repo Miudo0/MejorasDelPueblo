@@ -23,7 +23,7 @@ import com.empresa.aplicacion.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AplicacionTopAppBar(
-    viewModel: DatabaseViewModel 
+    viewModel: ValidarUSuarioViewModel
 
     ) {
     val username by viewModel.username.collectAsState()
