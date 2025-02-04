@@ -1,4 +1,4 @@
-package com.empresa.aplicacion.data.room
+package com.empresa.aplicacion.data.room.UsuariosDatabase
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

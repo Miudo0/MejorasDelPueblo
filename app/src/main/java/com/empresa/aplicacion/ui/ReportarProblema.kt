@@ -1,6 +1,5 @@
 package com.empresa.aplicacion.ui
 
-import android.widget.RadioGroup
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,7 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -16,7 +15,6 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -24,11 +22,24 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+
+enum class TipoProblema(val descripcion: String) {
+    INFRAESTRUCTURA("Infraestructura"),
+    TRAFICO("Tráfico"),
+    SEGURIDAD("Seguridad"),
+    MEDIO_AMBIENTE("Medio Ambiente")
+}
+
 
 @Composable
-fun ReportarScreen() {
+fun ReportarScreen(
+    viewModel: ReportarProblemaViewModel = hiltViewModel()
+) {
     var descripcion by remember { mutableStateOf("") }
-    var gravedad by remember { mutableIntStateOf(1) }
+//    var gravedad by remember { mutableIntStateOf(1) }
+    var titulo by remember { mutableStateOf("") }
+    var tipo by remember { mutableStateOf(TipoProblema.INFRAESTRUCTURA) }
 
     Column(
         modifier = Modifier
@@ -44,6 +55,19 @@ fun ReportarScreen() {
         )
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
+            value = titulo,
+            onValueChange = { titulo = it },
+            label = {
+                Text(
+                    text = "Titulo"
+                )
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        OutlinedTextField(
             value = descripcion,
             onValueChange = { descripcion = it },
             label = {
@@ -56,48 +80,38 @@ fun ReportarScreen() {
                 .height(300.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
 
-        ) {
-            Text(text = "Leve")
-            RadioButton(
-                selected = gravedad == 1,
+        Text(text = "Selecciona el tipo de problema:", style = MaterialTheme.typography.titleMedium)
 
-                onClick = {
-                    gravedad = 1
+        Column {
+            TipoProblema.entries.forEach { opcion ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    RadioButton(
+                        selected = tipo == opcion,
+                        onClick = { tipo = opcion }
+                    )
+                    Text(text = opcion.descripcion, modifier = Modifier.padding(start = 8.dp))
                 }
-            )
-            Spacer(modifier = Modifier.width(24.dp))
-            Text(text = "Moderado")
-            RadioButton(
-                selected = gravedad == 2,
-                onClick = {
-                    gravedad = 2
-                }
-
-            )
-            Spacer(modifier = Modifier.width(24.dp))
-            Text(text = "Urgente")
-            RadioButton(
-                selected = gravedad == 3,
-                onClick = {
-                    gravedad = 3
-                }
-            )
+            }
         }
+
+        Spacer(modifier = Modifier.height(24.dp))
         Button(
-            onClick = {}
+            onClick = {
+           viewModel.nuevoProblema(titulo, descripcion,  tipo.descripcion)
+            }
         ) {
             Text(
                 text = "Enviar"
             )
         }
+        Spacer(modifier = Modifier.height(24.dp))
     }
-
 }
+
 
 @Preview
 @Composable

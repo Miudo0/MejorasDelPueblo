@@ -1,4 +1,4 @@
-package com.empresa.aplicacion.data.room
+package com.empresa.aplicacion.data.room.UsuariosDatabase
 
 import androidx.room.Dao
 import androidx.room.Delete

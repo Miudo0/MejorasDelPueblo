@@ -1,11 +1,11 @@
 package com.empresa.aplicacion.data.repository
 
-import com.empresa.aplicacion.data.room.AppDatabase
-import com.empresa.aplicacion.data.room.Usuario
+import com.empresa.aplicacion.data.room.UsuariosDatabase.Usuario
+import com.empresa.aplicacion.data.room.UsuariosDatabase.UsuariosDatabase
 import javax.inject.Inject
 
 class UsuariosRepository @Inject constructor(
-    private val appDatabase: AppDatabase
+    private val appDatabase: UsuariosDatabase
 ){
     suspend fun getUsuarioRegistrado (username: String, pass: String): String?{
         val userDao = appDatabase.usuariosDao()
