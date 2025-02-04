@@ -16,23 +16,21 @@ class InsertarUsuarioViewModel @Inject constructor(
 
 
     private var _state = MutableStateFlow<NewUserState>(NewUserState.Loading)
-  val state: MutableStateFlow<NewUserState> = _state
+    val state: MutableStateFlow<NewUserState> = _state
 
     private var _navegacionState = MutableStateFlow<NavigationState?>(null)
- val navegacionState: MutableStateFlow<NavigationState?> = _navegacionState
+    val navegacionState: MutableStateFlow<NavigationState?> = _navegacionState
 
 
-
-
-        fun insertarUsuario(usuario: String, pass: String, email: String) {
+    fun insertarUsuario(usuario: String, pass: String, email: String) {
         viewModelScope.launch {
             try {
-               val nuevoUsuario = NewUser(usuario, pass, email)
+                val nuevoUsuario = NewUser(usuario, pass, email)
                 _state.value = NewUserState.Success(nuevoUsuario.toString())
                 _navegacionState.value = NavigationState.NavigateToLogin
-            }catch (e:Exception){
+            } catch (e: Exception) {
                 Log.e("DatabaseViewModel", "Error al registrarse", e)
-                _state.value = NewUserState.Error ("Error al registrarse")
+                _state.value = NewUserState.Error("Error al registrarse")
 
             }
         }
@@ -44,10 +42,10 @@ class InsertarUsuarioViewModel @Inject constructor(
         data class Success(val username: String) : NewUserState
         data class Error(val mensajeError: String) : NewUserState
     }
+
     sealed interface NavigationState {
         data object NavigateToLogin : NavigationState
     }
-
 
 
 }

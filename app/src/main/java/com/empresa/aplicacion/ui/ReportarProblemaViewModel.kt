@@ -18,14 +18,24 @@ class ReportarProblemaViewModel @Inject constructor(
 
     fun nuevoProblema(titulo: String, descripcion: String, tipo: String) {
         viewModelScope.launch {
-            nuevoProblemaUseCase(titulo, descripcion, tipo)
+            try {
+                nuevoProblemaUseCase(titulo, descripcion, tipo)
+                _state.value = NewProblemState.Success("Reporte realizado")
+
+            }catch (
+                e: Exception
+            ){
+                _state.value = NewProblemState.Error("Error al registrarse")
+            }
+
+
         }
 
     }
 
     sealed interface NewProblemState {
         data object Loading : NewProblemState
-        data class Success(val username: String) : NewProblemState
+        data class Success(val reportado: String) : NewProblemState
         data class Error(val mensajeError: String) : NewProblemState
 
     }

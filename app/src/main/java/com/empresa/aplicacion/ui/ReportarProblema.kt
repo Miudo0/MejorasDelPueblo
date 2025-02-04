@@ -14,15 +14,16 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.empresa.aplicacion.ui.navigation.ProblemasSugerencias
 
 enum class TipoProblema(val descripcion: String) {
     INFRAESTRUCTURA("Infraestructura"),
@@ -34,12 +35,14 @@ enum class TipoProblema(val descripcion: String) {
 
 @Composable
 fun ReportarScreen(
-    viewModel: ReportarProblemaViewModel = hiltViewModel()
+    viewModel: ReportarProblemaViewModel = hiltViewModel(),
+    navigateTo: (String) -> Unit
 ) {
     var descripcion by remember { mutableStateOf("") }
-//    var gravedad by remember { mutableIntStateOf(1) }
     var titulo by remember { mutableStateOf("") }
     var tipo by remember { mutableStateOf(TipoProblema.INFRAESTRUCTURA) }
+
+    val state by viewModel.state.collectAsState()
 
     Column(
         modifier = Modifier
@@ -64,7 +67,7 @@ fun ReportarScreen(
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(50.dp)
+                .height(100.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
@@ -102,6 +105,9 @@ fun ReportarScreen(
         Button(
             onClick = {
            viewModel.nuevoProblema(titulo, descripcion,  tipo.descripcion)
+
+
+
             }
         ) {
             Text(
@@ -110,11 +116,17 @@ fun ReportarScreen(
         }
         Spacer(modifier = Modifier.height(24.dp))
     }
+    when(state){
+        is ReportarProblemaViewModel.NewProblemState.Success ->{navigateTo(ProblemasSugerencias.route)}
+        is ReportarProblemaViewModel.NewProblemState.Error ->{}
+        is ReportarProblemaViewModel.NewProblemState.Loading ->{}
+
+        }
 }
 
-
-@Preview
-@Composable
-fun ReportarScreenPreview() {
-    ReportarScreen()
-}
+//
+//@Preview
+//@Composable
+//fun ReportarScreenPreview() {
+//    ReportarScreen()
+//}

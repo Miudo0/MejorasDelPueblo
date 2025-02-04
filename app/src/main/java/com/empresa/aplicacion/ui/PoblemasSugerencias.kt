@@ -25,14 +25,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.empresa.aplicacion.R
 import com.empresa.aplicacion.ui.navigation.DestinosMejorasPueblo
 import com.empresa.aplicacion.ui.navigation.ProblemasSugerencias
+import com.empresa.aplicacion.ui.navigation.ReportarProblema
 import com.empresa.aplicacion.ui.navigation.destinosMejoras
-import com.empresa.aplicacion.ui.theme.AppTheme
 
 
 //creo la clase de cartas de la seccion Problemas
@@ -66,8 +64,9 @@ var listaCartasProblemas: List<CartaProblemas> = listOf(
 @Composable
 fun ProblemasScreen(
     onTabSelected: (DestinosMejorasPueblo) -> Unit,
-viewModel: ValidarUSuarioViewModel
-    ){
+    viewModel: ValidarUSuarioViewModel,
+    navigateTo: (String) -> Unit
+) {
 
 
     Scaffold(
@@ -84,16 +83,18 @@ viewModel: ValidarUSuarioViewModel
             )
         }
     ) { paddingValues ->
-      ProblemasApp(
+        ProblemasApp(
 
-          paddingValues = paddingValues
-      )
+            paddingValues = paddingValues,
+            navigateTo = navigateTo
+        )
     }
 }
 
 @Composable
 fun ProblemasApp(
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    navigateTo: (String) -> Unit
 ) {
     Column(
         Modifier
@@ -116,9 +117,9 @@ fun ProblemasApp(
             }
         }
         Button(
-            onClick = { /*TODO*/ },
+            onClick = { navigateTo(ReportarProblema.route) },
         ) {
-          Text(text = "Reportar")
+            Text(text = "Reportar")
         }
     }
 }
@@ -134,9 +135,9 @@ private fun CartaItem(
             .padding(10.dp),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 6.dp
-            ),
+        ),
         colors = CardDefaults.cardColors(
-         MaterialTheme.colorScheme.primary
+            MaterialTheme.colorScheme.primary
         )
     ) {
         FotoCarta(carta.imagen)
@@ -176,15 +177,15 @@ private fun TextoCarta(
 }
 
 
-@Preview
-@Composable
-fun AppPreview() {
-    AppTheme {
-        ProblemasScreen(
-           viewModel = viewModel(),
-            onTabSelected = {}
-
-        )
-    }
-
-}
+//@Preview
+//@Composable
+//fun AppPreview() {
+//    AppTheme {
+//        ProblemasScreen(
+//            viewModel = viewModel(),
+//            onTabSelected = {}
+//
+//        )
+//    }
+//
+//}

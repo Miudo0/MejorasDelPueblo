@@ -10,11 +10,12 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.empresa.aplicacion.ui.AplicacionBottomAppBar
 import com.empresa.aplicacion.ui.AplicacionTopAppBar
-import com.empresa.aplicacion.ui.ValidarUSuarioViewModel
 import com.empresa.aplicacion.ui.HomeScreen
 import com.empresa.aplicacion.ui.LoginScreen
 import com.empresa.aplicacion.ui.ProblemasScreen
 import com.empresa.aplicacion.ui.RegistroScreen
+import com.empresa.aplicacion.ui.ReportarScreen
+import com.empresa.aplicacion.ui.ValidarUSuarioViewModel
 
 
 @Composable
@@ -33,7 +34,7 @@ fun NavigationWrapper() {
         //navegacion desde el login
 
         composable(Login.route) {
-            LoginScreen( viewModel = viewModel, navigateTo = { ruta ->
+            LoginScreen(viewModel = viewModel, navigateTo = { ruta ->
                 navController.navigate(ruta)
 
             }
@@ -53,10 +54,15 @@ fun NavigationWrapper() {
 
         //navegacion desde problemas y sugerencias
         composable(route = ProblemasSugerencias.route) {
-            ProblemasScreen(viewModel = viewModel,
+            ProblemasScreen(
+                viewModel = viewModel,
                 onTabSelected = { ruta ->
                     navController.navigate(ruta.route)
                 },
+                navigateTo = { ruta ->
+                    navController.navigate(ruta)
+                }
+
 
                 )
         }
@@ -90,6 +96,16 @@ fun NavigationWrapper() {
                 viewModel = viewModel
             )
         }
+
+        composable(ReportarProblema.route) {
+            ReportarScreen(
+                navigateTo = { ruta ->
+                    Log.d("navengado", "Screen recibida: $ruta")
+                    navController.navigate(ruta)
+                }
+            )
+        }
+
 
     }
 }
