@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class ApiViewModel @Inject constructor(
+class MostrarApiViewModel @Inject constructor(
     // private val chuckNorrisApi: ChucknorrisApi,
     private val getRandomJoke: DownloadJokeUseCase
 ) : ViewModel() {

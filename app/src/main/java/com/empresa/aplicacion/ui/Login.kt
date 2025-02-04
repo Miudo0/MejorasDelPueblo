@@ -41,15 +41,15 @@ fun LoginScreen(
 
     Scaffold(
         topBar = {
-            AplicacionTopAppBar(viewModel=viewModel)
+            AplicacionTopAppBar(viewModel = viewModel)
         },
 
         ) { paddingValues ->
         LoginApp(
             navigateTo = navigateTo,
             paddingValues = paddingValues,
-viewModel = viewModel
-            )
+            viewModel = viewModel
+        )
     }
 
 }
@@ -154,13 +154,14 @@ fun LoginApp(
 //                    modifier = Modifier
 //                        .padding(top = 8.dp)
 //                )
-//
 //        }
+        //si meto el lauchedeffect no navega?
 
-        when (navigationState) {
-            is DatabaseViewModel.NavigationState.NavigateToHome -> navigateTo(Home.route)
-            else -> {}
-        }
+            when (navigationState) {
+                is DatabaseViewModel.NavigationState.NavigateToHome -> navigateTo(Home.route)
+                else -> {}
+            }
+
 
 
         Spacer(

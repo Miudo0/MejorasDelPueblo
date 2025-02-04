@@ -27,7 +27,7 @@ class DatabaseViewModel @Inject constructor(
     private val _errorMessageState = MutableStateFlow<errorState>(errorState.Success(""))
     val errorMessageState: StateFlow<errorState> = _errorMessageState
 
-    // Utiliza StateFlow para el username
+   //Para el nombre de usuario
     private var _username = MutableStateFlow("Invitado")
     val username: StateFlow<String> = _username
 
