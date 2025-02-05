@@ -14,6 +14,7 @@ import com.empresa.aplicacion.ui.Home.HomeScreen
 import com.empresa.aplicacion.ui.Login.LoginScreen
 import com.empresa.aplicacion.ui.Login.RegistroScreen
 import com.empresa.aplicacion.ui.Login.ValidarUSuarioViewModel
+import com.empresa.aplicacion.ui.Notificaciones.NotificationsScreen
 import com.empresa.aplicacion.ui.ProblemasSugerencias.Infraestructura.InfraestructuraScreen
 import com.empresa.aplicacion.ui.ProblemasSugerencias.MedioAmbiente.MedioAmbienteScreen
 import com.empresa.aplicacion.ui.ProblemasSugerencias.ProblemasScreen
@@ -36,7 +37,6 @@ fun NavigationWrapper() {
     NavHost(navController = navController, startDestination = Login.route) {
 
         //navegacion desde el login
-
         composable(Login.route) {
             LoginScreen(viewModel = viewModel, navigateTo = { ruta ->
                 navController.navigate(ruta)
@@ -44,18 +44,18 @@ fun NavigationWrapper() {
             }
             )
         }
+        //navegacion desde el homeScreen
         composable(Home.route) {
-
             HomeScreen(viewModel = viewModel, navigateTo = { ruta ->
                 Log.d("NAVIGATE_TO", "Screen recibida: $ruta")
                 when (ruta) {
                     ProblemasSugerencias.route -> navController.navigate(ProblemasSugerencias.route)
-
+                    NotificacionesScreen.route -> navController.navigate(NotificacionesScreen.route)
+//                    Proyectos.route -> navController.navigate(Proyectos.route)
+//                    Voluntariado.route -> navController.navigate(Voluntariado.route)
                 }
-
             })
         }
-
         //navegacion desde problemas y sugerencias
         composable(route = ProblemasSugerencias.route) {
             ProblemasScreen(
@@ -70,7 +70,16 @@ fun NavigationWrapper() {
 
             )
         }
-//
+        composable(route = NotificacionesScreen.route) {
+            NotificationsScreen(
+                viewModel = viewModel,
+                navigateTo = { ruta ->
+                    navController.navigate(ruta)
+                }
+            )
+        }
+
+
         //navegacion desde el registro
         composable(Registro.route) {
             RegistroScreen(
@@ -79,7 +88,7 @@ fun NavigationWrapper() {
                 }
             )
         }
-
+       //navegaicon del bottom bar
         composable(BotonesAcceso.route) {
             AplicacionBottomAppBar(
                 allScreens = destinosMejoras,
@@ -90,14 +99,15 @@ fun NavigationWrapper() {
 
                 )
         }
-
+        //appBar
         composable(Titulo.route) {
-
             AplicacionTopAppBar(
                 viewModel = viewModel
             )
         }
 
+
+        //pantallas de los problems y sugerencias
         composable(ReportarProblema.route) {
             ReportarScreen(
                 navigateTo = { ruta ->
@@ -106,8 +116,6 @@ fun NavigationWrapper() {
                 }
             )
         }
-        //pantallas de los problems y sugerencias
-
         composable(route = Infraestructura.route) {
             InfraestructuraScreen(
                 navigateTo = { ruta ->

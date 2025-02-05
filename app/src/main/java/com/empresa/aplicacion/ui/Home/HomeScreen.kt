@@ -33,7 +33,7 @@ import com.empresa.aplicacion.ui.AplicacionBottomAppBar
 import com.empresa.aplicacion.ui.AplicacionTopAppBar
 import com.empresa.aplicacion.ui.Login.ValidarUSuarioViewModel
 import com.empresa.aplicacion.ui.navigation.Home
-import com.empresa.aplicacion.ui.navigation.Notificaciones
+import com.empresa.aplicacion.ui.navigation.NotificacionesScreen
 import com.empresa.aplicacion.ui.navigation.ProblemasSugerencias
 import com.empresa.aplicacion.ui.navigation.Proyectos
 import com.empresa.aplicacion.ui.navigation.Voluntariado
@@ -121,7 +121,7 @@ private fun FilaElementosAccesibles(
                     .clickable {
                         when (item.first) {
                             R.drawable.reporteproblemas -> navigateTo(ProblemasSugerencias.route) // Enviar identificador de pantalla
-                            R.drawable.notificaciones -> navigateTo(Notificaciones.route)
+                            R.drawable.notificaciones -> navigateTo(NotificacionesScreen.route)
                             R.drawable.voluntariado -> navigateTo(Voluntariado.route)
                             R.drawable.proyectoscomunitarios -> navigateTo(Proyectos.route)
                             else -> navigateTo(Home.route) // Pantalla por defecto

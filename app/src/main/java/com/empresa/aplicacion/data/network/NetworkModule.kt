@@ -1,6 +1,7 @@
 package com.empresa.aplicacion.data.network
 
 import androidx.room.Room
+import com.empresa.aplicacion.data.room.NotificacionesDatabase.NotificacionesDatabase
 import com.empresa.aplicacion.data.room.ProblemasDatabase.ProblemasDatabase
 import com.empresa.aplicacion.data.room.UsuariosDatabase.UsuariosDatabase
 import com.empresa.aplicacion.ui.MejorasDelpueblo
@@ -19,7 +20,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-
+    //api de chuck norris
     @Singleton
     @Provides
     fun providesJson() = Json {
@@ -38,7 +39,7 @@ object NetworkModule {
     fun providesChuckNorrisService(retrofit: Retrofit): ChucknorrisApi =
         retrofit.create(ChucknorrisApi::class.java)
 
-
+    //bases de datos
     @Singleton
     @Provides
     //@applicationcontext context:context
@@ -49,15 +50,24 @@ object NetworkModule {
             "baseDatosMejoras"
         ).build()
 
-@Singleton
-@Provides
-fun providesGetDatabaseProblemas() =
-    Room.databaseBuilder(
-        MejorasDelpueblo.appContext,
-        ProblemasDatabase::class.java,
-        "baseDatosProblemas"
+    @Singleton
+    @Provides
+    fun providesGetDatabaseProblemas() =
+        Room.databaseBuilder(
+            MejorasDelpueblo.appContext,
+            ProblemasDatabase::class.java,
+            "baseDatosProblemas"
 
-    ).build()
+        ).build()
+
+    @Singleton
+    @Provides
+    fun providesGetDatabaseNotificaciones() =
+        Room.databaseBuilder(
+            MejorasDelpueblo.appContext,
+            NotificacionesDatabase::class.java,
+            "baseDatosNotificaciones"
+        ).build()
 
 
 }

@@ -23,7 +23,7 @@ object ProblemasSugerencias : DestinosMejorasPueblo {
     override val route = "problemasScreen"
 }
 
-object Notificaciones : DestinosMejorasPueblo{
+object NotificacionesScreen : DestinosMejorasPueblo{
     override val image = R.drawable.notificacionesicono
     override val route = "notificacionesScreen"
 }
@@ -73,5 +73,5 @@ object Seguridad{
 
 
 //lista de las pantallas
-var destinosMejoras = listOf(Home, ProblemasSugerencias, Notificaciones, Proyectos, Voluntariado)
+var destinosMejoras = listOf(Home, ProblemasSugerencias, NotificacionesScreen, Proyectos, Voluntariado)
 
