@@ -1,4 +1,4 @@
-package com.empresa.aplicacion.ui
+package com.empresa.aplicacion.ui.ProblemasSugerencias.Reportar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -27,7 +27,7 @@ import com.empresa.aplicacion.ui.navigation.ProblemasSugerencias
 
 enum class TipoProblema(val descripcion: String) {
     INFRAESTRUCTURA("Infraestructura"),
-    TRAFICO("Tráfico"),
+    TRAFICO("Trafico"),
     SEGURIDAD("Seguridad"),
     MEDIO_AMBIENTE("Medio Ambiente")
 }

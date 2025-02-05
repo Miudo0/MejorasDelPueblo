@@ -1,4 +1,4 @@
-package com.empresa.aplicacion.ui
+package com.empresa.aplicacion.ui.Login
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

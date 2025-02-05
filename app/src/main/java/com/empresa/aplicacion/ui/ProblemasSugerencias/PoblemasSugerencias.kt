@@ -1,4 +1,4 @@
-package com.empresa.aplicacion.ui
+package com.empresa.aplicacion.ui.ProblemasSugerencias
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -28,10 +28,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.empresa.aplicacion.R
+import com.empresa.aplicacion.ui.AplicacionBottomAppBar
+import com.empresa.aplicacion.ui.AplicacionTopAppBar
+import com.empresa.aplicacion.ui.Login.ValidarUSuarioViewModel
 import com.empresa.aplicacion.ui.navigation.DestinosMejorasPueblo
 import com.empresa.aplicacion.ui.navigation.Infraestructura
+import com.empresa.aplicacion.ui.navigation.MedioAmbiente
 import com.empresa.aplicacion.ui.navigation.ProblemasSugerencias
 import com.empresa.aplicacion.ui.navigation.ReportarProblema
+import com.empresa.aplicacion.ui.navigation.Seguridad
+import com.empresa.aplicacion.ui.navigation.Trafico
 import com.empresa.aplicacion.ui.navigation.destinosMejoras
 
 
@@ -54,17 +60,17 @@ var listaCartasProblemas: List<CartaProblemas> = listOf(
     CartaProblemas(
         R.drawable.trafico,
         R.string.trafico,
-        route =""
+        route = Trafico.route
     ),
     CartaProblemas(
         R.drawable.seguridad,
         R.string.seguridad,
-        route =""
+        route = Seguridad.route
     ),
     CartaProblemas(
         R.drawable.medioambiente,
         R.string.medio_ambiente,
-        route =""
+        route = MedioAmbiente.route
     )
 )
 
@@ -129,7 +135,7 @@ fun ProblemasApp(
         Button(
             onClick = { navigateTo(ReportarProblema.route) },
         ) {
-            Text(text = "Reportar")
+            Text(text = "Reportar un problema")
         }
     }
 }

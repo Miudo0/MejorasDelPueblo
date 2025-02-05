@@ -1,4 +1,4 @@
-package com.empresa.aplicacion.ui
+package com.empresa.aplicacion.ui.Login
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

@@ -1,4 +1,4 @@
-package com.empresa.aplicacion.ui
+package com.empresa.aplicacion.ui.Home
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

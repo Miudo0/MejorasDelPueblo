@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.empresa.aplicacion.R
+import com.empresa.aplicacion.ui.Login.ValidarUSuarioViewModel
 
 //barra superior
 @OptIn(ExperimentalMaterial3Api::class)

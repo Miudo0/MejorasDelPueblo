@@ -1,4 +1,4 @@
-package com.empresa.aplicacion.ui
+package com.empresa.aplicacion.ui.Home
 
 import android.util.Log
 import androidx.annotation.DrawableRes
@@ -29,6 +29,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.empresa.aplicacion.R
+import com.empresa.aplicacion.ui.AplicacionBottomAppBar
+import com.empresa.aplicacion.ui.AplicacionTopAppBar
+import com.empresa.aplicacion.ui.Login.ValidarUSuarioViewModel
 import com.empresa.aplicacion.ui.navigation.Home
 import com.empresa.aplicacion.ui.navigation.Notificaciones
 import com.empresa.aplicacion.ui.navigation.ProblemasSugerencias

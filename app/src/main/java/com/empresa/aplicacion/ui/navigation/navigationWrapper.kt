@@ -10,13 +10,16 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.empresa.aplicacion.ui.AplicacionBottomAppBar
 import com.empresa.aplicacion.ui.AplicacionTopAppBar
-import com.empresa.aplicacion.ui.HomeScreen
-import com.empresa.aplicacion.ui.InfraestructuraScreen
-import com.empresa.aplicacion.ui.LoginScreen
-import com.empresa.aplicacion.ui.ProblemasScreen
-import com.empresa.aplicacion.ui.RegistroScreen
-import com.empresa.aplicacion.ui.ReportarScreen
-import com.empresa.aplicacion.ui.ValidarUSuarioViewModel
+import com.empresa.aplicacion.ui.Home.HomeScreen
+import com.empresa.aplicacion.ui.Login.LoginScreen
+import com.empresa.aplicacion.ui.Login.RegistroScreen
+import com.empresa.aplicacion.ui.Login.ValidarUSuarioViewModel
+import com.empresa.aplicacion.ui.ProblemasSugerencias.Infraestructura.InfraestructuraScreen
+import com.empresa.aplicacion.ui.ProblemasSugerencias.MedioAmbiente.MedioAmbienteScreen
+import com.empresa.aplicacion.ui.ProblemasSugerencias.ProblemasScreen
+import com.empresa.aplicacion.ui.ProblemasSugerencias.Reportar.ReportarScreen
+import com.empresa.aplicacion.ui.ProblemasSugerencias.Seguridad.SeguridadScreen
+import com.empresa.aplicacion.ui.ProblemasSugerencias.Trafico.TraficoScreen
 
 
 @Composable
@@ -65,7 +68,7 @@ fun NavigationWrapper() {
                 }
 
 
-                )
+            )
         }
 //
         //navegacion desde el registro
@@ -77,7 +80,6 @@ fun NavigationWrapper() {
             )
         }
 
-
         composable(BotonesAcceso.route) {
             AplicacionBottomAppBar(
                 allScreens = destinosMejoras,
@@ -88,8 +90,6 @@ fun NavigationWrapper() {
 
                 )
         }
-
-
 
         composable(Titulo.route) {
 
@@ -106,7 +106,7 @@ fun NavigationWrapper() {
                 }
             )
         }
-       //pantallas de los problems y sugerencias
+        //pantallas de los problems y sugerencias
 
         composable(route = Infraestructura.route) {
             InfraestructuraScreen(
@@ -116,6 +116,31 @@ fun NavigationWrapper() {
                 viewModel = viewModel
             )
         }
+        composable(route = Trafico.route) {
+            TraficoScreen(
+                navigateTo = { ruta ->
+                    navController.navigate(ruta)
+                },
+                viewModel = viewModel
+            )
+        }
+        composable(route = MedioAmbiente.route) {
+            MedioAmbienteScreen(
+                navigateTo = { ruta ->
+                    navController.navigate(ruta)
+                },
+                viewModel = viewModel
+            )
+        }
+        composable(route = Seguridad.route) {
+            SeguridadScreen(
+                navigateTo = { ruta ->
+                    navController.navigate(ruta)
+                },
+                viewModel = viewModel
+            )
+        }
+
 
     }
 }

@@ -1,4 +1,4 @@
-package com.empresa.aplicacion.ui
+package com.empresa.aplicacion.ui.ProblemasSugerencias.Reportar
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

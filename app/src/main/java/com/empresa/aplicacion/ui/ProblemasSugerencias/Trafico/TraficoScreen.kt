@@ -1,4 +1,4 @@
-package com.empresa.aplicacion.ui
+package com.empresa.aplicacion.ui.ProblemasSugerencias.Trafico
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,16 +20,18 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.empresa.aplicacion.data.room.ProblemasDatabase.Problemas
+import com.empresa.aplicacion.ui.AplicacionBottomAppBar
+import com.empresa.aplicacion.ui.AplicacionTopAppBar
+import com.empresa.aplicacion.ui.Login.ValidarUSuarioViewModel
+import com.empresa.aplicacion.ui.ProblemasSugerencias.Infraestructura.ProblemasLista
 import com.empresa.aplicacion.ui.navigation.ProblemasSugerencias
 import com.empresa.aplicacion.ui.navigation.destinosMejoras
-import com.empresa.aplicacion.ui.theme.AppTheme
 
 @Composable
-fun InfraestructuraScreen(
+fun TraficoScreen(
     navigateTo: (String) -> Unit,
     viewModel: ValidarUSuarioViewModel,
 
@@ -59,28 +61,30 @@ fun InfraestructuraScreen(
 
 @Composable
 private fun AppContent(paddingValues: PaddingValues) {
-    val viewModel: InfraestructuraViewModel = hiltViewModel()
+val viewModel: MostrarProblemasTraficoViewModel = hiltViewModel()
     val state = viewModel.state.collectAsState()
 
     when (val current = state.value) {
-        is InfraestructuraState.Success -> {
+        is TraficoState.Success -> {
             val problemas = current.problemas
-            ProblemasLista(problemas)
+            ProblemasLista(problemas, paddingValues)
         }
 
-        is InfraestructuraState.Error -> {
+        is TraficoState.Error -> {
             Text(text = current.error)
         }
-        is InfraestructuraState.Loading -> LinearProgressIndicator()
+        is TraficoState.Loading-> LinearProgressIndicator()
     }
 
 
 }
 
 @Composable
-fun ProblemasLista(problemas: List<Problemas>) {
+fun ProblemasLista(problemas: List<Problemas>,paddingValues: PaddingValues) {
     LazyColumn(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(paddingValues),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(problemas) { problema ->
@@ -93,13 +97,16 @@ fun ProblemasLista(problemas: List<Problemas>) {
 @Composable
 private fun CartaItem(problema: Problemas) {
     Card(
-        modifier = Modifier.padding(10.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
         colors = CardDefaults.cardColors(MaterialTheme.colorScheme.primary)
     ) {
         Column(
             modifier = Modifier.padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
             problema.titulo?.let {
                 Text(
@@ -119,17 +126,3 @@ private fun CartaItem(problema: Problemas) {
         }
     }
 }
-
-
-    @Composable
-    @Preview
-    fun InfraestructuraPreview() {
-        AppTheme {
-            InfraestructuraScreen(
-                navigateTo = {},
-                viewModel = hiltViewModel(),
-
-            )
-
-        }
-    }

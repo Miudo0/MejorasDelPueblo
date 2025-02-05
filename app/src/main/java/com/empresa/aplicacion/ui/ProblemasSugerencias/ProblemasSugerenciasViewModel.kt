@@ -1,4 +1,4 @@
-package com.empresa.aplicacion.ui
+package com.empresa.aplicacion.ui.ProblemasSugerencias
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -25,7 +25,7 @@ class ProblemasSugerenciasViewModel  @Inject constructor(
 }
 
 sealed interface GetProblemasState {
-    data object Loading :GetProblemasState
+    data object Loading : GetProblemasState
     data class Success(val username: String) : GetProblemasState
     data class Error(val mensajeError: String) : GetProblemasState
 }
