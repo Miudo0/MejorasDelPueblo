@@ -3,6 +3,7 @@ package com.empresa.aplicacion.ui
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -28,6 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.empresa.aplicacion.R
 import com.empresa.aplicacion.ui.navigation.DestinosMejorasPueblo
+import com.empresa.aplicacion.ui.navigation.Infraestructura
 import com.empresa.aplicacion.ui.navigation.ProblemasSugerencias
 import com.empresa.aplicacion.ui.navigation.ReportarProblema
 import com.empresa.aplicacion.ui.navigation.destinosMejoras
@@ -36,7 +38,8 @@ import com.empresa.aplicacion.ui.navigation.destinosMejoras
 //creo la clase de cartas de la seccion Problemas
 data class CartaProblemas(
     @DrawableRes val imagen: Int,
-    @StringRes val titulo: Int
+    @StringRes val titulo: Int,
+    val route : String
 
 )
 
@@ -45,19 +48,23 @@ var listaCartasProblemas: List<CartaProblemas> = listOf(
 
     CartaProblemas(
         R.drawable.infraestuctura,
-        R.string.infraestructura
+        R.string.infraestructura,
+        route = Infraestructura.route
     ),
     CartaProblemas(
         R.drawable.trafico,
-        R.string.trafico
+        R.string.trafico,
+        route =""
     ),
     CartaProblemas(
         R.drawable.seguridad,
-        R.string.seguridad
+        R.string.seguridad,
+        route =""
     ),
     CartaProblemas(
         R.drawable.medioambiente,
-        R.string.medio_ambiente
+        R.string.medio_ambiente,
+        route =""
     )
 )
 
@@ -113,7 +120,10 @@ fun ProblemasApp(
             modifier = Modifier.padding(paddingValues)
         ) {
             items(listaCartasProblemas) { carta ->
-                CartaItem(carta = carta)
+                CartaItem(
+                    carta = carta,
+                    navigateTo = navigateTo
+                )
             }
         }
         Button(
@@ -129,10 +139,14 @@ fun ProblemasApp(
 @Composable
 private fun CartaItem(
     carta: CartaProblemas,
+    navigateTo: (String) -> Unit
 ) {
     Card(
         modifier = Modifier
-            .padding(10.dp),
+            .padding(10.dp)
+            .clickable {
+                navigateTo(carta.route)
+            },
         elevation = CardDefaults.cardElevation(
             defaultElevation = 6.dp
         ),

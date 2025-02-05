@@ -56,5 +56,10 @@ object ReportarProblema {
     val route: String = "reportarProblemaScreen"
 }
 
+object Infraestructura {
+    val route: String = "infraestructuraScreen"
+}
+
 //lista de las pantallas
 var destinosMejoras = listOf(Home, ProblemasSugerencias, Notificaciones, Proyectos, Voluntariado)
+

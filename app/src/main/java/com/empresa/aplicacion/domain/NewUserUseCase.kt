@@ -11,6 +11,7 @@ class NewUserUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(username: String, pass: String, email: String){
         return withContext(IO) {
+
             repository.newUser(username, pass, email)
         }
     }

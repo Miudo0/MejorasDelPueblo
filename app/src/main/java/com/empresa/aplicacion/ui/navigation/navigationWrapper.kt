@@ -11,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import com.empresa.aplicacion.ui.AplicacionBottomAppBar
 import com.empresa.aplicacion.ui.AplicacionTopAppBar
 import com.empresa.aplicacion.ui.HomeScreen
+import com.empresa.aplicacion.ui.InfraestructuraScreen
 import com.empresa.aplicacion.ui.LoginScreen
 import com.empresa.aplicacion.ui.ProblemasScreen
 import com.empresa.aplicacion.ui.RegistroScreen
@@ -105,7 +106,16 @@ fun NavigationWrapper() {
                 }
             )
         }
+       //pantallas de los problems y sugerencias
 
+        composable(route = Infraestructura.route) {
+            InfraestructuraScreen(
+                navigateTo = { ruta ->
+                    navController.navigate(ruta)
+                },
+                viewModel = viewModel
+            )
+        }
 
     }
 }
