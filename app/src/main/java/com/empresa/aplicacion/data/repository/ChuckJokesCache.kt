@@ -1,5 +1,6 @@
 package com.empresa.aplicacion.data.repository
 
+import android.util.Log
 import com.empresa.aplicacion.data.room.ChuckJokesDatabase.ChuckJokeDao
 import com.empresa.aplicacion.data.room.ChuckJokesDatabase.toDomain
 import com.empresa.aplicacion.data.room.ChuckJokesDatabase.toEntity
@@ -20,6 +21,7 @@ class ChuckJokesCache @Inject constructor(
     }
     suspend fun saveJoke(joke: ChuckJoke) {
         dao.insert(joke.toEntity())
+        Log.d("cache", "joke saved")
 
 
     }

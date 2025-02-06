@@ -27,9 +27,13 @@ class MostrarApiViewModel @Inject constructor(
         viewModelScope.launch {
             _state.value = ApiState.Loading
             try {
-
+//
                 _state.value = getRandomJoke().let { ApiState.Success(it) }
-                saveJoke(getRandomJoke())
+//                saveJoke(joke )
+//                val joke = getRandomJoke()  // 🔥 Guardamos el chiste en una variable
+//                _state.value = ApiState.Success(joke)  // 🔥 Usamos la variable aquí
+//                saveJoke(joke)  // 🔥 Usamos la misma variable para guardar el chiste
+
 
             } catch (e: Throwable) {
                 Log.e("API", "Error al obtener el chiste", e)
