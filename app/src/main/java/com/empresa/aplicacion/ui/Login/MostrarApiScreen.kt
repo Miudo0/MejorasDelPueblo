@@ -39,7 +39,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 
             when (val current = jokeString) {
                 is ApiState.Loading -> LinearProgressIndicator()
-                is ApiState.Success -> Text(text = current.joke)
+                is ApiState.Success -> Text(text = current.joke.value)
                 is ApiState.Error -> Text(text = "No se puede cargar el chiste")
             }
         }

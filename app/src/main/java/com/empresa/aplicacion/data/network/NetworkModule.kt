@@ -1,6 +1,9 @@
 package com.empresa.aplicacion.data.network
 
+import android.content.Context
 import androidx.room.Room
+import com.empresa.aplicacion.data.room.ChuckJokesDatabase.ChuckJokeDao
+import com.empresa.aplicacion.data.room.ChuckJokesDatabase.ChuckJokesDatabase
 import com.empresa.aplicacion.data.room.NotificacionesDatabase.NotificacionesDatabase
 import com.empresa.aplicacion.data.room.ProblemasDatabase.ProblemasDatabase
 import com.empresa.aplicacion.data.room.UsuariosDatabase.UsuariosDatabase
@@ -9,6 +12,7 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType
@@ -69,5 +73,16 @@ object NetworkModule {
             "baseDatosNotificaciones"
         ).build()
 
+    @Singleton
+    @Provides
+    fun providesGetDatabaseChuckJokes(@ApplicationContext context: Context): ChuckJokesDatabase =
+        Room.databaseBuilder(
+            context,
+            ChuckJokesDatabase::class.java,
+            "baseDatosChuckJokes"
+        ).build()
 
+@Singleton
+@Provides
+fun providesChuckJokeDao(db : ChuckJokesDatabase) : ChuckJokeDao = db.ChuckJokeDao()
 }
