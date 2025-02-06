@@ -128,9 +128,7 @@ private fun FilaElementosAccesibles(
                         }
                         Log.d("CLICKABLE", "item.first: ${item.first}")
                     }
-
             )
-
         }
     }
 }

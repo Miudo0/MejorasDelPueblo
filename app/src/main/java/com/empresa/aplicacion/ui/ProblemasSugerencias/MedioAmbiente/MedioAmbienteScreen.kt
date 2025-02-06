@@ -63,6 +63,8 @@ private fun AppContent(paddingValues: PaddingValues) {
     val viewModel: MostrarProblemasMedioAmbienteViewModel = hiltViewModel()
     val state = viewModel.state.collectAsState()
 
+
+    //cambia a by
     when (val current = state.value) {
         is MedioAmbienteState.Success -> {
             val problemas = current.problemas
