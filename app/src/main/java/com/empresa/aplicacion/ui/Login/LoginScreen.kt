@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.empresa.aplicacion.R
 import com.empresa.aplicacion.ui.AplicacionTopAppBar
 import com.empresa.aplicacion.ui.navigation.Home
@@ -35,21 +36,24 @@ import com.empresa.aplicacion.ui.navigation.Registro
 @Composable
 fun LoginScreen(
     navigateTo: (String) -> Unit,
-    viewModel: ValidarUSuarioViewModel
+
 
 ) {
 
 
     Scaffold(
         topBar = {
-            AplicacionTopAppBar(viewModel = viewModel)
+            AplicacionTopAppBar(
+                navigateTo = navigateTo
+
+            )
         },
 
         ) { paddingValues ->
         LoginApp(
             navigateTo = navigateTo,
             paddingValues = paddingValues,
-            viewModel = viewModel
+
         )
     }
 
@@ -60,7 +64,7 @@ fun LoginScreen(
 fun LoginApp(
     navigateTo: (String) -> Unit,
     paddingValues: PaddingValues,
-    viewModel: ValidarUSuarioViewModel
+    viewModel : ValidarUSuarioViewModel = hiltViewModel()
 ) {
 
     var usuario by rememberSaveable { mutableStateOf("") }
@@ -158,10 +162,10 @@ fun LoginApp(
 //        }
         //si meto el lauchedeffect no navega?
 
-            when (navigationState) {
-                is ValidarUSuarioViewModel.NavigationState.NavigateToHome -> navigateTo(Home.route)
-                else -> {}
-            }
+        when (navigationState) {
+            is ValidarUSuarioViewModel.NavigationState.NavigateToHome -> navigateTo(Home.route)
+            else -> {}
+        }
 
 
 

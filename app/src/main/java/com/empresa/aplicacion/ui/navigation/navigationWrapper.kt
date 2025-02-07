@@ -3,7 +3,6 @@ package com.empresa.aplicacion.ui.navigation
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -13,7 +12,6 @@ import com.empresa.aplicacion.ui.AplicacionTopAppBar
 import com.empresa.aplicacion.ui.Home.HomeScreen
 import com.empresa.aplicacion.ui.Login.LoginScreen
 import com.empresa.aplicacion.ui.Login.RegistroScreen
-import com.empresa.aplicacion.ui.Login.ValidarUSuarioViewModel
 import com.empresa.aplicacion.ui.Notificaciones.NotificationsScreen
 import com.empresa.aplicacion.ui.ProblemasSugerencias.Infraestructura.InfraestructuraScreen
 import com.empresa.aplicacion.ui.ProblemasSugerencias.MedioAmbiente.MedioAmbienteScreen
@@ -26,7 +24,7 @@ import com.empresa.aplicacion.ui.ProblemasSugerencias.Trafico.TraficoScreen
 @Composable
 fun NavigationWrapper() {
 
-    val viewModel: ValidarUSuarioViewModel = hiltViewModel()
+  //  val viewModel: ValidarUSuarioViewModel = hiltViewModel()
 
     val navController = rememberNavController()
     val currentBackStack by navController.currentBackStackEntryAsState()
@@ -38,7 +36,7 @@ fun NavigationWrapper() {
 
         //navegacion desde el login
         composable(Login.route) {
-            LoginScreen(viewModel = viewModel, navigateTo = { ruta ->
+            LoginScreen( navigateTo = { ruta ->
                 navController.navigate(ruta)
 
             }
@@ -46,7 +44,7 @@ fun NavigationWrapper() {
         }
         //navegacion desde el homeScreen
         composable(Home.route) {
-            HomeScreen(viewModel = viewModel, navigateTo = { ruta ->
+            HomeScreen(navigateTo = { ruta ->
                 Log.d("NAVIGATE_TO", "Screen recibida: $ruta")
                 when (ruta) {
                     ProblemasSugerencias.route -> navController.navigate(ProblemasSugerencias.route)
@@ -59,7 +57,6 @@ fun NavigationWrapper() {
         //navegacion desde problemas y sugerencias
         composable(route = ProblemasSugerencias.route) {
             ProblemasScreen(
-                viewModel = viewModel,
                 onTabSelected = { ruta ->
                     navController.navigate(ruta.route)
                 },
@@ -67,12 +64,11 @@ fun NavigationWrapper() {
                     navController.navigate(ruta)
                 }
 
-
             )
         }
         composable(route = NotificacionesScreen.route) {
             NotificationsScreen(
-                viewModel = viewModel,
+
                 navigateTo = { ruta ->
                     navController.navigate(ruta)
                 }
@@ -88,7 +84,7 @@ fun NavigationWrapper() {
                 }
             )
         }
-       //navegaicon del bottom bar
+        //navegaicon del bottom bar
         composable(BotonesAcceso.route) {
             AplicacionBottomAppBar(
                 allScreens = destinosMejoras,
@@ -102,7 +98,9 @@ fun NavigationWrapper() {
         //appBar
         composable(Titulo.route) {
             AplicacionTopAppBar(
-                viewModel = viewModel
+          navigateTo = { ruta ->
+                    navController.navigate(ruta)
+                },
             )
         }
 
@@ -121,7 +119,7 @@ fun NavigationWrapper() {
                 navigateTo = { ruta ->
                     navController.navigate(ruta)
                 },
-                viewModel = viewModel
+
             )
         }
         composable(route = Trafico.route) {
@@ -129,7 +127,7 @@ fun NavigationWrapper() {
                 navigateTo = { ruta ->
                     navController.navigate(ruta)
                 },
-                viewModel = viewModel
+
             )
         }
         composable(route = MedioAmbiente.route) {
@@ -137,7 +135,7 @@ fun NavigationWrapper() {
                 navigateTo = { ruta ->
                     navController.navigate(ruta)
                 },
-                viewModel = viewModel
+
             )
         }
         composable(route = Seguridad.route) {
@@ -145,7 +143,7 @@ fun NavigationWrapper() {
                 navigateTo = { ruta ->
                     navController.navigate(ruta)
                 },
-                viewModel = viewModel
+
             )
         }
 

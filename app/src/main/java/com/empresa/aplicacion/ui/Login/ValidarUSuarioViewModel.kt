@@ -80,6 +80,7 @@ class ValidarUSuarioViewModel @Inject constructor(
 
 
     sealed interface NavigationState {
+
         data class NavigateToHome(val username: String) : NavigationState
     }
 

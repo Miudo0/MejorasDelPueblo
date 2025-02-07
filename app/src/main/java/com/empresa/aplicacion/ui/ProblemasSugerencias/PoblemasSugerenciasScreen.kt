@@ -30,7 +30,6 @@ import androidx.compose.ui.unit.dp
 import com.empresa.aplicacion.R
 import com.empresa.aplicacion.ui.AplicacionBottomAppBar
 import com.empresa.aplicacion.ui.AplicacionTopAppBar
-import com.empresa.aplicacion.ui.Login.ValidarUSuarioViewModel
 import com.empresa.aplicacion.ui.navigation.DestinosMejorasPueblo
 import com.empresa.aplicacion.ui.navigation.Infraestructura
 import com.empresa.aplicacion.ui.navigation.MedioAmbiente
@@ -77,14 +76,14 @@ var listaCartasProblemas: List<CartaProblemas> = listOf(
 @Composable
 fun ProblemasScreen(
     onTabSelected: (DestinosMejorasPueblo) -> Unit,
-    viewModel: ValidarUSuarioViewModel,
+
     navigateTo: (String) -> Unit
 ) {
 
 
     Scaffold(
         topBar = {
-            AplicacionTopAppBar(viewModel = viewModel)
+            AplicacionTopAppBar(navigateTo)
         },
         bottomBar = {
             AplicacionBottomAppBar(

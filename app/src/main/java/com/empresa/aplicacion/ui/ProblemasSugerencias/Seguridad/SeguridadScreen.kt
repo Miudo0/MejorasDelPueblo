@@ -25,19 +25,18 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.empresa.aplicacion.data.room.ProblemasDatabase.Problemas
 import com.empresa.aplicacion.ui.AplicacionBottomAppBar
 import com.empresa.aplicacion.ui.AplicacionTopAppBar
-import com.empresa.aplicacion.ui.Login.ValidarUSuarioViewModel
 import com.empresa.aplicacion.ui.navigation.ProblemasSugerencias
 import com.empresa.aplicacion.ui.navigation.destinosMejoras
 
 @Composable
 fun SeguridadScreen(
     navigateTo: (String) -> Unit,
-    viewModel: ValidarUSuarioViewModel,
+
 
     ) {
     Scaffold(
         topBar = {
-            AplicacionTopAppBar(viewModel = viewModel)
+            AplicacionTopAppBar(navigateTo)
         },
         bottomBar = {
             AplicacionBottomAppBar(

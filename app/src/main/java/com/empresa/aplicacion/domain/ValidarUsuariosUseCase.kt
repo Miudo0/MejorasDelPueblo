@@ -29,5 +29,10 @@ class ValidarUsuariosUseCase @Inject constructor(
             .putString("logeado", username)
             .apply()
     }
+    fun logout() {
+        sharedPreferences.edit()
+            .remove("logeado")
+            .apply()
+    }
 
 }

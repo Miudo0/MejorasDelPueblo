@@ -31,7 +31,6 @@ import androidx.compose.ui.unit.dp
 import com.empresa.aplicacion.R
 import com.empresa.aplicacion.ui.AplicacionBottomAppBar
 import com.empresa.aplicacion.ui.AplicacionTopAppBar
-import com.empresa.aplicacion.ui.Login.ValidarUSuarioViewModel
 import com.empresa.aplicacion.ui.navigation.Home
 import com.empresa.aplicacion.ui.navigation.NotificacionesScreen
 import com.empresa.aplicacion.ui.navigation.ProblemasSugerencias
@@ -44,16 +43,17 @@ import com.empresa.aplicacion.ui.navigation.destinosMejoras
 
 @Composable
 fun HomeScreen(
-
     navigateTo: (String) -> Unit,
-    viewModel: ValidarUSuarioViewModel
-
 ) {
 
 
     Scaffold(
         topBar = {
-            AplicacionTopAppBar(viewModel=viewModel)
+            AplicacionTopAppBar(
+
+navigateTo
+
+                )
         },
         bottomBar = {
             AplicacionBottomAppBar(
