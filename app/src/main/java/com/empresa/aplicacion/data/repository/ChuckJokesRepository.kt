@@ -15,7 +15,7 @@ class ChuckJokesRepository @Inject constructor(
             try {
                 val response = api
                     .getRandomJoke()
-            val joke =    ChuckJoke(response.createdAt, response.value)
+            val joke = ChuckJoke(response.createdAt, response.value)
                 cache.saveJoke(joke)
                 joke
             } catch (e: Exception) {

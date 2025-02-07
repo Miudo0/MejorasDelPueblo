@@ -1,6 +1,7 @@
 package com.empresa.aplicacion.data.network
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.room.Room
 import com.empresa.aplicacion.data.room.ChuckJokesDatabase.ChuckJokeDao
 import com.empresa.aplicacion.data.room.ChuckJokesDatabase.ChuckJokesDatabase
@@ -43,6 +44,15 @@ object NetworkModule {
     fun providesChuckNorrisService(retrofit: Retrofit): ChucknorrisApi =
         retrofit.create(ChucknorrisApi::class.java)
 
+
+    //SharedPreferences
+    @Provides
+    @Singleton
+    fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
+        return context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+    }
+
+
     //bases de datos
     @Singleton
     @Provides
@@ -82,7 +92,7 @@ object NetworkModule {
             "baseDatosChuckJokes"
         ).build()
 
-@Singleton
-@Provides
-fun providesChuckJokeDao(db : ChuckJokesDatabase) : ChuckJokeDao = db.ChuckJokeDao()
+    @Singleton
+    @Provides
+    fun providesChuckJokeDao(db: ChuckJokesDatabase): ChuckJokeDao = db.ChuckJokeDao()
 }

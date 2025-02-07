@@ -32,6 +32,17 @@ class ValidarUSuarioViewModel @Inject constructor(
     val username: StateFlow<String> = _username
 
 
+    init {
+        // Cargar el usuario de SharedPreferences al iniciar la app
+        viewModelScope.launch {
+            val savedUser = getUsuarioRegistrado.getUserFromSharedPreferences()
+            savedUser?.let {
+                _username.value = it
+                _navegacionState.value = NavigationState.NavigateToHome(it)
+            }
+        }
+    }
+
 
     fun getUsuario(usuario: String, pass: String) {
         viewModelScope.launch {
@@ -43,6 +54,7 @@ class ValidarUSuarioViewModel @Inject constructor(
                 Log.d("DatabaseViewModel", "Username actualizado: $usuarioDb")
                 _state.value = databaseState.Success(usuarioDb)
                 _navegacionState.value = NavigationState.NavigateToHome(usuarioDb)
+
 
             } else {
                 _state.value = databaseState.Error

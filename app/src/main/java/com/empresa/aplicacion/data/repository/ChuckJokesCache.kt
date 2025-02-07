@@ -1,5 +1,6 @@
 package com.empresa.aplicacion.data.repository
 
+import android.content.SharedPreferences
 import android.util.Log
 import com.empresa.aplicacion.data.room.ChuckJokesDatabase.ChuckJokeDao
 import com.empresa.aplicacion.data.room.ChuckJokesDatabase.toDomain
@@ -8,7 +9,7 @@ import com.empresa.aplicacion.domain.ChuckJoke
 import javax.inject.Inject
 
 class ChuckJokesCache @Inject constructor(
-//    private val sharedPreferences: SharedPreferences,
+    private val sharedPreferences: SharedPreferences,
     private val dao: ChuckJokeDao
 ) {
     suspend fun getRandomJoke(): ChuckJoke {
@@ -17,7 +18,13 @@ class ChuckJokesCache @Inject constructor(
 //        } else {
 //            null
 //        }
-        return dao.getAll().random().toDomain()
+
+        val jokes = dao.getAll()
+        return if (jokes.isNotEmpty()) {
+            jokes.random().toDomain()
+        } else {
+            ChuckJoke("Error", "No hay chistes disponibles")
+        }
     }
     suspend fun saveJoke(joke: ChuckJoke) {
         dao.insert(joke.toEntity())
