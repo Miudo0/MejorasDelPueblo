@@ -44,16 +44,14 @@ import com.empresa.aplicacion.ui.navigation.destinosMejoras
 @Composable
 fun HomeScreen(
     navigateTo: (String) -> Unit,
+    navigateToLogin: (String) -> Unit,
+
 ) {
 
 
     Scaffold(
         topBar = {
-            AplicacionTopAppBar(
-
-navigateTo
-
-                )
+            AplicacionTopAppBar(navigateToLogin, navigateToHome = navigateTo)
         },
         bottomBar = {
             AplicacionBottomAppBar(
@@ -124,7 +122,7 @@ private fun FilaElementosAccesibles(
                             R.drawable.notificaciones -> navigateTo(NotificacionesScreen.route)
                             R.drawable.voluntariado -> navigateTo(Voluntariado.route)
                             R.drawable.proyectoscomunitarios -> navigateTo(Proyectos.route)
-                            else -> navigateTo(Home.route) // Pantalla por defecto
+                         //   else -> navigateTo(Login.route) // Pantalla por defecto
                         }
                         Log.d("CLICKABLE", "item.first: ${item.first}")
                     }
@@ -162,37 +160,3 @@ private fun ElementosAccesibles(
         )
     }
 }
-
-
-//barra inferior
-
-
-//vista previa
-//@Preview(
-//    showBackground = true,
-//    uiMode = Configuration.UI_MODE_NIGHT_YES
-//)
-//@Composable
-//fun Previsualizacion() {
-//    AppTheme {
-//        HomeScreen() {
-//
-//        }
-//
-//    }
-//}
-//
-////vista previa
-//@Preview(
-//    showBackground = true,
-//    uiMode = Configuration.UI_MODE_NIGHT_NO
-//)
-//@Composable
-//fun DarkPrevisualizacion() {
-//    AppTheme {
-//        HomeScreen() {
-//
-//        }
-//
-//    }
-//}

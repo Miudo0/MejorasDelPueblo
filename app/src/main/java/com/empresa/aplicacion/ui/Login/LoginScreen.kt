@@ -17,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,15 +37,11 @@ import com.empresa.aplicacion.ui.navigation.Registro
 @Composable
 fun LoginScreen(
     navigateTo: (String) -> Unit,
-
-
 ) {
-
-
     Scaffold(
         topBar = {
             AplicacionTopAppBar(
-                navigateTo = navigateTo
+                navigateToLogin =navigateTo , navigateToHome = navigateTo
 
             )
         },
@@ -64,7 +61,7 @@ fun LoginScreen(
 fun LoginApp(
     navigateTo: (String) -> Unit,
     paddingValues: PaddingValues,
-    viewModel : ValidarUSuarioViewModel = hiltViewModel()
+   viewModel : ValidarUSuarioViewModel = hiltViewModel()
 ) {
 
     var usuario by rememberSaveable { mutableStateOf("") }
@@ -72,8 +69,19 @@ fun LoginApp(
     val errorMessage by rememberSaveable { mutableStateOf("") }
 
     val nombre by viewModel.state.collectAsState()
-    val navigationState by viewModel.navegacionState.collectAsState()
+//    val navigationState by viewModel.navegacionState.collectAsState()
     val errorState by viewModel.errorMessageState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.navegacionState.collect { state ->
+            when (state) {
+                is ValidarUSuarioViewModel.NavigationState.NavigateToHome -> {
+                    navigateTo(Home.route)
+                }
+            }
+        }
+    }
+
 
     val datosLogin = listOf(
         CajasDatos(
@@ -162,10 +170,11 @@ fun LoginApp(
 //        }
         //si meto el lauchedeffect no navega?
 
-        when (navigationState) {
-            is ValidarUSuarioViewModel.NavigationState.NavigateToHome -> navigateTo(Home.route)
-            else -> {}
-        }
+//        when (navigationState) {
+//            is ValidarUSuarioViewModel.NavigationState.NavigateToHome -> navigateTo(Home.route)
+//            else -> {}
+//        }
+
 
 
 

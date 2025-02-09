@@ -24,8 +24,6 @@ import com.empresa.aplicacion.ui.ProblemasSugerencias.Trafico.TraficoScreen
 @Composable
 fun NavigationWrapper() {
 
-  //  val viewModel: ValidarUSuarioViewModel = hiltViewModel()
-
     val navController = rememberNavController()
     val currentBackStack by navController.currentBackStackEntryAsState()
     val currentDestination = currentBackStack?.destination
@@ -37,7 +35,9 @@ fun NavigationWrapper() {
         //navegacion desde el login
         composable(Login.route) {
             LoginScreen( navigateTo = { ruta ->
-                navController.navigate(ruta)
+                navController.navigate(ruta){
+                    popUpTo(Login.route) { inclusive = true }
+                }
 
             }
             )
@@ -52,7 +52,12 @@ fun NavigationWrapper() {
 //                    Proyectos.route -> navController.navigate(Proyectos.route)
 //                    Voluntariado.route -> navController.navigate(Voluntariado.route)
                 }
-            })
+            },
+                navigateToLogin = { ruta ->
+                    navController.navigate(ruta)
+                }
+
+            )
         }
         //navegacion desde problemas y sugerencias
         composable(route = ProblemasSugerencias.route) {
@@ -68,7 +73,6 @@ fun NavigationWrapper() {
         }
         composable(route = NotificacionesScreen.route) {
             NotificationsScreen(
-
                 navigateTo = { ruta ->
                     navController.navigate(ruta)
                 }
@@ -98,9 +102,18 @@ fun NavigationWrapper() {
         //appBar
         composable(Titulo.route) {
             AplicacionTopAppBar(
-          navigateTo = { ruta ->
-                    navController.navigate(ruta)
+          navigateToLogin = { ruta ->
+              Log.d("NAVIGATION", "Intentando navegar a: $ruta desde Titulo")
+                    navController.navigate(ruta) {
+                        popUpTo(0) { inclusive = true }
+                        Log.d("NAV_CONTROLLER_BACKSTACK", navController.currentBackStackEntry?.destination?.route ?: "null")
+                    }
                 },
+                navigateToHome = { ruta ->
+                    navController.navigate(ruta) {
+                        popUpTo(0) { inclusive = true }
+                    }
+                }
             )
         }
 
@@ -109,7 +122,7 @@ fun NavigationWrapper() {
         composable(ReportarProblema.route) {
             ReportarScreen(
                 navigateTo = { ruta ->
-                    Log.d("navengado", "Screen recibida: $ruta")
+                    Log.d("navegado", "Screen recibida: $ruta")
                     navController.navigate(ruta)
                 }
             )

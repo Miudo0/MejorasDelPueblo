@@ -3,10 +3,14 @@ package com.empresa.aplicacion.ui.Login
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.empresa.aplicacion.domain.GetUserSharedPreferencesUseCase
 import com.empresa.aplicacion.domain.ValidarUsuariosUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,14 +19,15 @@ import javax.inject.Inject
 class ValidarUSuarioViewModel @Inject constructor(
     // private val appDatabase: AppDatabase,
     private val getUsuarioRegistrado: ValidarUsuariosUseCase,
+    private val getUsuarioSharedPreferences: GetUserSharedPreferencesUseCase
 
 
     ) : ViewModel() {
     private var _state = MutableStateFlow<databaseState>(databaseState.Loading)
     val state: MutableStateFlow<databaseState> = _state
 
-    private var _navegacionState = MutableStateFlow<NavigationState?>(null)
-    val navegacionState: MutableStateFlow<NavigationState?> = _navegacionState
+    private var _navegacionState = MutableSharedFlow<NavigationState>()
+    val navegacionState:SharedFlow<NavigationState> = _navegacionState.asSharedFlow()
 
     private val _errorMessageState = MutableStateFlow<errorState>(errorState.Success(""))
     val errorMessageState: StateFlow<errorState> = _errorMessageState
@@ -35,10 +40,10 @@ class ValidarUSuarioViewModel @Inject constructor(
     init {
         // Cargar el usuario de SharedPreferences al iniciar la app
         viewModelScope.launch {
-            val savedUser = getUsuarioRegistrado.getUserFromSharedPreferences()
+            val savedUser = getUsuarioSharedPreferences.getUserFromSharedPreferences()
             savedUser?.let {
                 _username.value = it
-                _navegacionState.value = NavigationState.NavigateToHome(it)
+                _navegacionState.emit( NavigationState.NavigateToHome(it))
             }
         }
     }
@@ -53,7 +58,7 @@ class ValidarUSuarioViewModel @Inject constructor(
                 _username.value = usuarioDb
                 Log.d("DatabaseViewModel", "Username actualizado: $usuarioDb")
                 _state.value = databaseState.Success(usuarioDb)
-                _navegacionState.value = NavigationState.NavigateToHome(usuarioDb)
+                _navegacionState.emit( NavigationState.NavigateToHome(usuarioDb))
 
 
             } else {
@@ -80,7 +85,6 @@ class ValidarUSuarioViewModel @Inject constructor(
 
 
     sealed interface NavigationState {
-
         data class NavigateToHome(val username: String) : NavigationState
     }
 

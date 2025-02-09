@@ -10,12 +10,12 @@ class ChuckJokesRepository @Inject constructor(
     private val api: ChucknorrisApi,
     private val cache: ChuckJokesCache
 ) {
-    suspend fun getJoke(): ChuckJoke{
+    suspend fun getJoke(): ChuckJoke {
         return withContext(IO) {
             try {
-                val response = api
-                    .getRandomJoke()
-            val joke = ChuckJoke(response.createdAt, response.value)
+                val response = api.getRandomJoke()
+                val joke = ChuckJoke(response.createdAt, response.value)
+
                 cache.saveJoke(joke)
                 joke
             } catch (e: Exception) {
@@ -24,6 +24,7 @@ class ChuckJokesRepository @Inject constructor(
 
         }
     }
+
     suspend fun saveJoke(joke: ChuckJoke) {
         cache.saveJoke(joke)
     }

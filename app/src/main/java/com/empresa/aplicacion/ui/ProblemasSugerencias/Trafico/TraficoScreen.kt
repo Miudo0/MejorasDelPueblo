@@ -37,7 +37,7 @@ fun TraficoScreen(
     ) {
     Scaffold(
         topBar = {
-            AplicacionTopAppBar(navigateTo)
+            AplicacionTopAppBar(navigateToLogin = navigateTo, navigateToHome = navigateTo)
         },
         bottomBar = {
             AplicacionBottomAppBar(

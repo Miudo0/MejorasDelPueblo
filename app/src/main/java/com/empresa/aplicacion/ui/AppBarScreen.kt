@@ -1,5 +1,6 @@
 package com.empresa.aplicacion.ui
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,19 +27,38 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.empresa.aplicacion.R
+import com.empresa.aplicacion.ui.navigation.Home
 import com.empresa.aplicacion.ui.navigation.Login
 
 //barra superior
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AplicacionTopAppBar(
-    navigateTo: (String) -> Unit,
+    navigateToLogin: (String) -> Unit,
+    navigateToHome: (String) -> Unit,
     viewModel: AppbarViewModel = hiltViewModel()
 
-    ) {
+
+) {
     val username by viewModel.username.collectAsState()
     var expanded by remember { mutableStateOf(false) }
-    val navigationState by viewModel.navegacionState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.navegacionState.collect { state ->
+            when (state) {
+                is AppbarViewModel.NavigationStateCerrarSesion.NavigateToLogin -> {
+                    Log.d("Navigation", "Navegando hacia la pantalla de Login.")
+                    navigateToLogin(Login.route)
+                }
+                is AppbarViewModel.NavigationStateCerrarSesion.NavigateToHome -> {
+                    Log.d("Navigation", "Navegando hacia la pantalla de Home.")
+                     navigateToHome(Home.route)
+                }
+
+            }
+        }
+    }
+
 
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
@@ -73,7 +94,7 @@ fun AplicacionTopAppBar(
                 )
                 DropdownMenu(
                     expanded = expanded,
-                    onDismissRequest = { expanded = false }
+                    onDismissRequest = { expanded = false },
                 ) {
                     DropdownMenuItem(
                         text = { Text("Continuar") },
@@ -88,16 +109,8 @@ fun AplicacionTopAppBar(
                     )
                 }
             }
-        },
-    )
-    when (navigationState) {
-        is AppbarViewModel.NavigationStateCerrarSesion.NavigateToLogin -> navigateTo(Login.route)
-        else -> {}
-    }
-}
 
-//@Composable
-//@Preview
-//fun AplicacionTopAppbarPreview() {
-//    AplicacionTopAppBar(username = "Invitado")
-//}
+        },
+
+        )
+}
