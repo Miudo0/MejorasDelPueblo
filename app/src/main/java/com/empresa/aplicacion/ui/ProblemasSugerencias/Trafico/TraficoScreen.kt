@@ -25,7 +25,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.empresa.aplicacion.data.room.ProblemasDatabase.Problemas
 import com.empresa.aplicacion.ui.AplicacionBottomAppBar
 import com.empresa.aplicacion.ui.AplicacionTopAppBar
-import com.empresa.aplicacion.ui.ProblemasSugerencias.Infraestructura.ProblemasLista
 import com.empresa.aplicacion.ui.navigation.ProblemasSugerencias
 import com.empresa.aplicacion.ui.navigation.destinosMejoras
 
@@ -37,7 +36,7 @@ fun TraficoScreen(
     ) {
     Scaffold(
         topBar = {
-            AplicacionTopAppBar(navigateToLogin = navigateTo, navigateToHome = navigateTo)
+            AplicacionTopAppBar(navigateToLogin = {}, navigateToHome = {  })
         },
         bottomBar = {
             AplicacionBottomAppBar(

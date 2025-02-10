@@ -27,15 +27,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.empresa.aplicacion.R
-import com.empresa.aplicacion.ui.navigation.Home
-import com.empresa.aplicacion.ui.navigation.Login
 
 //barra superior
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AplicacionTopAppBar(
-    navigateToLogin: (String) -> Unit,
-    navigateToHome: (String) -> Unit,
+    navigateToLogin: () -> Unit,
+    navigateToHome: () -> Unit,
     viewModel: AppbarViewModel = hiltViewModel()
 
 
@@ -48,11 +46,11 @@ fun AplicacionTopAppBar(
             when (state) {
                 is AppbarViewModel.NavigationStateCerrarSesion.NavigateToLogin -> {
                     Log.d("Navigation", "Navegando hacia la pantalla de Login.")
-                    navigateToLogin(Login.route)
+                    navigateToLogin()
                 }
                 is AppbarViewModel.NavigationStateCerrarSesion.NavigateToHome -> {
                     Log.d("Navigation", "Navegando hacia la pantalla de Home.")
-                     navigateToHome(Home.route)
+                     navigateToHome()
                 }
 
             }

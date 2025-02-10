@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.empresa.aplicacion.data.room.ProblemasDatabase.Problemas
 import com.empresa.aplicacion.domain.DeleteProblemasInfraestructuraUseCase
+import com.empresa.aplicacion.domain.GetMostrarProblemasFlowUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,7 +15,7 @@ import javax.inject.Inject
 class DeleteProblemasInfraestructuraViewModel @Inject constructor(
     private val deleteProblemasInfraestructuraUseCase: DeleteProblemasInfraestructuraUseCase,
 //    private val getProblemas: MostrarProblemasUseCase,
-//    private val getMostrarProblemasUseCase: MostrarProblemasUseCase
+private val mostrarProblemasFlowUseCase: GetMostrarProblemasFlowUseCase
     ) : ViewModel() {
 
     private val _state = MutableStateFlow<DeleteProblemasInfraestructuraState>(DeleteProblemasInfraestructuraState.Loading)
@@ -27,7 +28,7 @@ class DeleteProblemasInfraestructuraViewModel @Inject constructor(
             try {
                 deleteProblemasInfraestructuraUseCase(problema)
 
-//              val nuevaLista = getMostrarProblemasUseCase("Infraestructura")
+//             mostrarProblemasFlowUseCase(tipo = "Infraestructura")
 //                _state.value = DeleteProblemasInfraestructuraState.Success(nuevaLista)
 
 

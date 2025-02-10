@@ -41,7 +41,7 @@ fun LoginScreen(
     Scaffold(
         topBar = {
             AplicacionTopAppBar(
-                navigateToLogin =navigateTo , navigateToHome = navigateTo
+                navigateToLogin = {}, navigateToHome = {}
 
             )
         },

@@ -34,8 +34,8 @@ fun NavigationWrapper() {
 
         //navegacion desde el login
         composable(Login.route) {
-            LoginScreen( navigateTo = { ruta ->
-                navController.navigate(ruta){
+            LoginScreen(navigateTo = { ruta ->
+                navController.navigate(ruta) {
                     popUpTo(Login.route) { inclusive = true }
                 }
 
@@ -102,20 +102,8 @@ fun NavigationWrapper() {
         //appBar
         composable(Titulo.route) {
             AplicacionTopAppBar(
-          navigateToLogin = { ruta ->
-              Log.d("NAVIGATION", "Intentando navegar a: $ruta desde Titulo")
-                    navController.navigate(ruta) {
-                        popUpTo(0) { inclusive = true }
-                        Log.d("NAV_CONTROLLER_BACKSTACK", navController.currentBackStackEntry?.destination?.route ?: "null")
-                    }
-                },
-                navigateToHome = { ruta ->
-                    navController.navigate(ruta) {
-                        popUpTo(0) { inclusive = true }
-
-                     //   lauchSingletop = true
-                    }
-                }
+                navigateToLogin = { navController.navigate(Login.route) },
+                navigateToHome = { navController.navigate(Home.route) }
             )
         }
 
@@ -136,7 +124,7 @@ fun NavigationWrapper() {
                 },
 
 
-            )
+                )
         }
         composable(route = Trafico.route) {
             TraficoScreen(
@@ -144,7 +132,7 @@ fun NavigationWrapper() {
                     navController.navigate(ruta)
                 },
 
-            )
+                )
         }
         composable(route = MedioAmbiente.route) {
             MedioAmbienteScreen(
@@ -152,7 +140,7 @@ fun NavigationWrapper() {
                     navController.navigate(ruta)
                 },
 
-            )
+                )
         }
         composable(route = Seguridad.route) {
             SeguridadScreen(
@@ -160,7 +148,7 @@ fun NavigationWrapper() {
                     navController.navigate(ruta)
                 },
 
-            )
+                )
         }
 
 

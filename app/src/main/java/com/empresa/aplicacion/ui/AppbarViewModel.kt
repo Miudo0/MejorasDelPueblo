@@ -24,15 +24,15 @@ class AppbarViewModel @Inject constructor(
     private var _navegacionState = MutableSharedFlow<NavigationStateCerrarSesion>()
     val navegacionState = _navegacionState
 
-//    init {
-//        val savedUser = comprobarSesion.getUserFromSharedPreferences()
-//        savedUser?.let {
-//            _username.value = it
-//            viewModelScope.launch {
-//                _navegacionState.emit(NavigationStateCerrarSesion.NavigateToHome)
-//            }
-//        }
-//    }
+    init {
+        val savedUser = comprobarSesion.getUserFromSharedPreferences()
+        savedUser?.let {
+            _username.value = it
+            viewModelScope.launch {
+                _navegacionState.emit(NavigationStateCerrarSesion.NavigateToHome)
+            }
+        }
+    }
 
 
     fun logout() {
@@ -40,7 +40,7 @@ class AppbarViewModel @Inject constructor(
         cerrarSesion.logout()
         _username.value = "Invitado"
         Log.d("Logout", "Usuario cambiado a 'Invitado'.")
-//        _navegacionState.value = NavigationStateCerrarSesion.NavigateToLogin
+
         viewModelScope.launch {
             _navegacionState.emit(NavigationStateCerrarSesion.NavigateToLogin)
             Log.d("Logout", "Navegación emitida: NavigateToLogin")

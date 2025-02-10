@@ -26,7 +26,7 @@ class InfraestructuraViewModel @Inject constructor(
         viewModelScope.launch {
             _state.value = InfraestructuraState.Loading
             try {
-                val problemasRegistrados = getMostrarProblemasFlowUseCase("Infraestructura")
+               getMostrarProblemasFlowUseCase("Infraestructura")
                     .collect { problemasRegistrados ->
                         _state.value = InfraestructuraState.Success(problemasRegistrados)
                     }

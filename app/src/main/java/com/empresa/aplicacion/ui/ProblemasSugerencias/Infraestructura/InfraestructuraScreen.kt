@@ -1,12 +1,10 @@
 package com.empresa.aplicacion.ui.ProblemasSugerencias.Infraestructura
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -43,8 +41,8 @@ fun InfraestructuraScreen(
     Scaffold(
         topBar = {
             AplicacionTopAppBar(
-                navigateToLogin = navigateTo,
-                navigateToHome = navigateTo
+                navigateToLogin = {},
+                navigateToHome = { }
             )
         },
         bottomBar = {
@@ -69,15 +67,8 @@ private fun AppContent(paddingValues: PaddingValues) {
     val deleteViewModel: DeleteProblemasInfraestructuraViewModel = hiltViewModel()
 
     val state = viewModel.state.collectAsState()
-    val deleteState = deleteViewModel.state.collectAsState()
 
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues),
-        contentAlignment = Alignment.Center
-    ) {
         when (val current = state.value) {
             is InfraestructuraViewModel.InfraestructuraState.Success -> {
                 val problemas = current.problemas
@@ -93,7 +84,6 @@ private fun AppContent(paddingValues: PaddingValues) {
 
             is InfraestructuraViewModel.InfraestructuraState.Loading -> CircularProgressIndicator(
                 color = MaterialTheme.colorScheme.primary,
-                strokeWidth = 2.dp,
                 modifier = Modifier
                     .padding(paddingValues)
                     .size(50.dp)
@@ -101,25 +91,25 @@ private fun AppContent(paddingValues: PaddingValues) {
         }
 
         //estdo para eliminar
-        when (val current = deleteState.value) {
-            is DeleteProblemasInfraestructuraViewModel.DeleteProblemasInfraestructuraState.Success -> {
-                val problemas = current.problemas
-                ProblemasLista(
-                    problemas,
-                    deleteProblema = { deleteViewModel.deleteProblema(it) },
-                    paddingValues
-                )
-
-            }
-
-            is DeleteProblemasInfraestructuraViewModel.DeleteProblemasInfraestructuraState.Error -> {
-                Text(text = current.error)
-            }
-
-            is DeleteProblemasInfraestructuraViewModel.DeleteProblemasInfraestructuraState.Loading -> {}
-        }
+//        when (val current = deleteState.value) {
+//            is DeleteProblemasInfraestructuraViewModel.DeleteProblemasInfraestructuraState.Success -> {
+//                val problemas = current.problemas
+//                ProblemasLista(
+//                    problemas,
+//                    deleteProblema = { deleteViewModel.deleteProblema(it) },
+//                    paddingValues
+//                )
+//
+//            }
+//
+//            is DeleteProblemasInfraestructuraViewModel.DeleteProblemasInfraestructuraState.Error -> {
+//                Text(text = current.error)
+//            }
+//
+//            is DeleteProblemasInfraestructuraViewModel.DeleteProblemasInfraestructuraState.Loading -> {}
+//        }
     }
-}
+
 
 @Composable
 fun ProblemasLista(
