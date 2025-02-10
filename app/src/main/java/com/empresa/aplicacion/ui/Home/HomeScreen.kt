@@ -32,10 +32,7 @@ import com.empresa.aplicacion.R
 import com.empresa.aplicacion.ui.AplicacionBottomAppBar
 import com.empresa.aplicacion.ui.AplicacionTopAppBar
 import com.empresa.aplicacion.ui.navigation.Home
-import com.empresa.aplicacion.ui.navigation.NotificacionesScreen
-import com.empresa.aplicacion.ui.navigation.ProblemasSugerencias
-import com.empresa.aplicacion.ui.navigation.Proyectos
-import com.empresa.aplicacion.ui.navigation.Voluntariado
+import com.empresa.aplicacion.ui.navigation.Login
 import com.empresa.aplicacion.ui.navigation.destinosMejoras
 
 
@@ -43,15 +40,26 @@ import com.empresa.aplicacion.ui.navigation.destinosMejoras
 
 @Composable
 fun HomeScreen(
-    navigateTo: (String) -> Unit,
-    navigateToLogin: (String) -> Unit,
+    navigateToProblemas: () -> Unit,
+    navigateToNotificaicones: () -> Unit,
+    navigateToVoluntariado: () -> Unit,
+    navigateToProyectos: () -> Unit,
+    navigateTo: (String) -> Unit
 
 ) {
 
 
     Scaffold(
         topBar = {
-            AplicacionTopAppBar(navigateToLogin ={} ,navigateToHome = {})
+            AplicacionTopAppBar(
+                navigateToLogin = {
+                    navigateTo(Login.route)  // Llamada a Login route
+                    Log.d("logout", "Vamos para el login")
+                },
+                navigateToHome = {
+                    navigateTo(Home.route)
+                }
+            )
         },
         bottomBar = {
             AplicacionBottomAppBar(
@@ -65,7 +73,10 @@ fun HomeScreen(
     ) { paddingValues ->
 
         App(
-            navigateTo = navigateTo,
+            navigateToProblemas,
+            navigateToNotificaicones,
+            navigateToVoluntariado,
+            navigateToProyectos,
             paddingValues = paddingValues
         )
     }
@@ -74,8 +85,10 @@ fun HomeScreen(
 
 @Composable
 fun App(
-
-    navigateTo: (String) -> Unit,
+    navigateToProblemas: () -> Unit,
+    navigateToNotificaicones: () -> Unit,
+    navigateToVoluntariado: () -> Unit,
+    navigateToProyectos: () -> Unit,
     paddingValues: PaddingValues
 ) {
 
@@ -89,7 +102,10 @@ fun App(
         }
         item {
             FilaElementosAccesibles(
-                navigateTo = navigateTo
+                navigateToProblemas,
+                navigateToNotificaicones,
+                navigateToVoluntariado,
+                navigateToProyectos
             )
         }
         item {
@@ -101,8 +117,12 @@ fun App(
 
 @Composable
 private fun FilaElementosAccesibles(
-    navigateTo: (String) -> Unit
-) {
+    navigateToProblemas: () -> Unit,
+    navigateToNotificaicones: () -> Unit,
+    navigateToVoluntariado: () -> Unit,
+    navigateToProyectos: () -> Unit,
+
+    ) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         contentPadding = PaddingValues(horizontal = 16.dp),
@@ -118,11 +138,11 @@ private fun FilaElementosAccesibles(
                 modifier = Modifier
                     .clickable {
                         when (item.first) {
-                            R.drawable.reporteproblemas -> navigateTo(ProblemasSugerencias.route) // Enviar identificador de pantalla
-                            R.drawable.notificaciones -> navigateTo(NotificacionesScreen.route)
-                            R.drawable.voluntariado -> navigateTo(Voluntariado.route)
-                            R.drawable.proyectoscomunitarios -> navigateTo(Proyectos.route)
-                         //   else -> navigateTo(Login.route) // Pantalla por defecto
+                            R.drawable.reporteproblemas -> navigateToProblemas() // Enviar identificador de pantalla
+                            R.drawable.notificaciones -> navigateToNotificaicones()
+                            R.drawable.voluntariado -> navigateToVoluntariado()
+                            R.drawable.proyectoscomunitarios -> navigateToProyectos()
+                            //   else -> navigateTo(Login.route) // Pantalla por defecto
                         }
                         Log.d("CLICKABLE", "item.first: ${item.first}")
                     }
