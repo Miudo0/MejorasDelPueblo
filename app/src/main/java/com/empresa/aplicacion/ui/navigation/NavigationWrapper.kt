@@ -112,6 +112,8 @@ fun NavigationWrapper() {
                 navigateToHome = { ruta ->
                     navController.navigate(ruta) {
                         popUpTo(0) { inclusive = true }
+
+                     //   lauchSingletop = true
                     }
                 }
             )
@@ -132,6 +134,7 @@ fun NavigationWrapper() {
                 navigateTo = { ruta ->
                     navController.navigate(ruta)
                 },
+
 
             )
         }

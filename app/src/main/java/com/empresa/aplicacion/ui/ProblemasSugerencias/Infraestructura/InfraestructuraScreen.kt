@@ -1,17 +1,23 @@
 package com.empresa.aplicacion.ui.ProblemasSugerencias.Infraestructura
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -20,6 +26,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.empresa.aplicacion.data.room.ProblemasDatabase.Problemas
@@ -27,16 +34,18 @@ import com.empresa.aplicacion.ui.AplicacionBottomAppBar
 import com.empresa.aplicacion.ui.AplicacionTopAppBar
 import com.empresa.aplicacion.ui.navigation.ProblemasSugerencias
 import com.empresa.aplicacion.ui.navigation.destinosMejoras
+import com.empresa.aplicacion.ui.theme.AppTheme
 
 @Composable
 fun InfraestructuraScreen(
     navigateTo: (String) -> Unit,
-
-
-    ) {
+) {
     Scaffold(
         topBar = {
-            AplicacionTopAppBar(navigateToLogin =navigateTo, navigateToHome = navigateTo)
+            AplicacionTopAppBar(
+                navigateToLogin = navigateTo,
+                navigateToHome = navigateTo
+            )
         },
         bottomBar = {
             AplicacionBottomAppBar(
@@ -48,11 +57,7 @@ fun InfraestructuraScreen(
             )
         }
     ) { paddingValues ->
-
-        AppContent(
-
-            paddingValues = paddingValues
-        )
+        AppContent(paddingValues = paddingValues)
     }
 
 }
@@ -60,79 +65,145 @@ fun InfraestructuraScreen(
 @Composable
 private fun AppContent(paddingValues: PaddingValues) {
     val viewModel: InfraestructuraViewModel = hiltViewModel()
+
+    val deleteViewModel: DeleteProblemasInfraestructuraViewModel = hiltViewModel()
+
     val state = viewModel.state.collectAsState()
+    val deleteState = deleteViewModel.state.collectAsState()
 
-    when (val current = state.value) {
-        is InfraestructuraState.Success -> {
-            val problemas = current.problemas
-            ProblemasLista(problemas,paddingValues)
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues),
+        contentAlignment = Alignment.Center
+    ) {
+        when (val current = state.value) {
+            is InfraestructuraViewModel.InfraestructuraState.Success -> {
+                val problemas = current.problemas
+                ProblemasLista(
+                    problemas,
+                    deleteProblema = { deleteViewModel.deleteProblema(it) }, paddingValues
+                )
+            }
+
+            is InfraestructuraViewModel.InfraestructuraState.Error -> {
+                Text(text = current.error)
+            }
+
+            is InfraestructuraViewModel.InfraestructuraState.Loading -> CircularProgressIndicator(
+                color = MaterialTheme.colorScheme.primary,
+                strokeWidth = 2.dp,
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .size(50.dp)
+            )
         }
 
-        is InfraestructuraState.Error -> {
-            Text(text = current.error)
+        //estdo para eliminar
+        when (val current = deleteState.value) {
+            is DeleteProblemasInfraestructuraViewModel.DeleteProblemasInfraestructuraState.Success -> {
+                val problemas = current.problemas
+                ProblemasLista(
+                    problemas,
+                    deleteProblema = { deleteViewModel.deleteProblema(it) },
+                    paddingValues
+                )
+
+            }
+
+            is DeleteProblemasInfraestructuraViewModel.DeleteProblemasInfraestructuraState.Error -> {
+                Text(text = current.error)
+            }
+
+            is DeleteProblemasInfraestructuraViewModel.DeleteProblemasInfraestructuraState.Loading -> {}
         }
-        is InfraestructuraState.Loading -> LinearProgressIndicator()
     }
 }
 
 @Composable
-fun ProblemasLista(problemas: List<Problemas>,paddingValues: PaddingValues) {
+fun ProblemasLista(
+    problemas: List<Problemas>,
+    deleteProblema: (Problemas) -> Unit,
+    paddingValues: PaddingValues
+) {
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
             .padding(paddingValues),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(problemas) { problema ->
-            CartaItem(problema)
+            CartaItem(problema, onDelete = { deleteProblema(problema) })
         }
     }
 }
 
 //funcion para crear las cartas
 @Composable
-private fun CartaItem(problema: Problemas) {
+private fun CartaItem(
+    problema: Problemas,
+    onDelete: () -> Unit = {}
+
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp),
+        shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
         colors = CardDefaults.cardColors(MaterialTheme.colorScheme.primary)
     ) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+        Row(
+
         ) {
-            problema.titulo?.let {
-                Text(
-                    text = it,
-                    style = MaterialTheme.typography.titleMedium,
-                    textAlign = TextAlign.Center
-                )
+            Column(
+                modifier = Modifier.padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                problema.titulo?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.titleMedium,
+                        textAlign = TextAlign.Center
+                    )
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                problema.descripcion?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
-            Spacer(modifier = Modifier.height(8.dp))
-            problema.descripcion?.let {
+            Button(
+                onClick = { onDelete() },
+                shape = RoundedCornerShape(16.dp)
+            ) {
                 Text(
-                    text = it,
+                    text = "Eliminar",
                     style = MaterialTheme.typography.bodyMedium,
-                    textAlign = TextAlign.Center
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .align(Alignment.CenterVertically)
                 )
+
             }
         }
     }
 }
 
 
-//    @Composable
-//    @Preview
-//    fun InfraestructuraPreview() {
-//        AppTheme {
-//            InfraestructuraScreen(
-//                navigateTo = {},
-//                viewModel = hiltViewModel(),
-//
-//            )
-//
-//        }
-//    }
+@Composable
+@Preview
+fun InfraestructuraPreview() {
+    AppTheme {
+        InfraestructuraScreen(
+            navigateTo = {},
+
+            )
+
+    }
+}

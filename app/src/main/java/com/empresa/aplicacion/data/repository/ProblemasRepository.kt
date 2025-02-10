@@ -18,4 +18,13 @@ class ProblemasRepository @Inject constructor(
         problemasDao.insertAll(nuevoProblema)
 
     }
+    fun getByFlowTipo(tipo: String) = problemasDatabase.problemasDao().getByFlowTipo(tipo)
+
+    suspend fun deleteProblema(problema: Problemas){
+        val problemasDao = problemasDatabase.problemasDao()
+        problemasDao.delete(problema)
+    }
+
+
+
 }

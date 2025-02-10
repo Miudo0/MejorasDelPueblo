@@ -8,8 +8,6 @@ import com.empresa.aplicacion.domain.LogOutUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,19 +21,18 @@ class AppbarViewModel @Inject constructor(
     private var _username = MutableStateFlow("Invitado")
     val username: MutableStateFlow<String> = _username
 
-    private var _navegacionState = MutableSharedFlow <NavigationStateCerrarSesion>(replay = 1)
-    val navegacionState: SharedFlow<NavigationStateCerrarSesion> = _navegacionState.asSharedFlow()
+    private var _navegacionState = MutableSharedFlow<NavigationStateCerrarSesion>()
+    val navegacionState = _navegacionState
 
-    init {
-        val savedUser = comprobarSesion.getUserFromSharedPreferences()
-        savedUser?.let {
-            _username.value = it
-            viewModelScope.launch {
-                _navegacionState.emit(NavigationStateCerrarSesion.NavigateToHome)
-            }
-
-        }
-    }
+//    init {
+//        val savedUser = comprobarSesion.getUserFromSharedPreferences()
+//        savedUser?.let {
+//            _username.value = it
+//            viewModelScope.launch {
+//                _navegacionState.emit(NavigationStateCerrarSesion.NavigateToHome)
+//            }
+//        }
+//    }
 
 
     fun logout() {
@@ -52,8 +49,8 @@ class AppbarViewModel @Inject constructor(
     }
 
     sealed interface NavigationStateCerrarSesion {
-      data object NavigateToLogin : NavigationStateCerrarSesion
-        data object  NavigateToHome : NavigationStateCerrarSesion
+        data object NavigateToLogin : NavigationStateCerrarSesion
+        data object NavigateToHome : NavigationStateCerrarSesion
 
     }
 }

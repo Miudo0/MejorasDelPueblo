@@ -51,7 +51,7 @@ fun HomeScreen(
 
     Scaffold(
         topBar = {
-            AplicacionTopAppBar(navigateToLogin, navigateToHome = navigateTo)
+            AplicacionTopAppBar(navigateToLogin =navigateToLogin, navigateToHome = navigateTo)
         },
         bottomBar = {
             AplicacionBottomAppBar(
