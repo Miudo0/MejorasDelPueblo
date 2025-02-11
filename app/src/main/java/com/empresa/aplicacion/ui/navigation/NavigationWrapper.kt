@@ -34,30 +34,23 @@ fun NavigationWrapper() {
 
         //navegacion desde el login
         composable(Login.route) {
-            LoginScreen(navigateTo = { ruta ->
-                navController.navigate(ruta) {
-
-                }
-
-            }
+            LoginScreen(
+                navigateToHome = { navController.navigate(Home.route) },
+                navigateToLogin = { navController.navigate(Login.route) },
+                navigateToRegistro = { navController.navigate(Registro.route) },
             )
         }
+
+
         //navegacion desde el homeScreen
         composable(Home.route) {
             HomeScreen(
-//                navigateTo = { ruta ->
-//                Log.d("NAVIGATE_TO", "Screen recibida: $ruta")
-//                when (ruta) {
-//                    ProblemasSugerencias.route -> navController.navigate(ProblemasSugerencias.route)
-//                    NotificacionesScreen.route -> navController.navigate(NotificacionesScreen.route)
-////                    Proyectos.route -> navController.navigate(Proyectos.route)
-////                    Voluntariado.route -> navController.navigate(Voluntariado.route)
-//                }
-//            },
+
                 navigateToProblemas = { navController.navigate(ProblemasSugerencias.route) },
                 navigateToNotificaicones = { navController.navigate(NotificacionesScreen.route) },
                 navigateToVoluntariado = { navController.navigate(Voluntariado.route) },
                 navigateToProyectos = { navController.navigate(Proyectos.route) },
+                navigateToLogin = { navController.navigate(Login.route) },
                 navigateTo = { ruta ->
                     navController.navigate(ruta)
                 }
@@ -68,14 +61,16 @@ fun NavigationWrapper() {
             ProblemasScreen(
                 onTabSelected = { ruta ->
                     navController.navigate(ruta.route)
-
                 },
-                navigateTo = { ruta ->
+                navigateToLogin = { navController.navigate(Login.route) },
+                navigateToReportarProblema = { navController.navigate(ReportarProblema.route) },
+                navigateToOpcion = { ruta ->
                     navController.navigate(ruta)
                 }
-
             )
         }
+
+
         composable(route = NotificacionesScreen.route) {
             NotificationsScreen(
                 navigateTo = { ruta ->
@@ -111,7 +106,6 @@ fun NavigationWrapper() {
                     navController.navigate(Login.route)
                     Log.d("logout", "vamos para el login")
                 },
-                navigateToHome = { navController.navigate(Home.route) }
             )
         }
 
@@ -130,6 +124,9 @@ fun NavigationWrapper() {
                 navigateTo = { ruta ->
                     navController.navigate(ruta)
                 },
+                navigateToLogin = {
+                    navController.navigate(Login.route)
+                }
 
 
                 )

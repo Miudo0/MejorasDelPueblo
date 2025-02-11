@@ -33,30 +33,25 @@ import com.empresa.aplicacion.R
 @Composable
 fun AplicacionTopAppBar(
     navigateToLogin: () -> Unit,
-    navigateToHome: () -> Unit,
     viewModel: AppbarViewModel = hiltViewModel()
 
 
 ) {
+    Log.d("ComprobandoUsuario", "MiPantalla se ha cargado")
     val username by viewModel.username.collectAsState()
     var expanded by remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) {
-        viewModel.navegacionState.collect { state ->
-            when (state) {
-                is AppbarViewModel.NavigationStateCerrarSesion.NavigateToLogin -> {
-                    Log.d("Navigation", "Navegando hacia la pantalla de Login.")
-                    navigateToLogin()
-                }
-                is AppbarViewModel.NavigationStateCerrarSesion.NavigateToHome -> {
-                    Log.d("Navigation", "Navegando hacia la pantalla de Home.")
-                     navigateToHome()
-                }
-
+LaunchedEffect (Unit) {
+    viewModel.navegacionState.collect { state ->
+        Log.d("ComprobandoUSuario", "Estado de navegación cambiado: $state")
+        when (state) {
+            is AppbarViewModel.NavigationStateCerrarSesion.NavigateToLogin -> {
+                Log.d("ComprobandoUSuario", "Navegando hacia la pantalla de Login.")
+                navigateToLogin()
             }
         }
     }
-
+}
 
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(

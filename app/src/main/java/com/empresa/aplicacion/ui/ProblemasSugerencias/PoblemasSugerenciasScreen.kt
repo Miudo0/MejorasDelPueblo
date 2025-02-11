@@ -34,7 +34,6 @@ import com.empresa.aplicacion.ui.navigation.DestinosMejorasPueblo
 import com.empresa.aplicacion.ui.navigation.Infraestructura
 import com.empresa.aplicacion.ui.navigation.MedioAmbiente
 import com.empresa.aplicacion.ui.navigation.ProblemasSugerencias
-import com.empresa.aplicacion.ui.navigation.ReportarProblema
 import com.empresa.aplicacion.ui.navigation.Seguridad
 import com.empresa.aplicacion.ui.navigation.Trafico
 import com.empresa.aplicacion.ui.navigation.destinosMejoras
@@ -76,14 +75,19 @@ var listaCartasProblemas: List<CartaProblemas> = listOf(
 @Composable
 fun ProblemasScreen(
     onTabSelected: (DestinosMejorasPueblo) -> Unit,
+    navigateToLogin: () -> Unit,
+    navigateToReportarProblema: () -> Unit,
+    navigateToOpcion: (String) -> Unit
 
-    navigateTo: (String) -> Unit
+
 ) {
 
 
     Scaffold(
         topBar = {
-            AplicacionTopAppBar(navigateToLogin ={}, navigateToHome = {})
+            AplicacionTopAppBar(
+                navigateToLogin = navigateToLogin,
+            )
         },
         bottomBar = {
             AplicacionBottomAppBar(
@@ -96,9 +100,9 @@ fun ProblemasScreen(
         }
     ) { paddingValues ->
         ProblemasApp(
-
             paddingValues = paddingValues,
-            navigateTo = navigateTo
+            navigateToReportarProblema,
+            navigateToOpcion
         )
     }
 }
@@ -106,7 +110,8 @@ fun ProblemasScreen(
 @Composable
 fun ProblemasApp(
     paddingValues: PaddingValues,
-    navigateTo: (String) -> Unit
+    navigateToReportarProblema: () -> Unit,
+    navigateToOpcion: (String) -> Unit
 ) {
     Column(
         Modifier
@@ -127,12 +132,12 @@ fun ProblemasApp(
             items(listaCartasProblemas) { carta ->
                 CartaItem(
                     carta = carta,
-                    navigateTo = navigateTo
+                    navigateToOpcion = navigateToOpcion
                 )
             }
         }
         Button(
-            onClick = { navigateTo(ReportarProblema.route) },
+            onClick = { navigateToReportarProblema() },
         ) {
             Text(text = "Reportar un problema")
         }
@@ -144,13 +149,13 @@ fun ProblemasApp(
 @Composable
 private fun CartaItem(
     carta: CartaProblemas,
-    navigateTo: (String) -> Unit
+    navigateToOpcion: (String) -> Unit
 ) {
     Card(
         modifier = Modifier
             .padding(10.dp)
             .clickable {
-                navigateTo(carta.route)
+                navigateToOpcion(carta.route)
             },
         elevation = CardDefaults.cardElevation(
             defaultElevation = 6.dp

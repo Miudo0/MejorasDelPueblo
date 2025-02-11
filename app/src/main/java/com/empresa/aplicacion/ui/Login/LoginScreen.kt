@@ -1,5 +1,6 @@
 package com.empresa.aplicacion.ui.Login
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -31,37 +32,38 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.empresa.aplicacion.R
 import com.empresa.aplicacion.ui.AplicacionTopAppBar
-import com.empresa.aplicacion.ui.navigation.Home
-import com.empresa.aplicacion.ui.navigation.Registro
 
 @Composable
 fun LoginScreen(
-    navigateTo: (String) -> Unit,
+    navigateToHome: () -> Unit,
+    navigateToLogin: () -> Unit,
+    navigateToRegistro: () -> Unit,
 ) {
     Scaffold(
         topBar = {
             AplicacionTopAppBar(
-                navigateToLogin = {}, navigateToHome = {}
-
+                navigateToLogin = navigateToLogin
             )
         },
 
         ) { paddingValues ->
         LoginApp(
-            navigateTo = navigateTo,
+            navigateToHome = navigateToHome,
             paddingValues = paddingValues,
+            navigateToRegistro = navigateToRegistro,
 
-        )
+            )
+
     }
-
 }
 
 
 @Composable
 fun LoginApp(
-    navigateTo: (String) -> Unit,
+    navigateToHome: () -> Unit,
+    navigateToRegistro: () -> Unit,
     paddingValues: PaddingValues,
-   viewModel : ValidarUSuarioViewModel = hiltViewModel()
+    viewModel: ValidarUSuarioViewModel = hiltViewModel()
 ) {
 
     var usuario by rememberSaveable { mutableStateOf("") }
@@ -69,19 +71,29 @@ fun LoginApp(
     val errorMessage by rememberSaveable { mutableStateOf("") }
 
     val nombre by viewModel.state.collectAsState()
-//    val navigationState by viewModel.navegacionState.collectAsState()
     val errorState by viewModel.errorMessageState.collectAsState()
+    val viewState by viewModel.viewState.collectAsState()
+
+    when (viewState) {
+        is ValidarUSuarioViewModel.ViewState.LoggedIn -> {
+            Log.d("ComprobandoUsuario", "Usuario ha iniciado sesión")
+            navigateToHome()
+        }
+        is ValidarUSuarioViewModel.ViewState.NotLoggedIn -> {
+            Log.d("ComprobandoUsuario", "Usuario no ha iniciado sesión")
+        }
+        is ValidarUSuarioViewModel.ViewState.Loading -> {}
+    }
 
     LaunchedEffect(Unit) {
         viewModel.navegacionState.collect { state ->
             when (state) {
                 is ValidarUSuarioViewModel.NavigationState.NavigateToHome -> {
-                    navigateTo(Home.route)
+                    navigateToHome()
                 }
             }
         }
     }
-
 
     val datosLogin = listOf(
         CajasDatos(
@@ -176,8 +188,6 @@ fun LoginApp(
 //        }
 
 
-
-
         Spacer(
             modifier = Modifier
                 .height(24.dp)
@@ -187,7 +197,7 @@ fun LoginApp(
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier
                 .clickable {
-                    navigateTo(Registro.route)
+                    navigateToRegistro()
                 }
         )
         MostrarApiScreen()

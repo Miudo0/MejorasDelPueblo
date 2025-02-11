@@ -18,19 +18,19 @@ class AppbarViewModel @Inject constructor(
     private val comprobarSesion: GetUserSharedPreferencesUseCase
 
 ) : ViewModel() {
-    private var _username = MutableStateFlow("Invitado")
+    private var _username = MutableStateFlow("Buenos días")
     val username: MutableStateFlow<String> = _username
 
     private var _navegacionState = MutableSharedFlow<NavigationStateCerrarSesion>()
-    val navegacionState = _navegacionState
+    val navegacionState  = _navegacionState
+
 
     init {
+        Log.d("AppbarViewModel", "Inicializando AppbarViewModel")
         val savedUser = comprobarSesion.getUserFromSharedPreferences()
+        Log.d("AppbarViewModel", "Usuario guardado: $savedUser")
         savedUser?.let {
             _username.value = it
-            viewModelScope.launch {
-                _navegacionState.emit(NavigationStateCerrarSesion.NavigateToHome)
-            }
         }
     }
 
@@ -50,7 +50,7 @@ class AppbarViewModel @Inject constructor(
 
     sealed interface NavigationStateCerrarSesion {
         data object NavigateToLogin : NavigationStateCerrarSesion
-        data object NavigateToHome : NavigationStateCerrarSesion
 
     }
+
 }

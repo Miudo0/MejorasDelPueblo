@@ -36,6 +36,9 @@ class ValidarUSuarioViewModel @Inject constructor(
     private var _username = MutableStateFlow("Invitado")
     val username: StateFlow<String> = _username
 
+    private var _viewState = MutableStateFlow<ViewState>(ViewState.Loading)
+    val viewState = _viewState
+
 
     init {
         // Cargar el usuario de SharedPreferences al iniciar la app
@@ -43,7 +46,7 @@ class ValidarUSuarioViewModel @Inject constructor(
             val savedUser = getUsuarioSharedPreferences.getUserFromSharedPreferences()
             savedUser?.let {
                 _username.value = it
-                _navegacionState.emit( NavigationState.NavigateToHome(it))
+               _viewState.value = ViewState.LoggedIn
             }
         }
     }
@@ -58,7 +61,8 @@ class ValidarUSuarioViewModel @Inject constructor(
                 _username.value = usuarioDb
                 Log.d("DatabaseViewModel", "Username actualizado: $usuarioDb")
                 _state.value = databaseState.Success(usuarioDb)
-                _navegacionState.emit( NavigationState.NavigateToHome(usuarioDb))
+                _viewState.value = ViewState.LoggedIn
+//                _navegacionState.emit( NavigationState.NavigateToHome(usuarioDb))
 
 
             } else {
@@ -87,5 +91,9 @@ class ValidarUSuarioViewModel @Inject constructor(
     sealed interface NavigationState {
         data class NavigateToHome(val username: String) : NavigationState
     }
-
+    sealed class ViewState {
+        object Loading : ViewState()
+        object LoggedIn : ViewState()
+        object NotLoggedIn : ViewState()
+    }
 }

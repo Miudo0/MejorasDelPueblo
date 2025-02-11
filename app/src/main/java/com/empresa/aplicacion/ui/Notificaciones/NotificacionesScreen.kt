@@ -20,7 +20,7 @@ fun NotificationsScreen(
     ) {
         Scaffold(
             topBar = {
-                AplicacionTopAppBar(navigateToLogin ={}, navigateToHome = { } )
+                AplicacionTopAppBar(navigateToLogin ={}, )
             },
             bottomBar = {
                 AplicacionBottomAppBar(

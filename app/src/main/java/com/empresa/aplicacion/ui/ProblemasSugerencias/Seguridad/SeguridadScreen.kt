@@ -36,7 +36,7 @@ fun SeguridadScreen(
     ) {
     Scaffold(
         topBar = {
-            AplicacionTopAppBar(navigateToLogin = {  }, navigateToHome = {  })
+            AplicacionTopAppBar(navigateToLogin = {  })
         },
         bottomBar = {
             AplicacionBottomAppBar(

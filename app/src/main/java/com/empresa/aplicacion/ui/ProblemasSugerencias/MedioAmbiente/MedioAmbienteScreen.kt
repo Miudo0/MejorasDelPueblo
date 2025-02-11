@@ -45,7 +45,7 @@ fun MedioAmbienteScreen(
     Scaffold(
         topBar = {
             AplicacionTopAppBar(navigateToLogin = {},
-                navigateToHome = {  })
+            )
         },
         bottomBar = {
             AplicacionBottomAppBar(

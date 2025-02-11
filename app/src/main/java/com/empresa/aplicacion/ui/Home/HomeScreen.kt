@@ -32,7 +32,6 @@ import com.empresa.aplicacion.R
 import com.empresa.aplicacion.ui.AplicacionBottomAppBar
 import com.empresa.aplicacion.ui.AplicacionTopAppBar
 import com.empresa.aplicacion.ui.navigation.Home
-import com.empresa.aplicacion.ui.navigation.Login
 import com.empresa.aplicacion.ui.navigation.destinosMejoras
 
 
@@ -44,7 +43,8 @@ fun HomeScreen(
     navigateToNotificaicones: () -> Unit,
     navigateToVoluntariado: () -> Unit,
     navigateToProyectos: () -> Unit,
-    navigateTo: (String) -> Unit
+    navigateToLogin: () -> Unit,
+    navigateTo: (String) -> Unit,
 
 ) {
 
@@ -52,13 +52,8 @@ fun HomeScreen(
     Scaffold(
         topBar = {
             AplicacionTopAppBar(
-                navigateToLogin = {
-                    navigateTo(Login.route)  // Llamada a Login route
-                    Log.d("logout", "Vamos para el login")
-                },
-                navigateToHome = {
-                    navigateTo(Home.route)
-                }
+                navigateToLogin = navigateToLogin,
+
             )
         },
         bottomBar = {
