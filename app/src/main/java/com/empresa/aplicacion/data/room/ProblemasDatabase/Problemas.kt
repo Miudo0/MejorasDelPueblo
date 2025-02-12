@@ -12,4 +12,5 @@ data class Problemas(
     @ColumnInfo(name = "tipo") val tipo: String?,
     @ColumnInfo(name = "username") val username: String?,
     @ColumnInfo(name = "resuelto") val resuelto: Boolean = false,
+    @ColumnInfo(name = "usuarioQueValida") val usuarioQueValida: String? = null
 )

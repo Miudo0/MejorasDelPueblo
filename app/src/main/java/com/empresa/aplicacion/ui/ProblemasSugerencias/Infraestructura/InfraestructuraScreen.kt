@@ -214,39 +214,46 @@ private fun CartaItem(
                 }
             }
             if (!problema.resuelto) {
-                Button(
-                    onClick = { marcarProblemaSolucionado() },
-                    shape = RoundedCornerShape(16.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.onPrimaryContainer
-                    ),
-                    modifier = Modifier.padding(top = 16.dp)
-                ) {
-                    Text(
-                        text = "Problema Solucionado",
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .align(Alignment.CenterVertically)
-                    )
+                if (usuarioActual != problema.username) {
+                    Button(
+                        onClick = { marcarProblemaSolucionado() },
+                        shape = RoundedCornerShape(16.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.onPrimaryContainer
+                        ),
+                        modifier = Modifier.padding(top = 16.dp)
+                    ) {
+                        Text(
+                            text = "Problema Solucionado",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier
+                                .padding(8.dp)
+                                .align(Alignment.CenterVertically)
+                        )
+                    }
                 }
             } else {
-                Button(
-                    onClick = { onDelete() },
-                    shape = RoundedCornerShape(16.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.onPrimaryContainer
-                    ),
-                    modifier = Modifier.padding(top = 16.dp)
-                ) {
-                    Text(
-                        text = "Confirmar problema solucionado",
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .align(Alignment.CenterVertically)
-                    )
+                if (usuarioActual != problema.username) {
+                    if (usuarioActual != problema.usuarioQueValida) {
+                        Button(
+                            onClick = { onDelete() },
+                            shape = RoundedCornerShape(16.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.onPrimaryContainer
+                            ),
+                            modifier = Modifier.padding(top = 16.dp),
+                            enabled = true
+                        ) {
+                            Text(
+                                text = "Confirmar problema solucionado",
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = Modifier
+                                    .padding(8.dp)
+                                    .align(Alignment.CenterVertically)
+                            )
 
+                        }
+                    }
                 }
             }
 

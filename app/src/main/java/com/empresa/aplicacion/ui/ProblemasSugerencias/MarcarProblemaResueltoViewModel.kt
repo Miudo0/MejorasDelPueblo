@@ -3,7 +3,7 @@ package com.empresa.aplicacion.ui.ProblemasSugerencias
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.empresa.aplicacion.data.room.ProblemasDatabase.Problemas
-import com.empresa.aplicacion.domain.DeleteProblemasUseCase
+import com.empresa.aplicacion.domain.GetUserSharedPreferencesUseCase
 import com.empresa.aplicacion.domain.UpdateProblemaUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,8 +14,10 @@ import javax.inject.Inject
 @HiltViewModel
 class MarcarProblemaResueltoViewModel @Inject constructor(
     private val updateProblemaUseCase: UpdateProblemaUseCase,
-    private val deleteProblemasUseCase: DeleteProblemasUseCase
+      getUser: GetUserSharedPreferencesUseCase
 ) : ViewModel() {
+
+    private val usuarioActual = getUser.getUserFromSharedPreferences() ?: "Invitado"
 
     private val _state = MutableStateFlow<ProblemaState>(ProblemaState.Loading)
     val state: StateFlow<ProblemaState> = _state
@@ -23,7 +25,7 @@ class MarcarProblemaResueltoViewModel @Inject constructor(
     fun marcarComoResuelto(problema: Problemas) {
         viewModelScope.launch {
             // Cambiar estado 'resuelto' a true
-            val updatedProblema = problema.copy(resuelto = true)
+            val updatedProblema = problema.copy(resuelto = true, usuarioQueValida = usuarioActual)
             updateProblemaUseCase(updatedProblema)
             _state.value = ProblemaState.Success(updatedProblema)
         }
