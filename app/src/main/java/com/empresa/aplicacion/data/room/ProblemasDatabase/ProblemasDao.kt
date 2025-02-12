@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 
@@ -24,4 +25,7 @@ interface ProblemasDao {
 
     @Query("SELECT * FROM Problemas WHERE tipo LIKE :tipo")
      fun getByFlowTipo(tipo: String): Flow<List<Problemas>>
+
+    @Update
+    suspend fun update(problema: Problemas)
 }

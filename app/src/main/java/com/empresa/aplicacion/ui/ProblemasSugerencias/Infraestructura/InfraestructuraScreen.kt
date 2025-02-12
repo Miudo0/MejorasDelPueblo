@@ -31,6 +31,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.empresa.aplicacion.data.room.ProblemasDatabase.Problemas
 import com.empresa.aplicacion.ui.AplicacionBottomAppBar
 import com.empresa.aplicacion.ui.AplicacionTopAppBar
+import com.empresa.aplicacion.ui.ProblemasSugerencias.MarcarProblemaResueltoViewModel
 import com.empresa.aplicacion.ui.navigation.ProblemasSugerencias
 import com.empresa.aplicacion.ui.navigation.destinosMejoras
 
@@ -63,6 +64,7 @@ fun InfraestructuraScreen(
 @Composable
 private fun AppContent(paddingValues: PaddingValues) {
     val viewModel: InfraestructuraViewModel = hiltViewModel()
+    val actualizarViewModel: MarcarProblemaResueltoViewModel = hiltViewModel()
 
     val deleteViewModel: DeleteProblemasInfraestructuraViewModel = hiltViewModel()
 
@@ -73,10 +75,12 @@ private fun AppContent(paddingValues: PaddingValues) {
         is InfraestructuraViewModel.InfraestructuraState.Success -> {
             val problemas = current.problemas
             ProblemasLista(
-                problemas,
+                problemas = problemas,
                 usuarioActual = usuarioActual,
                 deleteProblema = { deleteViewModel.deleteProblema(it) },
-                paddingValues = paddingValues
+                paddingValues = paddingValues,
+                marcarProblemaSolucionado = { actualizarViewModel.marcarComoResuelto(it) }
+
             )
         }
 
@@ -100,7 +104,9 @@ fun ProblemasLista(
     problemas: List<Problemas>,
     deleteProblema: (Problemas) -> Unit,
     paddingValues: PaddingValues,
-    usuarioActual: String
+    usuarioActual: String,
+    marcarProblemaSolucionado: (Problemas) -> Unit = {}
+
 ) {
     LazyColumn(
         modifier = Modifier
@@ -112,8 +118,11 @@ fun ProblemasLista(
             CartaItem(
                 problema,
                 usuarioActual,
-                onDelete = { deleteProblema(problema) }
+                onDelete = { deleteProblema(problema) },
+                marcarProblemaSolucionado = { marcarProblemaSolucionado(problema) }
+
             )
+
         }
     }
 }
@@ -123,7 +132,9 @@ fun ProblemasLista(
 private fun CartaItem(
     problema: Problemas,
     usuarioActual: String,
-    onDelete: () -> Unit = {}
+    onDelete: () -> Unit = {},
+    marcarProblemaSolucionado: () -> Unit = {}
+
 
 ) {
     Card(
@@ -132,7 +143,13 @@ private fun CartaItem(
             .padding(10.dp),
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
-        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.primary)
+        colors = CardDefaults.cardColors(
+            containerColor = if (problema.resuelto) {
+                MaterialTheme.colorScheme.secondary
+            } else {
+                MaterialTheme.colorScheme.primary
+            }
+        )
     ) {
 
         Column(
@@ -194,6 +211,42 @@ private fun CartaItem(
                             .padding(8.dp)
                             .align(Alignment.CenterVertically)
                     )
+                }
+            }
+            if (!problema.resuelto) {
+                Button(
+                    onClick = { marcarProblemaSolucionado() },
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.onPrimaryContainer
+                    ),
+                    modifier = Modifier.padding(top = 16.dp)
+                ) {
+                    Text(
+                        text = "Problema Solucionado",
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .align(Alignment.CenterVertically)
+                    )
+                }
+            } else {
+                Button(
+                    onClick = { onDelete() },
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.onPrimaryContainer
+                    ),
+                    modifier = Modifier.padding(top = 16.dp)
+                ) {
+                    Text(
+                        text = "Confirmar problema solucionado",
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .align(Alignment.CenterVertically)
+                    )
+
                 }
             }
 

@@ -25,6 +25,13 @@ class ProblemasRepository @Inject constructor(
         problemasDao.delete(problema)
     }
 
+    suspend fun updateProblema(problema: Problemas){
+        val problemasDao = problemasDatabase.problemasDao()
+        problemasDao.update(problema)
+    }
+
+
+
 
 
 }

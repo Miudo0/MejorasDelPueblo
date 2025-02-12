@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "b828fd39ade099df3c33986a46398aa8",
+    "identityHash": "bee81666f1ef2ec2bd30aa2c5faa6db4",
     "entities": [
       {
         "tableName": "Problemas",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `titulo` TEXT, `descripcion` TEXT, `tipo` TEXT, `username` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `titulo` TEXT, `descripcion` TEXT, `tipo` TEXT, `username` TEXT, `resuelto` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "uid",
@@ -37,6 +37,12 @@
             "columnName": "username",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "resuelto",
+            "columnName": "resuelto",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -52,7 +58,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b828fd39ade099df3c33986a46398aa8')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'bee81666f1ef2ec2bd30aa2c5faa6db4')"
     ]
   }
 }
