@@ -3,7 +3,7 @@ package com.empresa.aplicacion.ui.ProblemasSugerencias.Trafico
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.empresa.aplicacion.data.room.ProblemasDatabase.Problemas
-import com.empresa.aplicacion.domain.MostrarProblemasUseCase
+import com.empresa.aplicacion.domain.GetMostrarProblemasFlowUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MostrarProblemasTraficoViewModel @Inject constructor(
-    private val getProblemasUseCase: MostrarProblemasUseCase
+    private val getProblemasFlowUseCase: GetMostrarProblemasFlowUseCase
 ) : ViewModel() {
 
 
@@ -23,7 +23,10 @@ class MostrarProblemasTraficoViewModel @Inject constructor(
         viewModelScope.launch {
             _state.value = TraficoState.Loading
             try {
-                _state.value = TraficoState.Success(getProblemasUseCase("Trafico"))
+              getProblemasFlowUseCase("Trafico")
+                  .collect { problemasRegistrados ->
+                      _state.value = TraficoState.Success(problemasRegistrados)
+                  }
             } catch (e: Throwable) {
                 _state.value = TraficoState.Error("Fallo al obtener la informacion")
             }

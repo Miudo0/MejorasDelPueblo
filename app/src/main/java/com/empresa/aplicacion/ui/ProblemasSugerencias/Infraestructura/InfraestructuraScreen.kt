@@ -67,14 +67,16 @@ private fun AppContent(paddingValues: PaddingValues) {
     val deleteViewModel: DeleteProblemasInfraestructuraViewModel = hiltViewModel()
 
     val state by viewModel.state.collectAsState()
-
+    val usuarioActual = viewModel.usuarioActual
 
     when (val current = state) {
         is InfraestructuraViewModel.InfraestructuraState.Success -> {
             val problemas = current.problemas
             ProblemasLista(
                 problemas,
-                deleteProblema = { deleteViewModel.deleteProblema(it) }, paddingValues
+                usuarioActual = usuarioActual,
+                deleteProblema = { deleteViewModel.deleteProblema(it) },
+                paddingValues = paddingValues
             )
         }
 
@@ -97,7 +99,8 @@ private fun AppContent(paddingValues: PaddingValues) {
 fun ProblemasLista(
     problemas: List<Problemas>,
     deleteProblema: (Problemas) -> Unit,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    usuarioActual: String
 ) {
     LazyColumn(
         modifier = Modifier
@@ -106,7 +109,11 @@ fun ProblemasLista(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(problemas) { problema ->
-            CartaItem(problema, onDelete = { deleteProblema(problema) })
+            CartaItem(
+                problema,
+                usuarioActual,
+                onDelete = { deleteProblema(problema) }
+            )
         }
     }
 }
@@ -115,6 +122,7 @@ fun ProblemasLista(
 @Composable
 private fun CartaItem(
     problema: Problemas,
+    usuarioActual: String,
     onDelete: () -> Unit = {}
 
 ) {
@@ -135,6 +143,21 @@ private fun CartaItem(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
+            problema.username?.let {
+                Text(
+                    text = "Reportado por: $it",
+                    style = MaterialTheme.typography.bodyMedium,
+                    textAlign = TextAlign.Left,
+                    modifier = Modifier
+                        .padding(bottom = 8.dp)
+                        .align(Alignment.Start)
+                )
+            }
+            Spacer(
+                modifier = Modifier
+                    .height(8.dp)
+
+            )
             problema.titulo?.let {
                 Text(
                     text = it,
@@ -155,23 +178,25 @@ private fun CartaItem(
                 )
             }
 
-            Button(
-                onClick = { onDelete() },
-                shape = RoundedCornerShape(16.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.onPrimaryContainer
-                ),
-                modifier = Modifier.padding(top = 16.dp)
-            ) {
-                Text(
-                    text = "Eliminar",
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .align(Alignment.CenterVertically)
-                )
-
+            if (usuarioActual == problema.username) {
+                Button(
+                    onClick = { onDelete() },
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.onPrimaryContainer
+                    ),
+                    modifier = Modifier.padding(top = 16.dp)
+                ) {
+                    Text(
+                        text = "Eliminar",
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .align(Alignment.CenterVertically)
+                    )
+                }
             }
+
         }
     }
 }

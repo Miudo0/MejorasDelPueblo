@@ -70,7 +70,7 @@ object NetworkModule {
         Room.databaseBuilder(
             MejorasDelpueblo.appContext,
             ProblemasDatabase::class.java,
-            "baseDatosProblemas"
+            "ProblemasDatabase"
 
         ).build()
 

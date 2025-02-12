@@ -9,9 +9,9 @@ class NuevoProblemaUseCase @Inject constructor(
     private val repository: ProblemasRepository
 
 ){
-    suspend operator fun invoke(titulo: String, descripcion: String,  tipo: String){
+    suspend operator fun invoke(titulo: String, descripcion: String,  tipo: String, username: String){
         return withContext(IO) {
-            repository.newProblema(titulo, descripcion, tipo)
+            repository.newProblema(titulo, descripcion, tipo, username)
         }
     }
 }

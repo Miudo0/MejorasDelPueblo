@@ -113,9 +113,8 @@ fun NavigationWrapper() {
         //pantallas de los problems y sugerencias
         composable(ReportarProblema.route) {
             ReportarScreen(
-                navigateTo = { ruta ->
-                    Log.d("navegado", "Screen recibida: $ruta")
-                    navController.navigate(ruta)
+                navigateToProblemasSugerencias = {
+                    navController.navigate(ProblemasSugerencias.route)
                 }
             )
         }
@@ -129,31 +128,39 @@ fun NavigationWrapper() {
                 }
 
 
-                )
+            )
         }
         composable(route = Trafico.route) {
             TraficoScreen(
                 navigateTo = { ruta ->
                     navController.navigate(ruta)
                 },
+                navigateToLogin = {
+                    navController.navigate(Login.route)
+                }
 
-                )
+            )
         }
         composable(route = MedioAmbiente.route) {
             MedioAmbienteScreen(
                 navigateTo = { ruta ->
                     navController.navigate(ruta)
                 },
-
-                )
+                navigateToLogin = {
+                    navController.navigate(Login.route)
+                }
+            )
         }
         composable(route = Seguridad.route) {
             SeguridadScreen(
                 navigateTo = { ruta ->
                     navController.navigate(ruta)
                 },
+                navigateToLogin = {
+                    navController.navigate(Login.route)
+                }
 
-                )
+            )
         }
 
 

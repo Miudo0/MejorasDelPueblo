@@ -4,11 +4,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.LinearProgressIndicator
@@ -31,12 +35,12 @@ import com.empresa.aplicacion.ui.navigation.destinosMejoras
 @Composable
 fun TraficoScreen(
     navigateTo: (String) -> Unit,
+    navigateToLogin: () -> Unit
 
-
-    ) {
+) {
     Scaffold(
         topBar = {
-            AplicacionTopAppBar(navigateToLogin = {})
+            AplicacionTopAppBar(navigateToLogin = navigateToLogin)
         },
         bottomBar = {
             AplicacionBottomAppBar(
@@ -59,26 +63,36 @@ fun TraficoScreen(
 
 @Composable
 private fun AppContent(paddingValues: PaddingValues) {
-val viewModel: MostrarProblemasTraficoViewModel = hiltViewModel()
+
+    val viewModel: MostrarProblemasTraficoViewModel = hiltViewModel()
+    val deleteViewModel: DeleteProblemasTraficoViewModel = hiltViewModel()
     val state = viewModel.state.collectAsState()
 
     when (val current = state.value) {
         is TraficoState.Success -> {
             val problemas = current.problemas
-            ProblemasLista(problemas, paddingValues)
+            ProblemasLista(
+                problemas,
+                paddingValues,
+                deleteProblema = { deleteViewModel.deleteProblemaTrafico(it) })
         }
 
         is TraficoState.Error -> {
             Text(text = current.error)
         }
-        is TraficoState.Loading-> LinearProgressIndicator()
+
+        is TraficoState.Loading -> LinearProgressIndicator()
     }
 
 
 }
 
 @Composable
-fun ProblemasLista(problemas: List<Problemas>,paddingValues: PaddingValues) {
+fun ProblemasLista(
+    problemas: List<Problemas>,
+    paddingValues: PaddingValues,
+    deleteProblema: (Problemas) -> Unit,
+) {
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
@@ -86,23 +100,32 @@ fun ProblemasLista(problemas: List<Problemas>,paddingValues: PaddingValues) {
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(problemas) { problema ->
-            CartaItem(problema)
+            CartaItem(
+                problema,
+                onDelete = { deleteProblema(problema) })
         }
     }
 }
 
-//funcion para crear las cartas
 @Composable
-private fun CartaItem(problema: Problemas) {
+private fun CartaItem(
+    problema: Problemas,
+    onDelete: () -> Unit = {}
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp),
+        shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
         colors = CardDefaults.cardColors(MaterialTheme.colorScheme.primary)
     ) {
+
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
@@ -113,7 +136,11 @@ private fun CartaItem(problema: Problemas) {
                     textAlign = TextAlign.Center
                 )
             }
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(
+                modifier = Modifier
+                    .height(8.dp)
+
+            )
             problema.descripcion?.let {
                 Text(
                     text = it,
@@ -121,6 +148,25 @@ private fun CartaItem(problema: Problemas) {
                     textAlign = TextAlign.Center
                 )
             }
+
+            Button(
+                onClick = { onDelete() },
+                shape = RoundedCornerShape(16.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.onPrimaryContainer
+                ),
+                modifier = Modifier.padding(top = 16.dp)
+            ) {
+                Text(
+                    text = "Eliminar",
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .align(Alignment.CenterVertically)
+                )
+
+            }
+
         }
     }
 }

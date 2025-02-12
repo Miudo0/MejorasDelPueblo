@@ -4,10 +4,10 @@ import com.empresa.aplicacion.data.repository.ProblemasRepository
 import com.empresa.aplicacion.data.room.ProblemasDatabase.Problemas
 import javax.inject.Inject
 
-class DeleteProblemasInfraestructuraUseCase @Inject constructor(
+class DeleteProblemasUseCase @Inject constructor(
     private val repository: ProblemasRepository
 ) {
-    suspend operator fun invoke(problema: Problemas) {
+    suspend operator fun invoke (problema: Problemas) {
         repository.deleteProblema(problema)
     }
 

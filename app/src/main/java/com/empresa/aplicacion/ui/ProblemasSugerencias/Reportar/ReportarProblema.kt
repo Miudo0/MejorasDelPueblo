@@ -1,5 +1,6 @@
 package com.empresa.aplicacion.ui.ProblemasSugerencias.Reportar
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,7 +24,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.empresa.aplicacion.ui.navigation.ProblemasSugerencias
 
 enum class TipoProblema(val descripcion: String) {
     INFRAESTRUCTURA("Infraestructura"),
@@ -36,7 +36,7 @@ enum class TipoProblema(val descripcion: String) {
 @Composable
 fun ReportarScreen(
     viewModel: ReportarProblemaViewModel = hiltViewModel(),
-    navigateTo: (String) -> Unit
+    navigateToProblemasSugerencias: () -> Unit
 ) {
     var descripcion by remember { mutableStateOf("") }
     var titulo by remember { mutableStateOf("") }
@@ -105,9 +105,7 @@ fun ReportarScreen(
         Button(
             onClick = {
            viewModel.nuevoProblema(titulo, descripcion,  tipo.descripcion)
-
-
-
+                Log.d("ReportarScreen", "Botón presionado")
             }
         ) {
             Text(
@@ -117,7 +115,7 @@ fun ReportarScreen(
         Spacer(modifier = Modifier.height(24.dp))
     }
     when(state){
-        is ReportarProblemaViewModel.NewProblemState.Success ->{navigateTo(ProblemasSugerencias.route)}
+        is ReportarProblemaViewModel.NewProblemState.Success ->{navigateToProblemasSugerencias()}
         is ReportarProblemaViewModel.NewProblemState.Error ->{}
         is ReportarProblemaViewModel.NewProblemState.Loading ->{}
 

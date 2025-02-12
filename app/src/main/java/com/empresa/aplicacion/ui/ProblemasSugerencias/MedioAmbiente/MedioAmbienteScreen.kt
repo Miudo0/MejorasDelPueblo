@@ -3,21 +3,18 @@ package com.empresa.aplicacion.ui.ProblemasSugerencias.MedioAmbiente
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -38,13 +35,14 @@ import com.empresa.aplicacion.ui.navigation.destinosMejoras
 @Composable
 fun MedioAmbienteScreen(
     navigateTo: (String) -> Unit,
+    navigateToLogin: () -> Unit
 
 
-
-    ) {
+) {
     Scaffold(
         topBar = {
-            AplicacionTopAppBar(navigateToLogin = {},
+            AplicacionTopAppBar(
+                navigateToLogin = navigateToLogin,
             )
         },
         bottomBar = {
@@ -68,7 +66,9 @@ fun MedioAmbienteScreen(
 
 @Composable
 private fun AppContent(paddingValues: PaddingValues) {
+
     val viewModel: MostrarProblemasMedioAmbienteViewModel = hiltViewModel()
+    val deleteViewModel: DeleteProblemasMedioAmbienteViewModel = hiltViewModel()
     val state = viewModel.state.collectAsState()
 
 
@@ -76,7 +76,10 @@ private fun AppContent(paddingValues: PaddingValues) {
     when (val current = state.value) {
         is MedioAmbienteState.Success -> {
             val problemas = current.problemas
-            ProblemasLista(problemas, paddingValues)
+            ProblemasLista(
+                problemas,
+                paddingValues,
+                deleteProblema = { deleteViewModel.deleteProblemaMedioAmbiente(it) })
         }
 
         is MedioAmbienteState.Error -> {
@@ -91,7 +94,11 @@ private fun AppContent(paddingValues: PaddingValues) {
 }
 
 @Composable
-fun ProblemasLista(problemas: List<Problemas>, paddingValues: PaddingValues) {
+fun ProblemasLista(
+    problemas: List<Problemas>,
+    paddingValues: PaddingValues,
+    deleteProblema: (Problemas) -> Unit,
+) {
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
@@ -99,56 +106,70 @@ fun ProblemasLista(problemas: List<Problemas>, paddingValues: PaddingValues) {
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(problemas) { problema ->
-            CartaItem(problema)
+            CartaItem(problema, onDelete = { deleteProblema(problema) })
         }
     }
 }
 
 //funcion para crear las cartas
 @Composable
-private fun CartaItem(problema: Problemas) {
+private fun CartaItem(
+    problema: Problemas,
+    onDelete: () -> Unit = {}
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp),
+        shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
         colors = CardDefaults.cardColors(MaterialTheme.colorScheme.primary)
     ) {
-        Row() {
-            Column(
-                modifier = Modifier.padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                problema.titulo?.let {
-                    Text(
-                        text = it,
-                        style = MaterialTheme.typography.titleMedium,
-                        textAlign = TextAlign.Center
-                    )
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-                problema.descripcion?.let {
-                    Text(
-                        text = it,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onPrimary,
-                        textAlign = TextAlign.Center
-                    )
-                }
 
-            }
-            IconButton(
-                onClick = { /*TODO*/ },
-                colors = IconButtonDefaults.iconButtonColors(contentColor = MaterialTheme.colorScheme.error)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Delete,
-                    contentDescription = "Eliminar",
-                    modifier = Modifier
-                        .size(24.dp)
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
 
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            problema.titulo?.let {
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.titleMedium,
+                    textAlign = TextAlign.Center
                 )
+            }
+            Spacer(
+                modifier = Modifier
+                    .height(8.dp)
+
+            )
+            problema.descripcion?.let {
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.bodyMedium,
+                    textAlign = TextAlign.Center
+                )
+            }
+
+            Button(
+                onClick = { onDelete() },
+                shape = RoundedCornerShape(16.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.onPrimaryContainer
+                ),
+                modifier = Modifier.padding(top = 16.dp)
+            ) {
+                Text(
+                    text = "Eliminar",
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .align(Alignment.CenterVertically)
+                )
+
             }
 
         }

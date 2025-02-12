@@ -12,12 +12,12 @@ class ProblemasRepository @Inject constructor(
         return problemasDao.getByTipo(tipo)
 
     }
-    suspend fun newProblema(titulo: String, descripcion: String, tipo: String){
+    suspend fun newProblema(titulo: String, descripcion: String, tipo: String, username: String){
         val problemasDao = problemasDatabase.problemasDao()
-        val nuevoProblema = Problemas(titulo = titulo, descripcion = descripcion, tipo = tipo)
+        val nuevoProblema = Problemas(titulo = titulo, descripcion = descripcion, tipo = tipo, username = username)
         problemasDao.insertAll(nuevoProblema)
-
     }
+
     fun getByFlowTipo(tipo: String) = problemasDatabase.problemasDao().getByFlowTipo(tipo)
 
     suspend fun deleteProblema(problema: Problemas){
