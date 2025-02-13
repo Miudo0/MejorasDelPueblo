@@ -2,10 +2,10 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "8e2d36e2399b87ad464d57d16039c686",
+    "identityHash": "b6d17dc3069cb3d124d4fff4f00a9117",
     "entities": [
       {
-        "tableName": "Problemas",
+        "tableName": "ProblemasEntity",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `titulo` TEXT, `descripcion` TEXT, `tipo` TEXT, `username` TEXT, `resuelto` INTEGER NOT NULL, `usuarioQueValida` TEXT)",
         "fields": [
           {
@@ -64,7 +64,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8e2d36e2399b87ad464d57d16039c686')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b6d17dc3069cb3d124d4fff4f00a9117')"
     ]
   }
 }

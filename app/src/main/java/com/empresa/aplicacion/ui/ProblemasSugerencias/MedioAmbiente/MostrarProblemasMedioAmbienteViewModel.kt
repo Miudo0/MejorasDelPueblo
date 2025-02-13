@@ -2,7 +2,7 @@ package com.empresa.aplicacion.ui.ProblemasSugerencias.MedioAmbiente
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.empresa.aplicacion.data.room.ProblemasDatabase.Problemas
+import com.empresa.aplicacion.data.room.ProblemasDatabase.ProblemasEntity
 import com.empresa.aplicacion.domain.GetMostrarProblemasFlowUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,7 +35,7 @@ class MostrarProblemasMedioAmbienteViewModel @Inject constructor(
 }
 
 sealed interface MedioAmbienteState {
-    data class Success(val problemas: List<Problemas>) : MedioAmbienteState
+    data class Success(val problemas: List<ProblemasEntity>) : MedioAmbienteState
     data class Error(val error: String) : MedioAmbienteState
     object Loading : MedioAmbienteState
 }

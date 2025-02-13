@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.empresa.aplicacion.domain.GetUserSharedPreferencesUseCase
 import com.empresa.aplicacion.domain.LogOutUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -41,7 +42,7 @@ class AppbarViewModel @Inject constructor(
         _username.value = "Invitado"
         Log.d("Logout", "Usuario cambiado a 'Invitado'.")
 
-        viewModelScope.launch {
+        viewModelScope.launch(IO) {
             _navegacionState.emit(NavigationStateCerrarSesion.NavigateToLogin)
             Log.d("Logout", "Navegación emitida: NavigateToLogin")
         }

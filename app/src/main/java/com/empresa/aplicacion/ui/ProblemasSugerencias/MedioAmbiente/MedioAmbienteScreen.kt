@@ -26,7 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.empresa.aplicacion.data.room.ProblemasDatabase.Problemas
+import com.empresa.aplicacion.data.room.ProblemasDatabase.ProblemasEntity
 import com.empresa.aplicacion.ui.AplicacionBottomAppBar
 import com.empresa.aplicacion.ui.AplicacionTopAppBar
 import com.empresa.aplicacion.ui.navigation.ProblemasSugerencias
@@ -95,9 +95,9 @@ private fun AppContent(paddingValues: PaddingValues) {
 
 @Composable
 fun ProblemasLista(
-    problemas: List<Problemas>,
+    problemas: List<ProblemasEntity>,
     paddingValues: PaddingValues,
-    deleteProblema: (Problemas) -> Unit,
+    deleteProblema: (ProblemasEntity) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier
@@ -114,7 +114,7 @@ fun ProblemasLista(
 //funcion para crear las cartas
 @Composable
 private fun CartaItem(
-    problema: Problemas,
+    problema: ProblemasEntity,
     onDelete: () -> Unit = {}
 ) {
     Card(

@@ -2,7 +2,7 @@ package com.empresa.aplicacion.ui.ProblemasSugerencias.MedioAmbiente
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.empresa.aplicacion.data.room.ProblemasDatabase.Problemas
+import com.empresa.aplicacion.data.room.ProblemasDatabase.ProblemasEntity
 import com.empresa.aplicacion.domain.DeleteProblemasUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +20,7 @@ class DeleteProblemasMedioAmbienteViewModel @Inject constructor(
     val state: StateFlow<DeleteProblemasMedioambienteState> = _state
 
 
-    fun deleteProblemaMedioAmbiente(problema: Problemas) {
+    fun deleteProblemaMedioAmbiente(problema: ProblemasEntity) {
         viewModelScope.launch {
             _state.value = DeleteProblemasMedioambienteState.Loading
             try {
@@ -32,7 +32,7 @@ class DeleteProblemasMedioAmbienteViewModel @Inject constructor(
     }
 
     sealed interface DeleteProblemasMedioambienteState {
-        data class Success(val problemas: List<Problemas>) : DeleteProblemasMedioambienteState
+        data class Success(val problemas: List<ProblemasEntity>) : DeleteProblemasMedioambienteState
         data class Error(val error: String) : DeleteProblemasMedioambienteState
         object Loading : DeleteProblemasMedioambienteState
     }

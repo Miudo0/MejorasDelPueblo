@@ -8,6 +8,7 @@ import com.empresa.aplicacion.data.room.ChuckJokesDatabase.ChuckJokesDatabase
 import com.empresa.aplicacion.data.room.NotificacionesDatabase.NotificacionesDatabase
 import com.empresa.aplicacion.data.room.ProblemasDatabase.ProblemasDatabase
 import com.empresa.aplicacion.data.room.UsuariosDatabase.UsuariosDatabase
+import com.empresa.aplicacion.domain.Problema
 import com.empresa.aplicacion.ui.MejorasDelpueblo
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
@@ -95,4 +96,17 @@ object NetworkModule {
     @Singleton
     @Provides
     fun providesChuckJokeDao(db: ChuckJokesDatabase): ChuckJokeDao = db.ChuckJokeDao()
+
+    @Provides
+    fun provideProblema(): Problema {
+        return Problema(
+            uid = 1,
+            titulo = "Título de ejemplo",
+            username = "Usuario1",
+            descripcion = "Descripción del problema",
+            tipo = "TipoA",
+            usuarioQueValida = "UsuarioValidador"
+        )
+    }
+
 }

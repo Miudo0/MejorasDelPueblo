@@ -10,22 +10,25 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ProblemasDao {
-    @Query("SELECT * FROM Problemas")
-    suspend fun getAll(): List<Problemas>
+    @Query("SELECT * FROM ProblemasEntity")
+    suspend fun getAll(): List<ProblemasEntity>
 
-    @Query("SELECT * FROM Problemas WHERE tipo LIKE :tipo")
-    suspend fun getByTipo(tipo: String): List<Problemas>
+    @Query("SELECT * FROM ProblemasEntity WHERE tipo LIKE :tipo")
+    suspend fun getByTipo(tipo: String): List<ProblemasEntity>
 
     @Insert
-    suspend fun insertAll(vararg problema: Problemas)
+    suspend fun insertAll(vararg problema: ProblemasEntity)
 
     @Delete
-    suspend  fun delete(problema: Problemas)
+    suspend  fun delete(problema: ProblemasEntity)
 
 
-    @Query("SELECT * FROM Problemas WHERE tipo LIKE :tipo")
-     fun getByFlowTipo(tipo: String): Flow<List<Problemas>>
+    @Query("SELECT * FROM ProblemasEntity WHERE tipo LIKE :tipo")
+     fun getByFlowTipo(tipo: String): Flow<List<ProblemasEntity>>
+
+    @Query("SELECT * FROM ProblemasEntity WHERE tipo LIKE :tipo")
+    fun getByFlowTipoParaConvertir(tipo: String): Flow<List<ProblemasEntity>>
 
     @Update
-    suspend fun update(problema: Problemas)
+    suspend fun update(problema: ProblemasEntity)
 }

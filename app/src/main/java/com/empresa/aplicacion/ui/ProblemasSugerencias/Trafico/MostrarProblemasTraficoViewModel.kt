@@ -2,7 +2,7 @@ package com.empresa.aplicacion.ui.ProblemasSugerencias.Trafico
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.empresa.aplicacion.data.room.ProblemasDatabase.Problemas
+import com.empresa.aplicacion.data.room.ProblemasDatabase.ProblemasEntity
 import com.empresa.aplicacion.domain.GetMostrarProblemasFlowUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,7 +37,7 @@ class MostrarProblemasTraficoViewModel @Inject constructor(
 }
 
 sealed interface TraficoState {
-    data class Success(val problemas: List<Problemas>) : TraficoState
+    data class Success(val problemas: List<ProblemasEntity>) : TraficoState
     data class Error(val error: String) : TraficoState
     object Loading : TraficoState
 

@@ -1,6 +1,9 @@
 package com.empresa.aplicacion.ui.ProblemasSugerencias.Infraestructura
 
+import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -17,6 +20,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -28,10 +32,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.empresa.aplicacion.data.room.ProblemasDatabase.Problemas
+import com.empresa.aplicacion.domain.Problema
 import com.empresa.aplicacion.ui.AplicacionBottomAppBar
 import com.empresa.aplicacion.ui.AplicacionTopAppBar
 import com.empresa.aplicacion.ui.ProblemasSugerencias.MarcarProblemaResueltoViewModel
+import com.empresa.aplicacion.ui.ProblemasSugerencias.ValidarProblemaViewModel
 import com.empresa.aplicacion.ui.navigation.ProblemasSugerencias
 import com.empresa.aplicacion.ui.navigation.destinosMejoras
 
@@ -69,17 +74,25 @@ private fun AppContent(paddingValues: PaddingValues) {
     val deleteViewModel: DeleteProblemasInfraestructuraViewModel = hiltViewModel()
 
     val state by viewModel.state.collectAsState()
-    val usuarioActual = viewModel.usuarioActual
 
     when (val current = state) {
         is InfraestructuraViewModel.InfraestructuraState.Success -> {
             val problemas = current.problemas
+
+            Log.d("AppContent", "Problemas cargados: ${problemas.size}")
+
             ProblemasLista(
                 problemas = problemas,
-                usuarioActual = usuarioActual,
-                deleteProblema = { deleteViewModel.deleteProblema(it) },
+                deleteProblema = {
+                    Log.d("AppContent", "Eliminar problema: ${it.titulo}")
+                    deleteViewModel.deleteProblema(it)
+                    Log.d("AppContent", "Problema eliminado: ${it.titulo}")
+                },
                 paddingValues = paddingValues,
-                marcarProblemaSolucionado = { actualizarViewModel.marcarComoResuelto(it) }
+                marcarProblemaSolucionado = {
+                    Log.d("AppContent", "Marcar como resuelto problema: ${it.titulo}")
+                    actualizarViewModel.marcarComoResuelto(it)
+                }
 
             )
         }
@@ -101,11 +114,10 @@ private fun AppContent(paddingValues: PaddingValues) {
 
 @Composable
 fun ProblemasLista(
-    problemas: List<Problemas>,
-    deleteProblema: (Problemas) -> Unit,
+    problemas: List<Problema>,
+    deleteProblema: (Problema) -> Unit,
     paddingValues: PaddingValues,
-    usuarioActual: String,
-    marcarProblemaSolucionado: (Problemas) -> Unit = {}
+    marcarProblemaSolucionado: (Problema) -> Unit
 
 ) {
     LazyColumn(
@@ -117,7 +129,6 @@ fun ProblemasLista(
         items(problemas) { problema ->
             CartaItem(
                 problema,
-                usuarioActual,
                 onDelete = { deleteProblema(problema) },
                 marcarProblemaSolucionado = { marcarProblemaSolucionado(problema) }
 
@@ -130,13 +141,19 @@ fun ProblemasLista(
 //funcion para crear las cartas
 @Composable
 private fun CartaItem(
-    problema: Problemas,
-    usuarioActual: String,
+    problema: Problema,
     onDelete: () -> Unit = {},
-    marcarProblemaSolucionado: () -> Unit = {}
-
+    marcarProblemaSolucionado: () -> Unit ,
+    viewModel: ValidarProblemaViewModel = hiltViewModel()
 
 ) {
+    val mostrarBotonEliminar = viewModel.mostrarBotonEliminar(problema)
+    val mostrarProblemaSolucionado = viewModel.mostrarProblemaSolucionado(problema)
+    val confirmarProblemaSolucionado = viewModel.confirmarProblemaSolucionado(problema)
+
+
+
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -176,12 +193,30 @@ private fun CartaItem(
 
             )
             problema.titulo?.let {
-                Text(
-                    text = it,
-                    style = MaterialTheme.typography.titleMedium,
-                    textAlign = TextAlign.Center
-                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(40.dp)
+                        .background(
+                            MaterialTheme.colorScheme.onPrimaryContainer,
+                            RoundedCornerShape(8.dp)
+                        ), contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.titleMedium,
+                        textAlign = TextAlign.Center,
+
+                        )
+                }
             }
+            HorizontalDivider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                thickness = 4.dp, // Grosor de la línea
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f) // Color de la línea
+            )
             Spacer(
                 modifier = Modifier
                     .height(8.dp)
@@ -195,9 +230,13 @@ private fun CartaItem(
                 )
             }
 
-            if (usuarioActual == problema.username) {
+            if (mostrarBotonEliminar) {
+
                 Button(
-                    onClick = { onDelete() },
+                    onClick = {
+                        Log.d("CartaItem", "Botón Eliminar presionado")
+                        onDelete()
+                    },
                     shape = RoundedCornerShape(16.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.onPrimaryContainer
@@ -213,50 +252,63 @@ private fun CartaItem(
                     )
                 }
             }
-            if (!problema.resuelto) {
-                if (usuarioActual != problema.username) {
-                    Button(
-                        onClick = { marcarProblemaSolucionado() },
-                        shape = RoundedCornerShape(16.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.onPrimaryContainer
-                        ),
-                        modifier = Modifier.padding(top = 16.dp)
-                    ) {
-                        Text(
-                            text = "Problema Solucionado",
-                            style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier
-                                .padding(8.dp)
-                                .align(Alignment.CenterVertically)
-                        )
-                    }
-                }
-            } else {
-                if (usuarioActual != problema.username) {
-                    if (usuarioActual != problema.usuarioQueValida) {
-                        Button(
-                            onClick = { onDelete() },
-                            shape = RoundedCornerShape(16.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = MaterialTheme.colorScheme.onPrimaryContainer
-                            ),
-                            modifier = Modifier.padding(top = 16.dp),
-                            enabled = true
-                        ) {
-                            Text(
-                                text = "Confirmar problema solucionado",
-                                style = MaterialTheme.typography.bodyMedium,
-                                modifier = Modifier
-                                    .padding(8.dp)
-                                    .align(Alignment.CenterVertically)
-                            )
+            if (mostrarProblemaSolucionado) {
 
-                        }
-                    }
+                Button(
+                    onClick = {
+                        Log.d("CartaItem", "Botón Problema Solucionado presionado")
+                        marcarProblemaSolucionado()
+                    },
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.onPrimaryContainer
+                    ),
+                    modifier = Modifier.padding(top = 16.dp)
+                ) {
+                    Text(
+                        text = "Problema Solucionado",
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .align(Alignment.CenterVertically)
+                    )
+
                 }
             }
+            if (confirmarProblemaSolucionado) {
 
+                Button(
+                    onClick = {
+                        Log.d("CartaItem", "Botón Confirmar Solucionado presionado")
+                        onDelete()
+                    },
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.onPrimaryContainer
+                    ),
+                    modifier = Modifier.padding(top = 16.dp),
+                    enabled = true
+                ) {
+                    Text(
+                        text = "Confirmar problema solucionado",
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .align(Alignment.CenterVertically)
+                    )
+
+                }
+            } else {
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = "A la espera de confirmacion de otro usuario",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    textAlign = TextAlign.Center
+                )
+            }
         }
     }
 }
+
+
