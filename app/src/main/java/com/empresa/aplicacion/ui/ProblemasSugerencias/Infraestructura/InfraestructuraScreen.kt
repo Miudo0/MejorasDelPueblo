@@ -20,7 +20,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -29,6 +28,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -138,12 +138,38 @@ fun ProblemasLista(
     }
 }
 
+@Composable
+fun BotonAccion(
+    texto: String,
+    onClick: () -> Unit,
+    enabled: Boolean = true
+) {
+    Button(
+        onClick = onClick,
+        shape = RoundedCornerShape(16.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.onPrimaryContainer
+        ),
+        modifier = Modifier.padding(top = 16.dp),
+        enabled = enabled
+    ) {
+        Text(
+            text = texto,
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier
+                .padding(8.dp)
+                .align(Alignment.CenterVertically)
+        )
+    }
+}
+
+
 //funcion para crear las cartas
 @Composable
 private fun CartaItem(
     problema: Problema,
     onDelete: () -> Unit = {},
-    marcarProblemaSolucionado: () -> Unit ,
+    marcarProblemaSolucionado: () -> Unit,
     viewModel: ValidarProblemaViewModel = hiltViewModel()
 
 ) {
@@ -151,161 +177,182 @@ private fun CartaItem(
     val mostrarProblemaSolucionado = viewModel.mostrarProblemaSolucionado(problema)
     val confirmarProblemaSolucionado = viewModel.confirmarProblemaSolucionado(problema)
 
-
+    val colorSuperior = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f) // Colores más suaves
+    val colorInferior = MaterialTheme.colorScheme.secondary.copy(alpha = 0.6f)
 
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp),
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+        shape = RoundedCornerShape(12.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
         colors = CardDefaults.cardColors(
             containerColor = if (problema.resuelto) {
-                MaterialTheme.colorScheme.secondary
+                MaterialTheme.colorScheme.secondary.copy(alpha = 0.2f)
             } else {
-                MaterialTheme.colorScheme.primary
+                MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)
             }
         )
     ) {
+        Spacer(modifier = Modifier.height(12.dp))
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp),
-
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            problema.username?.let {
-                Text(
-                    text = "Reportado por: $it",
-                    style = MaterialTheme.typography.bodyMedium,
-                    textAlign = TextAlign.Left,
-                    modifier = Modifier
-                        .padding(bottom = 8.dp)
-                        .align(Alignment.Start)
-                )
-            }
-            Spacer(
-                modifier = Modifier
-                    .height(8.dp)
 
-            )
-            problema.titulo?.let {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(40.dp)
-                        .background(
-                            MaterialTheme.colorScheme.onPrimaryContainer,
-                            RoundedCornerShape(8.dp)
-                        ), contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = it,
-                        style = MaterialTheme.typography.titleMedium,
-                        textAlign = TextAlign.Center,
-
-                        )
-                }
-            }
-            HorizontalDivider(
+            // Box para username, titulo y descripcion
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp),
-                thickness = 4.dp, // Grosor de la línea
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f) // Color de la línea
-            )
-            Spacer(
+                    .background(colorSuperior, RoundedCornerShape(16.dp))
+                    .padding(8.dp)
+
+
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.Start,
+                    verticalArrangement = Arrangement.spacedBy(8.dp) // Espaciado más pequeño
+                ) {
+                    problema.username?.let {
+                        Text(
+                            text = "Reportado por: $it",
+                            style = MaterialTheme.typography.bodyMedium,
+                            textAlign = TextAlign.Left,
+                            modifier = Modifier.align(Alignment.Start)
+                        )
+                    }
+
+                    problema.titulo?.let {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(30.dp) // Aumento la altura para que quede más equilibrado
+                                .background(
+                                    MaterialTheme.colorScheme.primary.copy(alpha = 0.15f), // Fondo con algo de transparencia
+                                    shape = RoundedCornerShape(16.dp) // Esquinas más redondeadas para un look más suave
+                                )
+                                .padding(horizontal = 16.dp), // Espaciado para que el texto no quede pegado a los bordes
+                            contentAlignment = Alignment.Center // Centrado del contenido (Texto)
+                        ) {
+                            Text(
+                                text = it, // El texto dinámico que quieres mostrar
+                                style = MaterialTheme.typography.titleMedium.copy(
+                                    fontWeight = FontWeight.Bold // Puedes poner el texto en negrita si lo deseas
+                                ),
+                                color = MaterialTheme.colorScheme.onPrimary, // Color para que contraste bien sobre el fondo
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                    }
+                    problema.descripcion?.let {
+                        Text(
+                            text = it,
+                            style = MaterialTheme.typography.bodyMedium,
+                            textAlign = TextAlign.Left
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // Box para los botones
+            Box(
                 modifier = Modifier
-                    .height(8.dp)
+                    .fillMaxWidth()
+                    .padding(8.dp)
 
-            )
-            problema.descripcion?.let {
-                Text(
-                    text = it,
-                    style = MaterialTheme.typography.bodyMedium,
-                    textAlign = TextAlign.Center
-                )
-            }
-
-            if (mostrarBotonEliminar) {
-
-                Button(
-                    onClick = {
-                        Log.d("CartaItem", "Botón Eliminar presionado")
-                        onDelete()
-                    },
-                    shape = RoundedCornerShape(16.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.onPrimaryContainer
-                    ),
-                    modifier = Modifier.padding(top = 16.dp)
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(12.dp) // Espaciado adecuado entre los botones
                 ) {
-                    Text(
-                        text = "Eliminar",
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .align(Alignment.CenterVertically)
-                    )
+                    if (mostrarBotonEliminar) {
+                        Button(
+                            onClick = {
+                                Log.d("CartaItem", "Botón Eliminar presionado")
+                                onDelete()
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(48.dp)
+                                .background(MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp))
+                                .padding(horizontal = 16.dp)
+                                .padding(vertical = 8.dp)
+                        ) {
+                            Text(
+                                text = "Eliminar",
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = Modifier.align(Alignment.CenterVertically)
+                            )
+                        }
+                    }
+
+                    if (mostrarProblemaSolucionado) {
+                        Button(
+                            onClick = {
+                                Log.d("CartaItem", "Botón Problema Solucionado presionado")
+                                marcarProblemaSolucionado()
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(48.dp)
+                                .background(MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp))
+                                .padding(horizontal = 16.dp)
+                                .padding(vertical = 8.dp)
+                        ) {
+                            Text(
+                                text = "Problema Solucionado",
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = Modifier.align(Alignment.CenterVertically)
+                            )
+                        }
+                    }
+
+                    if (confirmarProblemaSolucionado) {
+                        Button(
+                            onClick = {
+                                Log.d("CartaItem", "Botón Confirmar Solucionado presionado")
+                                onDelete()
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(48.dp)
+                                .background(MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp))
+                                .padding(horizontal = 16.dp)
+                                .padding(vertical = 8.dp)
+                        ) {
+                            Text(
+                                text = "Confirmar problema solucionado",
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = Modifier.align(Alignment.CenterVertically)
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text(
+                            text = "A la espera de confirmación de otro usuario",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.error,
+                            textAlign = TextAlign.Center
+                        )
+                    }else {
+                        if (!mostrarProblemaSolucionado && !mostrarBotonEliminar) {
+                            Spacer(modifier = Modifier.height(16.dp))
+                            Text(
+                                text = "A la espera de confirmación de otro usuario para confirmar el problema solucionado",
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.error,
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                    }
                 }
-            }
-            if (mostrarProblemaSolucionado) {
-
-                Button(
-                    onClick = {
-                        Log.d("CartaItem", "Botón Problema Solucionado presionado")
-                        marcarProblemaSolucionado()
-                    },
-                    shape = RoundedCornerShape(16.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.onPrimaryContainer
-                    ),
-                    modifier = Modifier.padding(top = 16.dp)
-                ) {
-                    Text(
-                        text = "Problema Solucionado",
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .align(Alignment.CenterVertically)
-                    )
-
-                }
-            }
-            if (confirmarProblemaSolucionado) {
-
-                Button(
-                    onClick = {
-                        Log.d("CartaItem", "Botón Confirmar Solucionado presionado")
-                        onDelete()
-                    },
-                    shape = RoundedCornerShape(16.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.onPrimaryContainer
-                    ),
-                    modifier = Modifier.padding(top = 16.dp),
-                    enabled = true
-                ) {
-                    Text(
-                        text = "Confirmar problema solucionado",
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .align(Alignment.CenterVertically)
-                    )
-
-                }
-            } else {
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    text = "A la espera de confirmacion de otro usuario",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    textAlign = TextAlign.Center
-                )
             }
         }
     }
