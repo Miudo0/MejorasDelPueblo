@@ -1,4 +1,4 @@
-package com.empresa.aplicacion.ui.ProblemasSugerencias
+package com.empresa.aplicacion.ui.ProblemasSugerencias.Componentes
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

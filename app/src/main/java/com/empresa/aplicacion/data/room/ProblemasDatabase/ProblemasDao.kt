@@ -26,8 +26,12 @@ interface ProblemasDao {
     @Query("SELECT * FROM ProblemasEntity WHERE tipo LIKE :tipo")
      fun getByFlowTipo(tipo: String): Flow<List<ProblemasEntity>>
 
-    @Query("SELECT * FROM ProblemasEntity WHERE tipo LIKE :tipo")
+    @Query("SELECT * FROM ProblemasEntity WHERE tipo LIKE :tipo ORDER BY resuelto ASC")
     fun getByFlowTipoParaConvertir(tipo: String): Flow<List<ProblemasEntity>>
+
+    @Query("SELECT * FROM ProblemasEntity WHERE username LIKE :username ORDER BY resuelto DESC")
+    fun getByFlowUsername(username: String): Flow<List<ProblemasEntity>>
+
 
     @Update
     suspend fun update(problema: ProblemasEntity)

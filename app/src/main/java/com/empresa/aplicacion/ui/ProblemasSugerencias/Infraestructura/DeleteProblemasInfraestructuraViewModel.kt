@@ -1,6 +1,5 @@
 package com.empresa.aplicacion.ui.ProblemasSugerencias.Infraestructura
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.empresa.aplicacion.data.room.ProblemasDatabase.ProblemasEntity
@@ -30,8 +29,7 @@ class DeleteProblemasInfraestructuraViewModel @Inject constructor(
             try {
                 val problemaEntity = problema.toEntity()
                 deleteProblemasInfraestructuraUseCase(problemaEntity)
-                Log.d("DeleteProblemas", "Problema eliminado: ${problema.titulo}")
-                Log.d("DeleteProblemas", "UID del problema: ${problemaEntity.uid}")
+
             } catch (e: Throwable) {
                 _state.value = DeleteProblemasInfraestructuraState.Error("Error al eliminar")
             }

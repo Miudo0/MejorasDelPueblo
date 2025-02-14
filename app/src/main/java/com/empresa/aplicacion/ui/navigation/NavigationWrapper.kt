@@ -12,13 +12,13 @@ import com.empresa.aplicacion.ui.AplicacionTopAppBar
 import com.empresa.aplicacion.ui.Home.HomeScreen
 import com.empresa.aplicacion.ui.Login.LoginScreen
 import com.empresa.aplicacion.ui.Login.RegistroScreen
-import com.empresa.aplicacion.ui.Notificaciones.NotificationsScreen
 import com.empresa.aplicacion.ui.ProblemasSugerencias.Infraestructura.InfraestructuraScreen
 import com.empresa.aplicacion.ui.ProblemasSugerencias.MedioAmbiente.MedioAmbienteScreen
 import com.empresa.aplicacion.ui.ProblemasSugerencias.ProblemasScreen
 import com.empresa.aplicacion.ui.ProblemasSugerencias.Reportar.ReportarScreen
 import com.empresa.aplicacion.ui.ProblemasSugerencias.Seguridad.SeguridadScreen
 import com.empresa.aplicacion.ui.ProblemasSugerencias.Trafico.TraficoScreen
+import com.empresa.aplicacion.ui.RegistroTareasPendientes.RegistroProblemasScreen
 
 
 @Composable
@@ -47,9 +47,8 @@ fun NavigationWrapper() {
             HomeScreen(
 
                 navigateToProblemas = { navController.navigate(ProblemasSugerencias.route) },
-                navigateToNotificaicones = { navController.navigate(NotificacionesScreen.route) },
-                navigateToVoluntariado = { navController.navigate(Voluntariado.route) },
-                navigateToProyectos = { navController.navigate(Proyectos.route) },
+                navigateToRegistro = { navController.navigate(RegistroUsuario.route) },
+
                 navigateToLogin = { navController.navigate(Login.route) },
                 navigateTo = { ruta ->
                     navController.navigate(ruta)
@@ -71,8 +70,8 @@ fun NavigationWrapper() {
         }
 
 
-        composable(route = NotificacionesScreen.route) {
-            NotificationsScreen(
+        composable(route = RegistroUsuario.route) {
+            RegistroProblemasScreen (
                 navigateTo = { ruta ->
                     navController.navigate(ruta)
                 }

@@ -1,4 +1,4 @@
-package com.empresa.aplicacion.ui.ProblemasSugerencias
+package com.empresa.aplicacion.ui.ProblemasSugerencias.Componentes
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween

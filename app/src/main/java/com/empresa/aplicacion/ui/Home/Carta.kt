@@ -72,8 +72,8 @@ var listaCartas: List<Carta> = listOf(
     get() = listOf(
         R.drawable.reporteproblemas to R.string.reportar,
         R.drawable.notificaciones to R.string.notificaciones,
-        R.drawable.voluntariado to R.string.voluntariado,
-        R.drawable.proyectoscomunitarios to R.string.proyectos
+//        R.drawable.voluntariado to R.string.voluntariado,
+//        R.drawable.proyectoscomunitarios to R.string.proyectos
 
     )
 

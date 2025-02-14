@@ -40,9 +40,7 @@ import com.empresa.aplicacion.ui.navigation.destinosMejoras
 @Composable
 fun HomeScreen(
     navigateToProblemas: () -> Unit,
-    navigateToNotificaicones: () -> Unit,
-    navigateToVoluntariado: () -> Unit,
-    navigateToProyectos: () -> Unit,
+    navigateToRegistro: () -> Unit,
     navigateToLogin: () -> Unit,
     navigateTo: (String) -> Unit,
 
@@ -69,9 +67,8 @@ fun HomeScreen(
 
         App(
             navigateToProblemas,
-            navigateToNotificaicones,
-            navigateToVoluntariado,
-            navigateToProyectos,
+            navigateToRegistro,
+
             paddingValues = paddingValues
         )
     }
@@ -81,9 +78,8 @@ fun HomeScreen(
 @Composable
 fun App(
     navigateToProblemas: () -> Unit,
-    navigateToNotificaicones: () -> Unit,
-    navigateToVoluntariado: () -> Unit,
-    navigateToProyectos: () -> Unit,
+    navigateToRegistro: () -> Unit,
+
     paddingValues: PaddingValues
 ) {
 
@@ -98,9 +94,8 @@ fun App(
         item {
             FilaElementosAccesibles(
                 navigateToProblemas,
-                navigateToNotificaicones,
-                navigateToVoluntariado,
-                navigateToProyectos
+                navigateToRegistro,
+
             )
         }
         item {
@@ -113,9 +108,8 @@ fun App(
 @Composable
 private fun FilaElementosAccesibles(
     navigateToProblemas: () -> Unit,
-    navigateToNotificaicones: () -> Unit,
-    navigateToVoluntariado: () -> Unit,
-    navigateToProyectos: () -> Unit,
+    navigateToRegistro: () -> Unit,
+
 
     ) {
     LazyRow(
@@ -134,9 +128,9 @@ private fun FilaElementosAccesibles(
                     .clickable {
                         when (item.first) {
                             R.drawable.reporteproblemas -> navigateToProblemas() // Enviar identificador de pantalla
-                            R.drawable.notificaciones -> navigateToNotificaicones()
-                            R.drawable.voluntariado -> navigateToVoluntariado()
-                            R.drawable.proyectoscomunitarios -> navigateToProyectos()
+                            R.drawable.notificaciones -> navigateToRegistro()
+//                            R.drawable.voluntariado -> navigateToVoluntariado()
+//                            R.drawable.proyectoscomunitarios -> navigateToProyectos()
                             //   else -> navigateTo(Login.route) // Pantalla por defecto
                         }
                         Log.d("CLICKABLE", "item.first: ${item.first}")

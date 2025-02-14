@@ -8,11 +8,6 @@ import javax.inject.Inject
 class ProblemasRepository @Inject constructor(
     private val problemasDatabase: ProblemasDatabase
 ) {
-    suspend fun getProblemasByTipo(tipo: String): List<ProblemasEntity> {
-        val problemasDao = problemasDatabase.problemasDao()
-        return problemasDao.getByTipo(tipo)
-
-    }
     suspend fun newProblema(titulo: String, descripcion: String, tipo: String, username: String){
         val problemasDao = problemasDatabase.problemasDao()
         val nuevoProblema = ProblemasEntity(uid= 0,titulo = titulo, descripcion = descripcion, tipo = tipo, username = username)
@@ -23,6 +18,9 @@ class ProblemasRepository @Inject constructor(
 
     fun getByFlowTipoParaConvertir(tipo: String): Flow<List<ProblemasEntity>> =
        problemasDatabase.problemasDao().getByFlowTipo(tipo)
+
+    fun getByFlowUsername(username: String): Flow<List<ProblemasEntity>> =
+        problemasDatabase.problemasDao().getByFlowUsername(username)
 
 
     suspend fun deleteProblema(problema: ProblemasEntity){

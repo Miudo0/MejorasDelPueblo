@@ -1,4 +1,4 @@
-package com.empresa.aplicacion.ui.ProblemasSugerencias
+package com.empresa.aplicacion.ui.ProblemasSugerencias.Componentes
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues

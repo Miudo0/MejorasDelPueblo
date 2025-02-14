@@ -23,21 +23,21 @@ object ProblemasSugerencias : DestinosMejorasPueblo {
     override val route = "problemasScreen"
 }
 
-object NotificacionesScreen : DestinosMejorasPueblo{
-    override val image = R.drawable.notificacionesicono
+object RegistroUsuario : DestinosMejorasPueblo{
+    override val image = R.drawable.proyectoscomunitariosicono
     override val route = "notificacionesScreen"
 }
-
-object Proyectos : DestinosMejorasPueblo {
-    override val image = R.drawable.proyectoscomunitariosicono
-    override val route = "proyectosScreen"
-}
-
-object Voluntariado : DestinosMejorasPueblo {
-    override val image = R.drawable.voluntariadoayudas
-    override val route = "voluntariadoScreen"
-
-}
+//
+//object Proyectos : DestinosMejorasPueblo {
+//    override val image = R.drawable.proyectoscomunitariosicono
+//    override val route = "proyectosScreen"
+//}
+//
+//object Voluntariado : DestinosMejorasPueblo {
+//    override val image = R.drawable.voluntariadoayudas
+//    override val route = "voluntariadoScreen"
+//
+//}
 object BotonesAcceso {
     val route: String = "botonesAcceso"
 }
@@ -73,5 +73,5 @@ object Seguridad{
 
 
 //lista de las pantallas
-var destinosMejoras = listOf(Home, ProblemasSugerencias, NotificacionesScreen, Proyectos, Voluntariado)
+var destinosMejoras = listOf(Home, ProblemasSugerencias, RegistroUsuario)
 

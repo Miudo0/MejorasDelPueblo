@@ -1,4 +1,4 @@
-package com.empresa.aplicacion.ui.ProblemasSugerencias
+package com.empresa.aplicacion.ui.ProblemasSugerencias.Componentes
 
 import androidx.lifecycle.ViewModel
 import com.empresa.aplicacion.domain.GetUserSharedPreferencesUseCase
