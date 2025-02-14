@@ -3,30 +3,46 @@ package com.empresa.aplicacion.ui.Home
 import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.empresa.aplicacion.R
 import com.empresa.aplicacion.ui.AplicacionBottomAppBar
@@ -68,7 +84,6 @@ fun HomeScreen(
         App(
             navigateToProblemas,
             navigateToRegistro,
-
             paddingValues = paddingValues
         )
     }
@@ -79,11 +94,8 @@ fun HomeScreen(
 fun App(
     navigateToProblemas: () -> Unit,
     navigateToRegistro: () -> Unit,
-
     paddingValues: PaddingValues
 ) {
-
-
     LazyColumn(
         Modifier
             .padding(paddingValues)
@@ -95,7 +107,6 @@ fun App(
             FilaElementosAccesibles(
                 navigateToProblemas,
                 navigateToRegistro,
-
             )
         }
         item {
@@ -109,26 +120,25 @@ fun App(
 private fun FilaElementosAccesibles(
     navigateToProblemas: () -> Unit,
     navigateToRegistro: () -> Unit,
-
-
     ) {
     LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
         contentPadding = PaddingValues(horizontal = 16.dp),
         modifier = Modifier
-
-
+            .fillMaxWidth()
     )
     {
         items(listaElementosAccesibles) { item ->
             ElementosAccesibles(
                 drawable = item.first,
                 text = item.second,
-                modifier = Modifier
-                    .clickable {
+                onClick =
+                 {
                         when (item.first) {
-                            R.drawable.reporteproblemas -> navigateToProblemas() // Enviar identificador de pantalla
-                            R.drawable.notificaciones -> navigateToRegistro()
+                            R.drawable.reporteproblemasfinal -> navigateToProblemas()
+                            R.drawable.turegistro -> navigateToRegistro()
+
+                            //por si se cambia
 //                            R.drawable.voluntariado -> navigateToVoluntariado()
 //                            R.drawable.proyectoscomunitarios -> navigateToProyectos()
                             //   else -> navigateTo(Login.route) // Pantalla por defecto
@@ -144,28 +154,58 @@ private fun FilaElementosAccesibles(
 private fun ElementosAccesibles(
     @DrawableRes drawable: Int,
     @StringRes text: Int,
-    modifier: Modifier = Modifier
+    onClick: () -> Unit,
+
 ) {
-    Column(
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
+    var isPressed by remember { mutableStateOf(false) }
+    val scale by animateFloatAsState(targetValue = if (isPressed) 0.95f else 1f, label = "")
+
+    Card(
+        shape = RoundedCornerShape(16.dp),
+        elevation = CardDefaults.cardElevation(6.dp),
+        modifier = Modifier
+            .width(120.dp)
+            .scale(scale)
+            .clickable(
+                //hace un efecto al tocar
+                interactionSource = remember { MutableInteractionSource() },
+                indication = LocalIndication.current,
+                onClick = {
+                    isPressed = true
+                    onClick()
+                    isPressed = false
+                }
+            ),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
     ) {
-
-        Image(
-            painter = painterResource(drawable),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .size(88.dp)
-                .clip(CircleShape)
+                .fillMaxWidth()
+                .padding(12.dp)
+        ) {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .size(80.dp)
+                    .clip(CircleShape)
 
-        )
-        Text(
-            text = stringResource(text),
-            modifier = Modifier
-                .paddingFromBaseline(top = 24.dp, bottom = 8.dp),
-            style = MaterialTheme.typography.bodyMedium
-        )
+            ) {
+                Image(
+                    painter = painterResource(drawable),
+                    contentDescription = stringResource(text),
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = stringResource(text),
+                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
+                color = MaterialTheme.colorScheme.onSurface,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
     }
 }

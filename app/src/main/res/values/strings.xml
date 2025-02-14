@@ -5,12 +5,12 @@
     <string name="proyectos_comunitarios">Proyectos comunitarios</string>
     <string name="texto_proyectos">“Únete a iniciativas para mejorar el pueblo, desde restaurar espacios hasta organizar eventos. Tu participación hace la diferencia, ¡construyamos juntos un lugar mejor!”</string>
     <string name="notificaciones_e_informaci_n_relevante">Notificaciones e información relevante</string>
-    <string name="texto_notificaciones">“Recibe alertas personalizadas y noticias importantes sobre reparaciones, eventos y emergencias en tu comunidad. Mantente siempre informado y conectado con tu pueblo.”</string>
-    <string name="voluntariado_y_ayudas">Voluntariado y ayudas</string>
-    <string name="texto_voluntariado">“Únete como voluntario en proyectos comunitarios o solicita ayuda en situaciones específicas. Tu apoyo hace la diferencia.”</string>
+    <string name="texto_notificaciones">“Mantente informado sobre cuestiones relevantes relacionadas con la seguridad, el medio ambiente y el tráfico en nuestra comunidad. Ayuda a resolverlas y mantente conectado con tu pueblo”</string>
+    <string name="voluntariado_y_ayudas">Consulta tus reportes y sugerencias</string>
+    <string name="texto_voluntariado">“Los usuarios pueden consultar todos los reportes y sugerencias que se han enviado a la plataforma. Aquí podrán visualizar el estado actual de cada uno, si han sido resueltos o si están en proceso de revisión”</string>
     <string name="titulo_aplicacion">Mejoras del Pueblo</string>
-    <string name="reportar">reportar</string>
-    <string name="notificaciones">notificaciones</string>
+    <string name="reportar">Reportar</string>
+    <string name="resitro_Problemas">Tus problemas</string>
     <string name="voluntariado">voluntariado</string>
     <string name="proyectos">proyectos</string>
     <string name="infraestructura">Infraestructura</string>

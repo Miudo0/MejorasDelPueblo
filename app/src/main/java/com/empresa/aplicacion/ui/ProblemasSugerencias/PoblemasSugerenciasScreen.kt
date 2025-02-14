@@ -58,22 +58,22 @@ data class CartaProblemas(
 var listaCartasProblemas: List<CartaProblemas> = listOf(
 
     CartaProblemas(
-        R.drawable.infraestuctura,
+        R.drawable.infraestructurasfinal,
         R.string.infraestructura,
         route = Infraestructura.route
     ),
     CartaProblemas(
-        R.drawable.trafico,
+        R.drawable.traficofinal,
         R.string.trafico,
         route = Trafico.route
     ),
     CartaProblemas(
-        R.drawable.seguridad,
+        R.drawable.seguridadfinal,
         R.string.seguridad,
         route = Seguridad.route
     ),
     CartaProblemas(
-        R.drawable.medioambiente,
+        R.drawable.medioambientefinal,
         R.string.medio_ambiente,
         route = MedioAmbiente.route
     )

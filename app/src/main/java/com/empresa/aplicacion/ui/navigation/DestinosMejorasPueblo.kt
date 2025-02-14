@@ -13,19 +13,19 @@ interface DestinosMejorasPueblo {
 
 object Home : DestinosMejorasPueblo {
     override val image = R.drawable.homeicon
-   override val route = "homeScreen"
+   override val route = "Inicio"
 
 
 }
 
 object ProblemasSugerencias : DestinosMejorasPueblo {
    override val image = R.drawable.reporteproblemasicono
-    override val route = "problemasScreen"
+    override val route = "Tablon de problemas"
 }
 
 object RegistroUsuario : DestinosMejorasPueblo{
     override val image = R.drawable.proyectoscomunitariosicono
-    override val route = "notificacionesScreen"
+    override val route = "Tus problemas activos"
 }
 //
 //object Proyectos : DestinosMejorasPueblo {

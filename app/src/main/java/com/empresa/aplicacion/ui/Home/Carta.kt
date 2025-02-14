@@ -45,23 +45,23 @@ data class Carta(
 //creo la lista de las cartas.
 var listaCartas: List<Carta> = listOf(
     Carta(
-        R.drawable.reporteproblemas,
+        R.drawable.reporteproblemasfinal,
         R.string.reporte_de_problemas_y_sugerencias,
         R.string.informa
     ),
     Carta(
-        R.drawable.proyectoscomunitarios,
+        R.drawable.proyectoscomunitariosfinal,
         R.string.proyectos_comunitarios,
         R.string.texto_proyectos
 
     ),
     Carta(
-        R.drawable.notificaciones,
+        R.drawable.notificacionesfinal,
         R.string.notificaciones_e_informaci_n_relevante,
         R.string.texto_notificaciones
     ),
     Carta(
-        R.drawable.voluntariado,
+        R.drawable.turegistro,
         R.string.voluntariado_y_ayudas,
         R.string.texto_voluntariado
     )
@@ -70,8 +70,8 @@ var listaCartas: List<Carta> = listOf(
 
  val listaElementosAccesibles: List<Pair<Int, Int>>
     get() = listOf(
-        R.drawable.reporteproblemas to R.string.reportar,
-        R.drawable.notificaciones to R.string.notificaciones,
+        R.drawable.reporteproblemasfinal to R.string.reportar,
+        R.drawable.turegistro to R.string.resitro_Problemas,
 //        R.drawable.voluntariado to R.string.voluntariado,
 //        R.drawable.proyectoscomunitarios to R.string.proyectos
 
