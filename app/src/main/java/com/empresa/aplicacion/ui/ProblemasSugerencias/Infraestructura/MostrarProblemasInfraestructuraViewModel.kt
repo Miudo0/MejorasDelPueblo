@@ -2,9 +2,7 @@ package com.empresa.aplicacion.ui.ProblemasSugerencias.Infraestructura
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.empresa.aplicacion.domain.GetMostrarProblemasFlowUseCase
 import com.empresa.aplicacion.domain.GetProblemasFlowConvertirUseCase
-import com.empresa.aplicacion.domain.GetUserSharedPreferencesUseCase
 import com.empresa.aplicacion.domain.Problema
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,9 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class InfraestructuraViewModel @Inject constructor(
-    private val getMostrarProblemasFlowUseCase : GetMostrarProblemasFlowUseCase,
-    private val GetProblemasFlowConvertirUseCase: GetProblemasFlowConvertirUseCase,
-    getUser: GetUserSharedPreferencesUseCase
+    private val getProblemasFlowConvertirUseCase: GetProblemasFlowConvertirUseCase,
 ) : ViewModel() {
 
 
@@ -29,7 +25,7 @@ class InfraestructuraViewModel @Inject constructor(
         viewModelScope.launch {
             _state.value = InfraestructuraState.Loading
             try {
-               GetProblemasFlowConvertirUseCase("Infraestructura")
+               getProblemasFlowConvertirUseCase("Infraestructura")
                    .collect { problemasRegistrados ->
                         _state.value = InfraestructuraState.Success(problemasRegistrados)
                     }

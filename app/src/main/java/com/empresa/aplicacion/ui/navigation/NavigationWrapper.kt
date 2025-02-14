@@ -115,6 +115,9 @@ fun NavigationWrapper() {
             ReportarScreen(
                 navigateToProblemasSugerencias = {
                     navController.navigate(ProblemasSugerencias.route)
+                },
+                navigateTo = { ruta ->
+                    navController.navigate(ruta)
                 }
             )
         }

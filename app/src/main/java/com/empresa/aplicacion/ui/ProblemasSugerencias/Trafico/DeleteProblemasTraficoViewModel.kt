@@ -3,7 +3,9 @@ package com.empresa.aplicacion.ui.ProblemasSugerencias.Trafico
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.empresa.aplicacion.data.room.ProblemasDatabase.ProblemasEntity
+import com.empresa.aplicacion.data.room.ProblemasDatabase.toEntity
 import com.empresa.aplicacion.domain.DeleteProblemasUseCase
+import com.empresa.aplicacion.domain.Problema
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,11 +20,13 @@ class DeleteProblemasTraficoViewModel @Inject constructor(
         MutableStateFlow<DeleteProblemasTraficoState>(DeleteProblemasTraficoState.Loading)
     val state: StateFlow<DeleteProblemasTraficoState> = _state
 
-    fun deleteProblemaTrafico(problema: ProblemasEntity) {
+    fun deleteProblemasTrafico(problema: Problema) {
         viewModelScope.launch {
             _state.value = DeleteProblemasTraficoState.Loading
             try {
-                deleteProblemasTrafico(problema)
+                val problemaEntity = problema.toEntity()
+                deleteProblemasTrafico(problemaEntity)
+
             } catch (e: Throwable) {
                 _state.value = DeleteProblemasTraficoState.Error("Error al eliminar")
             }

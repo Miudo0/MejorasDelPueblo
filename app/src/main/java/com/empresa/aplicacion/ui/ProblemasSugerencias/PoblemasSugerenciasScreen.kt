@@ -3,17 +3,23 @@ package com.empresa.aplicacion.ui.ProblemasSugerencias
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -22,6 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -114,20 +121,25 @@ fun ProblemasApp(
     navigateToOpcion: (String) -> Unit
 ) {
     Column(
-        Modifier
-            .fillMaxWidth()
-
-            .padding(paddingValues),//aplicar a la columna
-        verticalArrangement = Arrangement.SpaceAround,
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+            .background(MaterialTheme.colorScheme.background),
+        verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
-
     ) {
-        //para que recorra la lista en cuadrantes
+        Text(
+            text = "Categorías de Problemas",
+            style = MaterialTheme.typography.headlineSmall,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.padding(16.dp)
+        )
+
         LazyVerticalGrid(
-            columns = GridCells.Fixed(2), // Dos columnas para el cuadrante
+            columns = GridCells.Fixed(2),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.padding(paddingValues)
+            modifier = Modifier.padding(horizontal = 16.dp)
         ) {
             items(listaCartasProblemas) { carta ->
                 CartaItem(
@@ -136,11 +148,21 @@ fun ProblemasApp(
                 )
             }
         }
+
+        Spacer(modifier = Modifier.height(24.dp))
+
         Button(
-            onClick = { navigateToReportarProblema() },
+            onClick = navigateToReportarProblema,
+            shape = RoundedCornerShape(12.dp),
+            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
+            modifier = Modifier
+                .fillMaxWidth(0.8f)
+                .height(50.dp)
         ) {
-            Text(text = "Reportar un problema")
+            Text(text = "Reportar un problema", style = MaterialTheme.typography.bodyLarge)
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
     }
 }
 
@@ -153,21 +175,22 @@ private fun CartaItem(
 ) {
     Card(
         modifier = Modifier
-            .padding(10.dp)
-            .clickable {
-                navigateToOpcion(carta.route)
-            },
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 6.dp
-        ),
-        colors = CardDefaults.cardColors(
-            MaterialTheme.colorScheme.primary
-        )
+            .padding(8.dp)
+            .clickable { navigateToOpcion(carta.route) }
+            .fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceVariant)
     ) {
-        FotoCarta(carta.imagen)
-        TextoCarta(carta.titulo)
+        Column(
+            modifier = Modifier.padding(12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            FotoCarta(carta.imagen)
+            Spacer(modifier = Modifier.height(8.dp))
+            TextoCarta(carta.titulo)
+        }
     }
-
 
 }
 
@@ -177,13 +200,20 @@ private fun FotoCarta(
     @DrawableRes foto: Int,
     modifier: Modifier = Modifier
 ) {
-    Image(
-        contentScale = ContentScale.Crop,
-        modifier = modifier
-            .height(100.dp),
-        painter = painterResource(foto),
-        contentDescription = null
-    )
+    Box(
+        modifier = Modifier
+            .height(100.dp)
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp)) // Bordes redondeados
+            .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)) // Color de fondo suave
+    ) {
+        Image(
+            painter = painterResource(foto),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize() // Asegura que la imagen ocupe todo el Box
+        )
+    }
 }
 
 //funcion para el texto de las cartas
@@ -195,21 +225,8 @@ private fun TextoCarta(
         text = stringResource(titulo),
         style = MaterialTheme.typography.titleMedium,
         textAlign = TextAlign.Center,
-        modifier = Modifier
-            .fillMaxWidth()
+        color = MaterialTheme.colorScheme.onSurface,
+        modifier = Modifier.padding(horizontal = 8.dp)
     )
 }
 
-
-//@Preview
-//@Composable
-//fun AppPreview() {
-//    AppTheme {
-//        ProblemasScreen(
-//            viewModel = viewModel(),
-//            onTabSelected = {}
-//
-//        )
-//    }
-//
-//}

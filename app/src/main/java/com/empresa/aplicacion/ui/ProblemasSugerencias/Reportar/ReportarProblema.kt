@@ -4,17 +4,26 @@ import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,8 +31,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.empresa.aplicacion.ui.AplicacionBottomAppBar
+import com.empresa.aplicacion.ui.navigation.ProblemasSugerencias
+import com.empresa.aplicacion.ui.navigation.destinosMejoras
+import kotlinx.coroutines.delay
 
 enum class TipoProblema(val descripcion: String) {
     INFRAESTRUCTURA("Infraestructura"),
@@ -31,10 +45,34 @@ enum class TipoProblema(val descripcion: String) {
     SEGURIDAD("Seguridad"),
     MEDIO_AMBIENTE("Medio Ambiente")
 }
-
-
 @Composable
 fun ReportarScreen(
+    navigateToProblemasSugerencias: () -> Unit,
+    navigateTo: (String) -> Unit
+) {
+    Scaffold(
+
+        bottomBar = {
+            AplicacionBottomAppBar(
+                allScreens = destinosMejoras,
+                onTabSelected = { ruta ->
+                    navigateTo(ruta.route)
+                },
+                currentScreen = ProblemasSugerencias
+            )
+        }
+    ) { paddingValues ->
+        ReportarContent(
+            navigateToProblemasSugerencias = navigateToProblemasSugerencias,
+            paddingValues = paddingValues
+        )
+    }
+
+}
+
+@Composable
+fun ReportarContent(
+    paddingValues : PaddingValues,
     viewModel: ReportarProblemaViewModel = hiltViewModel(),
     navigateToProblemasSugerencias: () -> Unit
 ) {
@@ -44,87 +82,135 @@ fun ReportarScreen(
 
     val state by viewModel.state.collectAsState()
 
+    var showDialog by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.background),
+            .fillMaxSize()
+            .padding(16.dp)
+            .background(MaterialTheme.colorScheme.background)
+            .padding(paddingValues)
+        ,
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-
-        ) {
+        verticalArrangement = Arrangement.Center
+    ) {
         Text(
             text = "Reportes o Sugerencias",
-            style = MaterialTheme.typography.titleLarge
+            style = MaterialTheme.typography.headlineMedium,
+            color = MaterialTheme.colorScheme.primary
         )
-        Spacer(modifier = Modifier.height(16.dp))
-        OutlinedTextField(
-            value = titulo,
-            onValueChange = { titulo = it },
-            label = {
-                Text(
-                    text = "Titulo"
-                )
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp)
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        OutlinedTextField(
-            value = descripcion,
-            onValueChange = { descripcion = it },
-            label = {
-                Text(
-                    text = "Describe el problema o sugerencia"
-                )
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(300.dp)
-        )
+
         Spacer(modifier = Modifier.height(16.dp))
 
-        Text(text = "Selecciona el tipo de problema:", style = MaterialTheme.typography.titleMedium)
-
-        Column {
-            TipoProblema.entries.forEach { opcion ->
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    RadioButton(
-                        selected = tipo == opcion,
-                        onClick = { tipo = opcion }
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(12.dp),
+            elevation = CardDefaults.cardElevation(6.dp),
+            colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surface)
+        ) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                item {
+                    OutlinedTextField(
+                        value = titulo,
+                        onValueChange = { titulo = it },
+                        label = { Text("Título") },
+                        modifier = Modifier.fillMaxWidth()
                     )
-                    Text(text = opcion.descripcion, modifier = Modifier.padding(start = 8.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
+                    OutlinedTextField(
+                        value = descripcion,
+                        onValueChange = { descripcion = it },
+                        label = { Text("Describe el problema o sugerencia") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(150.dp)
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Text(
+                        text = "Selecciona el tipo de problema:",
+                        style = MaterialTheme.typography.titleMedium
+                    )
+
+                    TipoProblema.entries.forEach { opcion ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 4.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            RadioButton(
+                                selected = tipo == opcion,
+                                onClick = { tipo = opcion }
+                            )
+                            Text(
+                                text = opcion.descripcion,
+                                modifier = Modifier.padding(start = 8.dp)
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    Button(
+                        onClick = {
+                            viewModel.nuevoProblema(titulo, descripcion, tipo.descripcion)
+                            Log.d("ReportarScreen", "Botón presionado")
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(50.dp)
+                    ) {
+                        Text("Enviar", style = MaterialTheme.typography.bodyLarge)
+                    }
                 }
             }
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
-        Button(
-            onClick = {
-           viewModel.nuevoProblema(titulo, descripcion,  tipo.descripcion)
-                Log.d("ReportarScreen", "Botón presionado")
+        Spacer(modifier = Modifier.height(16.dp))
+
+        when (state) {
+            is ReportarProblemaViewModel.NewProblemState.Success -> showDialog=true
+            is ReportarProblemaViewModel.NewProblemState.Error -> {
+                Text("Error al enviar el reporte", color = MaterialTheme.colorScheme.error)
             }
-        ) {
-            Text(
-                text = "Enviar"
+            is ReportarProblemaViewModel.NewProblemState.Loading -> {
+
+            }
+        }
+        // AlertDialog para mostrar que el reporte fue enviado
+        if (showDialog) {
+            AlertDialog(
+                onDismissRequest = { showDialog = false },
+                title = {
+                    Text(
+                        "Reporte Enviado",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                },
+                text = {
+                    Text(
+                        "Tu problema o sugerencia ha sido reportado con éxito.",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                },
+                containerColor = MaterialTheme.colorScheme.surfaceVariant, // Color del fondo
+                textContentColor = MaterialTheme.colorScheme.onSurface, // Color del texto
+                shape = RoundedCornerShape(16.dp), // Bordes redondeados
+                confirmButton = {} // No hay botón de confirmación
             )
+            // Ocultar automáticamente después de 2 segundos
+            LaunchedEffect(Unit) {
+                delay(1500)
+                showDialog = false
+                navigateToProblemasSugerencias()
+            }
         }
-        Spacer(modifier = Modifier.height(24.dp))
     }
-    when(state){
-        is ReportarProblemaViewModel.NewProblemState.Success ->{navigateToProblemasSugerencias()}
-        is ReportarProblemaViewModel.NewProblemState.Error ->{}
-        is ReportarProblemaViewModel.NewProblemState.Loading ->{}
-
-        }
 }
-
-//
-//@Preview
-//@Composable
-//fun ReportarScreenPreview() {
-//    ReportarScreen()
-//}

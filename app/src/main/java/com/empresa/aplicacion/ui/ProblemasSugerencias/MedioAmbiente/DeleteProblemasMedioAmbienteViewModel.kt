@@ -3,7 +3,9 @@ package com.empresa.aplicacion.ui.ProblemasSugerencias.MedioAmbiente
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.empresa.aplicacion.data.room.ProblemasDatabase.ProblemasEntity
+import com.empresa.aplicacion.data.room.ProblemasDatabase.toEntity
 import com.empresa.aplicacion.domain.DeleteProblemasUseCase
+import com.empresa.aplicacion.domain.Problema
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,19 +14,22 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DeleteProblemasMedioAmbienteViewModel @Inject constructor(
-    private val deleteProblemasMedioAmbiente: DeleteProblemasUseCase
-) : ViewModel() {
+    private val deleteProblemasMedioAmbienteUseCase: DeleteProblemasUseCase,
 
-    private val _state = MutableStateFlow<DeleteProblemasMedioambienteState>(
-        DeleteProblemasMedioambienteState.Loading)
+    ) : ViewModel() {
+
+    private val _state =
+        MutableStateFlow<DeleteProblemasMedioambienteState>(DeleteProblemasMedioambienteState.Loading)
     val state: StateFlow<DeleteProblemasMedioambienteState> = _state
 
 
-    fun deleteProblemaMedioAmbiente(problema: ProblemasEntity) {
+    fun deleteProblemasMedioAmbiente(problema: Problema) {
         viewModelScope.launch {
             _state.value = DeleteProblemasMedioambienteState.Loading
             try {
-                deleteProblemasMedioAmbiente(problema)
+                val problemaEntity = problema.toEntity()
+                deleteProblemasMedioAmbienteUseCase(problemaEntity)
+
             } catch (e: Throwable) {
                 _state.value = DeleteProblemasMedioambienteState.Error("Error al eliminar")
             }
