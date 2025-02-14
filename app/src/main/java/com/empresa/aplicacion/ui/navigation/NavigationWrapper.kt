@@ -74,6 +74,10 @@ fun NavigationWrapper() {
             RegistroProblemasScreen (
                 navigateTo = { ruta ->
                     navController.navigate(ruta)
+
+                    },
+                navigateToLogin = {
+                    navController.navigate(Login.route)
                 }
             )
         }

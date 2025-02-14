@@ -39,11 +39,12 @@ import com.empresa.aplicacion.ui.navigation.destinosMejoras
 fun RegistroProblemasScreen(
 
     navigateTo: (String) -> Unit,
+    navigateToLogin: () -> Unit
 
     ) {
     Scaffold(
         topBar = {
-            AplicacionTopAppBar(navigateToLogin = {})
+            AplicacionTopAppBar(navigateToLogin = navigateToLogin)
         },
         bottomBar = {
             AplicacionBottomAppBar(
@@ -103,18 +104,34 @@ private fun ProblemasListaUsuario(
 
 
     ) {
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(paddingValues),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        items(problemas) { problema ->
-            CartaItemUsuario(
-                problema
+    if (problemas.isEmpty()) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = "No hay problemas registrados.",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
             )
         }
-    }
+    }else{
+
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(paddingValues),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                items(problemas) { problema ->
+                    CartaItemUsuario(
+                        problema
+                    )
+                }
+            }
+        }
 }
 
 @Composable
@@ -123,7 +140,6 @@ private fun CartaItemUsuario(
 
 
     ) {
-
 
     val colorSuperior = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
     val colorInferior = MaterialTheme.colorScheme.secondary.copy(alpha = 0.6f)
