@@ -45,12 +45,11 @@
 ### Cambios realizados
 Se realizaron las siguientes modificaciones y mejoras en la aplicación:
 
-### SQLite en Android
-1. **Crear Base de Datos**: Se ha implementado una clase que extiende `SQLiteOpenHelper` para crear y gestionar la base de datos.
-2. **CRUD**: Se han añadido métodos para crear, leer, actualizar y borrar registros en la base de datos.
-3. **Mostrar Datos**: Se ha implementado una actividad que muestra los datos usando un `RecyclerView`.
+### Uso de Shared Preferences
+1. **Validación de Usuario: Se implementó el uso de Shared Preferences para validar el usuario.
+2. Inicio de Sesión Automático: Si el usuario ya está logueado, la aplicación lo redirige automáticamente a la pantalla principal.
 
-### Implementación de Room
-1. **Entidad**: Se ha definido una clase entidad con anotaciones para la tabla `my_table`.
-2. **DAO**: Se ha creado una interfaz DAO con métodos para insertar, consultar, actualizar y borrar registros.
-3. **Base de Datos**: Se ha implementado la clase `RoomDatabase` para inicializar Room con la entidad y DAO definidos.
+
+### Mejoras en la UI
+1. **Diseño Atractivo: Se realizaron cambios en la interfaz de usuario para hacerla más intuitiva y atractiva.
+2. **DExperiencia de Usuario: Se optimizó la navegación y disposición de elementos visuales
