@@ -17,7 +17,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
@@ -37,7 +37,8 @@ object NetworkModule {
     @Provides
     fun providesChuckNorrisAPI(json: Json): Retrofit = Retrofit.Builder()
         .baseUrl("https://api.chucknorris.io/")
-        .addConverterFactory(json.asConverterFactory(MediaType.get("application/json")))
+        .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+        //MediaType.get("application/json")
         .build()
 
     @Singleton

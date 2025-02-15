@@ -1,5 +1,6 @@
 package com.empresa.aplicacion.ui.RegistroTareasPendientes
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -25,10 +27,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.empresa.aplicacion.R
 import com.empresa.aplicacion.domain.Problema
 import com.empresa.aplicacion.ui.AplicacionBottomAppBar
 import com.empresa.aplicacion.ui.AplicacionTopAppBar
@@ -41,7 +47,7 @@ fun RegistroProblemasScreen(
     navigateTo: (String) -> Unit,
     navigateToLogin: () -> Unit
 
-    ) {
+) {
     Scaffold(
         topBar = {
             AplicacionTopAppBar(navigateToLogin = navigateToLogin)
@@ -101,9 +107,7 @@ private fun ProblemasListaUsuario(
     problemas: List<Problema>,
 
     paddingValues: PaddingValues,
-
-
-    ) {
+) {
     if (problemas.isEmpty()) {
         Box(
             modifier = Modifier
@@ -111,27 +115,44 @@ private fun ProblemasListaUsuario(
                 .padding(paddingValues),
             contentAlignment = Alignment.Center
         ) {
-            Text(
-                text = "No hay problemas registrados.",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
-            )
-        }
-    }else{
 
-            LazyColumn(
+            Image(
+                painter = painterResource(id = R.drawable.boladesierto),
+                contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(paddingValues),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                items(problemas) { problema ->
-                    CartaItemUsuario(
-                        problema
-                    )
-                }
+                    .height(200.dp)
+                    .graphicsLayer(alpha = 0.8f) // Opacidad para mejorar legibilidad
+            )
+
+            Text(
+                text = "No hay problemas registrados. Comienza a colaborar!!!",
+                style = MaterialTheme.typography.titleLarge.copy(
+                    fontWeight = FontWeight.Bold,
+                    letterSpacing = 1.5.sp // Espaciado entre letras
+                ),
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .align(Alignment.BottomCenter)
+                    .offset(y = (-40).dp) // Desplazamiento del texto hacia arriba
+            )
+        }
+    } else {
+
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(paddingValues),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            items(problemas) { problema ->
+                CartaItemUsuario(
+                    problema
+                )
             }
         }
+    }
 }
 
 @Composable

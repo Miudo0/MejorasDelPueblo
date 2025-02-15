@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
@@ -44,7 +45,7 @@ fun LoginScreen(
             AplicacionTopAppBar(
                 navigateToLogin = navigateToLogin
             )
-        },
+        }
 
         ) { paddingValues ->
         LoginApp(
@@ -170,22 +171,17 @@ fun LoginApp(
             is ValidarUSuarioViewModel.databaseState.Loading -> {}
             is ValidarUSuarioViewModel.databaseState.Success -> {}
         }
-//        when (val current = errorState) {
-//            is DatabaseViewModel.errorState.Success ->
-//                Text(
-//                    text = current.mensajeError,
-//                    color = MaterialTheme.colorScheme.error,
-//                    style = MaterialTheme.typography.bodySmall,
-//                    modifier = Modifier
-//                        .padding(top = 8.dp)
-//                )
-//        }
-        //si meto el lauchedeffect no navega?
+        when (val current = errorState) {
+            is ValidarUSuarioViewModel.errorState.Success ->
+                Text(
+                    text = current.mensajeError,
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                )
+        }
 
-//        when (navigationState) {
-//            is ValidarUSuarioViewModel.NavigationState.NavigateToHome -> navigateTo(Home.route)
-//            else -> {}
-//        }
 
 
         Spacer(

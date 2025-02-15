@@ -62,12 +62,12 @@ class ValidarUSuarioViewModel @Inject constructor(
                 Log.d("DatabaseViewModel", "Username actualizado: $usuarioDb")
                 _state.value = databaseState.Success(usuarioDb)
                 _viewState.value = ViewState.LoggedIn
-//                _navegacionState.emit( NavigationState.NavigateToHome(usuarioDb))
+
 
 
             } else {
                 _state.value = databaseState.Error
-                Log.e("DatabaseViewModel", "Usuario o contraseña incorrectos")
+
                 _errorMessageState.value = errorState.Success("Usuario o contraseña incorrectos")
             }
         }

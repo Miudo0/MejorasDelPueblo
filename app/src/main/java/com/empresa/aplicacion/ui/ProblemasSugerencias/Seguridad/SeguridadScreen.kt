@@ -1,8 +1,13 @@
 package com.empresa.aplicacion.ui.ProblemasSugerencias.Seguridad
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
@@ -12,10 +17,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.empresa.aplicacion.R
 import com.empresa.aplicacion.ui.AplicacionBottomAppBar
 import com.empresa.aplicacion.ui.AplicacionTopAppBar
 import com.empresa.aplicacion.ui.ProblemasSugerencias.Componentes.MarcarProblemaResueltoViewModel
@@ -64,36 +75,67 @@ private fun AppContent(paddingValues: PaddingValues) {
     when (val current = state) {
         is SeguridadState.Success -> {
             val problemas = current.problemas
-
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    text = "Problemas de Seguridad",
-                    style = MaterialTheme.typography.headlineSmall,
-                    color = MaterialTheme.colorScheme.primary,
-                    textAlign = TextAlign.Center,
+            if (problemas.isEmpty()) {
+                Box(
                     modifier = Modifier
-                        .padding(paddingValues)
+                        .fillMaxSize()
+                        .padding(paddingValues),
+                    contentAlignment = Alignment.Center
+                ) {
+
+                    Image(
+                        painter = painterResource(id = R.drawable.boladesierto),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp)
+                            .graphicsLayer(alpha = 0.8f) // Opacidad para mejorar legibilidad
+                    )
+
+                    Text(
+                        text = "No hay problemas registrados. Comienza a colaborar!!!",
+                        style = MaterialTheme.typography.titleLarge.copy(
+                            fontWeight = FontWeight.Bold,
+                            letterSpacing = 1.5.sp // Espaciado entre letras
+                        ),
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp)
+                            .align(Alignment.BottomCenter)
+                            .offset(y = (-40).dp) // Desplazamiento del texto hacia arriba
+                    )
+                }
+            } else {
+                Column(
+                    modifier = Modifier
                         .fillMaxWidth()
+                ) {
+                    Text(
+                        text = "Problemas de Seguridad",
+                        style = MaterialTheme.typography.headlineSmall,
+                        color = MaterialTheme.colorScheme.primary,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .padding(paddingValues)
+                            .fillMaxWidth()
 
-                )
-            }
-            Column(modifier = Modifier.padding(top = 40.dp)) {
+                    )
+                }
+                Column(modifier = Modifier.padding(top = 40.dp)) {
 
 
-                ProblemasLista(
-                    problemas = problemas,
-                    deleteProblema = {
-                        deleteViewModel.deleteProblemasSeguridad(it)
-                    },
-                    paddingValues = paddingValues,
-                    marcarProblemaSolucionado = {
-                        actualizarViewModel.marcarComoResuelto(it)
-                    }
+                    ProblemasLista(
+                        problemas = problemas,
+                        deleteProblema = {
+                            deleteViewModel.deleteProblemasSeguridad(it)
+                        },
+                        paddingValues = paddingValues,
+                        marcarProblemaSolucionado = {
+                            actualizarViewModel.marcarComoResuelto(it)
+                        }
 
-                )
+                    )
+                }
             }
 
         }
