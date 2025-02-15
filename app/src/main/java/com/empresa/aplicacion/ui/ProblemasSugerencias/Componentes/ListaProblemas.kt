@@ -16,7 +16,8 @@ fun ProblemasLista(
     problemas: List<Problema>,
     deleteProblema: (Problema) -> Unit,
     paddingValues: PaddingValues,
-    marcarProblemaSolucionado: (Problema) -> Unit
+    marcarProblemaSolucionado: (Problema) -> Unit,
+    modifier: Modifier = Modifier
 
 ) {
     LazyColumn(

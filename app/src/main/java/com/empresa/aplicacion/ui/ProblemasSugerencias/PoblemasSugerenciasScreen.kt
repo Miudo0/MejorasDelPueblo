@@ -211,7 +211,7 @@ private fun FotoCarta(
             painter = painterResource(foto),
             contentDescription = null,
             contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize() // Asegura que la imagen ocupe todo el Box
+            modifier = Modifier.fillMaxSize()
         )
     }
 }
@@ -223,7 +223,7 @@ private fun TextoCarta(
 ) {
     Text(
         text = stringResource(titulo),
-        style = MaterialTheme.typography.titleMedium,
+        style = MaterialTheme.typography.bodyMedium,
         textAlign = TextAlign.Center,
         color = MaterialTheme.colorScheme.onSurface,
         modifier = Modifier.padding(horizontal = 8.dp)
