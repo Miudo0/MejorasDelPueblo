@@ -1,7 +1,11 @@
 package com.empresa.aplicacion.ui.problemasSugerencias.reportar
 
+import android.net.Uri
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -34,11 +38,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.rememberAsyncImagePainter
 import com.empresa.aplicacion.ui.AplicacionBottomAppBar
 import com.empresa.aplicacion.ui.navigation.ProblemasSugerencias
 import com.empresa.aplicacion.ui.navigation.destinosMejoras
@@ -82,9 +89,27 @@ fun ReportarContent(
     viewModel: ReportarProblemaViewModel = hiltViewModel(),
     navigateToProblemasSugerencias: () -> Unit
 ) {
+    //imagen
+    val context = LocalContext.current
+    val imagenUri by viewModel.imagenUri.collectAsState()
+
     var descripcion by remember { mutableStateOf("") }
     var titulo by remember { mutableStateOf("") }
     var tipo by remember { mutableStateOf(TipoProblema.INFRAESTRUCTURA) }
+
+    var imageUri: Uri? by remember { mutableStateOf(null) }
+    val takePictureLauncher = rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+        if (success) {
+            imageUri?.let { uri ->
+                viewModel.setImagen(uri) // Guardar la imagen en el ViewModel
+            }
+        }
+    }
+    fun captureImage() {
+        val uri = createImageUri(context)
+        imageUri = uri
+        takePictureLauncher.launch(uri)
+    }
 
     val state by viewModel.state.collectAsState()
 
@@ -183,7 +208,27 @@ fun ReportarContent(
                         }
                     }
                     Spacer(modifier = Modifier.height(24.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
 
+                    // Botón para tomar una foto
+                    Button(
+                        onClick = { captureImage() },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("Tomar Foto")
+                    }
+
+                    // Mostrar la imagen capturada
+                    imagenUri?.let { uri ->
+                        Image(
+                            painter = rememberAsyncImagePainter(uri),
+                            contentDescription = "Imagen del reporte",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(200.dp)
+                                .clip(RoundedCornerShape(12.dp))
+                        )
+                    }
                     Button(
                         onClick = {
                             viewModel.nuevoProblema(titulo, descripcion, tipo.descripcion)

@@ -11,4 +11,5 @@ data class Problemas(
     @ColumnInfo(name = "descripcion") val descripcion: String?,
     @ColumnInfo(name = "tipo") val tipo: String?,
     @ColumnInfo(name = "username") val username: String?
+
 )

@@ -1,12 +1,14 @@
 package com.empresa.aplicacion.ui
 
 
+import android.Manifest
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -20,6 +22,35 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     val TAG = this.javaClass.simpleName//MainActivity
+
+
+
+    //para darle el permiso a la camara.
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        if (permissions[Manifest.permission.CAMERA] == true &&
+            permissions[Manifest.permission.WRITE_EXTERNAL_STORAGE] == true &&
+            permissions[Manifest.permission.READ_EXTERNAL_STORAGE] == true) {
+            // Permisos concedidos
+        } else {
+            // Permisos no concedidos
+        }
+    }
+
+    private fun requestPermissions() {
+        requestPermissionLauncher.launch(
+            arrayOf(
+                Manifest.permission.CAMERA,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+        )
+    }
+
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate: La aplicación se ha creado.")
@@ -32,7 +63,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background,
                     modifier = Modifier.fillMaxSize()
                 ) {
-
+                    requestPermissions()
                     NavigationWrapper()
 
                 }

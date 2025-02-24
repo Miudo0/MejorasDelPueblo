@@ -1,5 +1,6 @@
 package com.empresa.aplicacion.ui.problemasSugerencias.reportar
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,15 +21,34 @@ class ReportarProblemaViewModel @Inject constructor(
     val state: MutableStateFlow<NewProblemState> = _state
 
     private val usuarioActual = comprobarUsuario.getUserFromSharedPreferences() ?: "Invitado"
+
+    // Estado para almacenar la imagen capturada
+    private var _imagenUri = MutableStateFlow<Uri?>(null)
+    val imagenUri: MutableStateFlow<Uri?> = _imagenUri
+
+
+
     init {
         Log.d("ReportarProblemaViewModel", "Usuario actual: $usuarioActual")
     }
 
+    //prueba para incluir imagenes
+    fun setImagen(uri: Uri) {
+        _imagenUri.value = uri
+        Log.d("ReportarProblemaViewModel", "Imagen guardada en ViewModel: $uri")
+    }
+
+
+
     fun nuevoProblema(titulo: String, descripcion: String, tipo: String) {
         viewModelScope.launch {
             try {
+                val imagen = _imagenUri.value
+                Log.d("ReportarProblemaViewModel", "Intentando reportar problema con imagen: $imagen")
+
+
                 Log.d("ReportarProblemaViewModel", "Intentando reportar problema...")
-                nuevoProblemaUseCase(titulo, descripcion, tipo, usuarioActual)
+                nuevoProblemaUseCase(titulo, descripcion, tipo, usuarioActual,imagen)
                 _state.value = NewProblemState.Success("Reporte realizado")
                 Log.d("ReportarProblemaViewModel", "Reporte exitoso")
                 Log.d("ReportarProblemaViewModel", "Reporte realizado")

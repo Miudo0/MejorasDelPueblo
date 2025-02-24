@@ -7,7 +7,7 @@ data class Problema(
     val tipo: String?,
     val username: String?,
     val resuelto: Boolean = false,
-    val usuarioQueValida: String?
-
+    val usuarioQueValida: String?,
+    val imagenUri: String?
 
 )

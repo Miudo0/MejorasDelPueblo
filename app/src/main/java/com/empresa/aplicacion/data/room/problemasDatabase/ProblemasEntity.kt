@@ -13,8 +13,29 @@ data class ProblemasEntity(
     @ColumnInfo(name = "tipo") val tipo: String?,
     @ColumnInfo(name = "username") val username: String?,
     @ColumnInfo(name = "resuelto") val resuelto: Boolean = false,
-    @ColumnInfo(name = "usuarioQueValida") val usuarioQueValida: String? = null
+    @ColumnInfo(name = "usuarioQueValida") val usuarioQueValida: String? = null,
+    @ColumnInfo(name = "imagenUri") val imagenUri: String? = null
 )
 
-fun ProblemasEntity.toDomain() = Problema(this.uid,this.titulo,this.descripcion,this.tipo,this.username,this.resuelto,this.usuarioQueValida)
-fun Problema.toEntity() = ProblemasEntity(uid=this.uid,this.titulo, this.descripcion,this.tipo,this.username,this.resuelto,this.usuarioQueValida)
+fun ProblemasEntity.toDomain() =
+    Problema(
+        uid,
+        titulo,
+        descripcion,
+        tipo,
+        username,
+        resuelto,
+        usuarioQueValida,
+        imagenUri
+    )
+fun Problema.toEntity() =
+    ProblemasEntity(
+        uid,
+        titulo,
+        descripcion,
+        tipo,
+        username,
+        resuelto,
+        usuarioQueValida,
+        imagenUri
+    )

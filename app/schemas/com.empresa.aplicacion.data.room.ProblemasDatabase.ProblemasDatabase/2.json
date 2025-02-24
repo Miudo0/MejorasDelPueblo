@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "b6d17dc3069cb3d124d4fff4f00a9117",
+    "identityHash": "f87e107cddfc816f206da3cfd2530d1e",
     "entities": [
       {
         "tableName": "ProblemasEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `titulo` TEXT, `descripcion` TEXT, `tipo` TEXT, `username` TEXT, `resuelto` INTEGER NOT NULL, `usuarioQueValida` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `titulo` TEXT, `descripcion` TEXT, `tipo` TEXT, `username` TEXT, `resuelto` INTEGER NOT NULL, `usuarioQueValida` TEXT, `imagenUri` TEXT)",
         "fields": [
           {
             "fieldPath": "uid",
@@ -49,6 +49,12 @@
             "columnName": "usuarioQueValida",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "imagenUri",
+            "columnName": "imagenUri",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -64,7 +70,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b6d17dc3069cb3d124d4fff4f00a9117')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f87e107cddfc816f206da3cfd2530d1e')"
     ]
   }
 }

@@ -22,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -29,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.rememberAsyncImagePainter
 import com.empresa.aplicacion.R
 import com.empresa.aplicacion.domain.Problema
 
@@ -143,6 +145,18 @@ fun CartaItem(
                             textAlign = TextAlign.Center
                         )
                     }
+                    problema.imagenUri?.let { uri ->
+                        Image(
+                            painter = rememberAsyncImagePainter(uri), // Carga la imagen desde la URI
+                            contentDescription = "Imagen del problema", // Descripción opcional
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(200.dp) // Ajusta el tamaño de la imagen como desees
+                                .clip(RoundedCornerShape(12.dp)) // Puedes redondear las esquinas
+                        )
+
+                    }
+
                 }
 
 
