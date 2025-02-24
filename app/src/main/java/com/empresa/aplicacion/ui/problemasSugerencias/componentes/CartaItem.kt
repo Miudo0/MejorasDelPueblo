@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,7 +32,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.empresa.aplicacion.R
 import com.empresa.aplicacion.domain.Problema
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun CartaItem(
     problema: Problema,
@@ -45,10 +44,10 @@ fun CartaItem(
     val mostrarProblemaSolucionado = viewModel.mostrarProblemaSolucionado(problema)
     val confirmarProblemaSolucionado = viewModel.confirmarProblemaSolucionado(problema)
 
-    val colorSuperior = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
-    val colorInferior = MaterialTheme.colorScheme.secondary.copy(alpha = 0.6f)
 
-    val imagenFondo = painterResource(id = R.drawable.fondo4) // Reemplaza con tu imagen
+
+    val imagenFondo = painterResource(id = R.drawable.fondo4)
+    val imagenFondo2 = painterResource(id = R.drawable.fondo5)
     val colorFondoContenido = MaterialTheme.colorScheme.surface.copy(alpha = 0.7f)
 
     Card(
@@ -57,13 +56,8 @@ fun CartaItem(
             .padding(10.dp),
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-//        colors = CardDefaults.cardColors(
-//            containerColor = if (problema.resuelto) {
-//                MaterialTheme.colorScheme.secondary.copy(alpha = 0.4f)
-//            } else {
-//                MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
-//            }
-//        )
+
+
     ) {
 
 
@@ -72,12 +66,21 @@ fun CartaItem(
             modifier = Modifier.fillMaxSize()
         ) {
             // Imagen de fondo de la tarjeta
-            Image(
-                painter = imagenFondo,
-                contentDescription = "Fondo de tarjeta",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.matchParentSize()
-            )
+            if (problema.resuelto) {
+                Image(
+                    painter = imagenFondo2,
+                    contentDescription = "Fondo de tarjeta",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.matchParentSize()
+                )
+            } else {
+                Image(
+                    painter = imagenFondo,
+                    contentDescription = "Fondo de tarjeta",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.matchParentSize()
+                )
+            }
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -87,10 +90,10 @@ fun CartaItem(
                 verticalArrangement = Arrangement.Center
             ) {
                 val icono = when (problema.tipo) {
-                    "Infraestructura" -> painterResource(id = R.drawable.reporteproblemasicono)
-                    "Trafico" -> painterResource(id = R.drawable.seguridadfinal)
-                    "Medio Ambiente" -> painterResource(id = R.drawable.medioambientefinal)
-                    "Seguridad" -> painterResource(id = R.drawable.seguridadfinal)
+                    "Infraestructura" -> painterResource(id = R.drawable.handyman_24dp_e8eaed_fill0_wght400_grad0_opsz24)
+                    "Trafico" -> painterResource(id = R.drawable.traffic_24dp_e8eaed_fill0_wght400_grad0_opsz24)
+                    "Medio Ambiente" -> painterResource(id = R.drawable.nature_24dp_e8eaed_fill0_wght400_grad0_opsz24)
+                    "Seguridad" -> painterResource(id = R.drawable.health_and_safety_24dp_e8eaed_fill0_wght400_grad0_opsz24)
 
                     else -> {
                         painterResource(R.drawable.reporteproblemasicono)
@@ -108,10 +111,6 @@ fun CartaItem(
                     Row (
                         Modifier
                             .fillMaxWidth()
-//                            .background(
-//                                MaterialTheme.colorScheme.onSurface.copy(alpha = 0.15f),
-//                                shape = RoundedCornerShape(4.dp)
-//                            )
                             .padding(16.dp)
                     ){
                         Image(
@@ -126,7 +125,7 @@ fun CartaItem(
                         problema.titulo?.let {
 
                                 Text(
-                                    text = "Reporte: $it",
+                                    text = "Reporte: ${it.replaceFirstChar { char -> char.uppercase() }}",
                                     style = MaterialTheme.typography.titleLarge.copy(
                                         fontWeight = FontWeight.Bold
                                     ),
@@ -139,7 +138,7 @@ fun CartaItem(
                     }
                     problema.descripcion?.let {
                         Text(
-                            text = it,
+                            text = it.replaceFirstChar { char -> char.uppercase() },
                             style = MaterialTheme.typography.bodyLarge,
                             textAlign = TextAlign.Center
                         )
@@ -149,7 +148,7 @@ fun CartaItem(
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-            
+
                 Column(
                     modifier = Modifier
                         .fillMaxWidth(),

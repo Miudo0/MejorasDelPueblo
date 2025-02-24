@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -33,14 +35,13 @@ fun AplicacionBottomAppBar(
 
     allScreens: List<DestinosMejorasPueblo>,
     onTabSelected: (DestinosMejorasPueblo) -> Unit,
-    currentScreen: DestinosMejorasPueblo
+    currentScreen: DestinosMejorasPueblo,
+    badgeScreens: Set<String> = emptySet()
 
 ) {
 
     BottomAppBar(
         containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-      //  contentColor = MaterialTheme.colorScheme.tertiaryContainer,
-      
         modifier = Modifier.fillMaxWidth()
 
     ) {
@@ -57,6 +58,7 @@ fun AplicacionBottomAppBar(
                     icono = screen.image,
                     onSelected = { onTabSelected(screen) },
                     selected = currentScreen == screen,
+                    showBadge = screen.route in badgeScreens,
                     modifier = Modifier
                         .weight(1f)
 
@@ -74,6 +76,7 @@ fun BotonBarItem(
     icono: Int,
     onSelected: () -> Unit,
     selected: Boolean,
+    showBadge: Boolean = false,
     modifier: Modifier = Modifier
 ) {
     val color = MaterialTheme.colorScheme.onTertiary
@@ -95,6 +98,13 @@ fun BotonBarItem(
             .scale(scale),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        BadgedBox(
+            badge = {
+                if (showBadge) {
+                    Badge() // Muestra solo el punto
+                }
+            }
+        ){
         Icon(
             painter = painterResource(id = icono),
             contentDescription = text,
@@ -102,6 +112,7 @@ fun BotonBarItem(
             modifier = Modifier
                 .size(24.dp)
         )
+        }
         if(selected) {
             Text(
                 text = text,
@@ -115,16 +126,3 @@ fun BotonBarItem(
 }
 
 
-//@Preview
-//@Composable
-//fun AplicacionBottomAppBarPreview() {
-//    AppTheme {
-//        AplicacionBottomAppBar(
-//
-//            allScreens = destinosMejoras,
-//            onTabSelected = {},
-//            currentScreen = Home
-//        )
-//    }
-//
-//}

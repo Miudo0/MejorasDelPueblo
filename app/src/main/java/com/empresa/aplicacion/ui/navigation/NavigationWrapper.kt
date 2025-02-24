@@ -12,9 +12,9 @@ import com.empresa.aplicacion.ui.AplicacionTopAppBar
 import com.empresa.aplicacion.ui.home.HomeScreen
 import com.empresa.aplicacion.ui.login.LoginScreen
 import com.empresa.aplicacion.ui.login.RegistroScreen
+import com.empresa.aplicacion.ui.problemasSugerencias.ProblemasScreen
 import com.empresa.aplicacion.ui.problemasSugerencias.infraestructura.InfraestructuraScreen
 import com.empresa.aplicacion.ui.problemasSugerencias.medioAmbiente.MedioAmbienteScreen
-import com.empresa.aplicacion.ui.problemasSugerencias.ProblemasScreen
 import com.empresa.aplicacion.ui.problemasSugerencias.reportar.ReportarScreen
 import com.empresa.aplicacion.ui.problemasSugerencias.seguridad.SeguridadScreen
 import com.empresa.aplicacion.ui.problemasSugerencias.trafico.TraficoScreen
@@ -29,6 +29,10 @@ fun NavigationWrapper() {
     val currentDestination = currentBackStack?.destination
     val currentScreen =
         destinosMejoras.find { it.route == currentDestination?.route } ?: Home
+    val badgeScreens = destinosMejoras
+        .filter { it != Home } // Excluye Home
+        .map { it.route } // Toma solo las rutas
+        .toSet()
 
     NavHost(navController = navController, startDestination = Login.route) {
 
@@ -99,7 +103,7 @@ fun NavigationWrapper() {
                     navController.navigate(ruta.route)
                 },
                 currentScreen = currentScreen,
-
+                badgeScreens = badgeScreens
                 )
         }
         //appBar

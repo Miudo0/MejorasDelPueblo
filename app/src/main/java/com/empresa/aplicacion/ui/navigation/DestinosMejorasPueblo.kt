@@ -27,17 +27,7 @@ object RegistroUsuario : DestinosMejorasPueblo{
     override val image = R.drawable.proyectoscomunitariosicono
     override val route = "Tus reportes"
 }
-//
-//object Proyectos : DestinosMejorasPueblo {
-//    override val image = R.drawable.proyectoscomunitariosicono
-//    override val route = "proyectosScreen"
-//}
-//
-//object Voluntariado : DestinosMejorasPueblo {
-//    override val image = R.drawable.voluntariadoayudas
-//    override val route = "voluntariadoScreen"
-//
-//}
+
 object BotonesAcceso {
     val route: String = "botonesAcceso"
 }

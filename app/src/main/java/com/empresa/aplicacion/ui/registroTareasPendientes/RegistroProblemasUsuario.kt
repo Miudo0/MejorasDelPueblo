@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -27,7 +29,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -71,7 +75,6 @@ fun RegistroProblemasScreen(
 
 @Composable
 fun AppContent(
-
     paddingValues: PaddingValues,
     viewModel: RegistroViewModel = hiltViewModel()
 ) {
@@ -162,25 +165,21 @@ private fun CartaItemUsuario(
 
     ) {
 
-    val colorSuperior = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
-    val colorInferior = MaterialTheme.colorScheme.secondary.copy(alpha = 0.6f)
+    val imagenFondo = painterResource(id = R.drawable.fondo4)
+    val imagenFondo2 = painterResource(id = R.drawable.fondo5)
+    val colorFondoContenido = MaterialTheme.colorScheme.surface.copy(alpha = 0.7f)
 
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp),
-        shape = RoundedCornerShape(8.dp),
+        shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = if (problema.resuelto) {
-                MaterialTheme.colorScheme.tertiary.copy(alpha = 0.4f)
-            } else {
-                MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
-            }
-        )
-    ) {
-        Spacer(modifier = Modifier.height(12.dp))
+
+
+        ) {
+
 
         Column(
             modifier = Modifier
@@ -194,56 +193,97 @@ private fun CartaItemUsuario(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(colorSuperior, RoundedCornerShape(16.dp))
-                    .padding(8.dp)
             ) {
+                if (problema.resuelto) {
+                    Image(
+                        painter = imagenFondo2,
+                        contentDescription = "Fondo de tarjeta",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.matchParentSize()
+                    )
+                } else {
+                    Image(
+                        painter = imagenFondo,
+                        contentDescription = "Fondo de tarjeta",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.matchParentSize()
+                    )
+                }
                 Column(
-                    horizontalAlignment = Alignment.Start,
-                    verticalArrangement = Arrangement.spacedBy(8.dp) // Espaciado más pequeño
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(colorFondoContenido)
+                        .padding(24.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
                 ) {
+                    val icono = when (problema.tipo) {
+                        "Infraestructura" -> painterResource(id = R.drawable.handyman_24dp_e8eaed_fill0_wght400_grad0_opsz24)
+                        "Trafico" -> painterResource(id = R.drawable.traffic_24dp_e8eaed_fill0_wght400_grad0_opsz24)
+                        "Medio Ambiente" -> painterResource(id = R.drawable.nature_24dp_e8eaed_fill0_wght400_grad0_opsz24)
+                        "Seguridad" -> painterResource(id = R.drawable.health_and_safety_24dp_e8eaed_fill0_wght400_grad0_opsz24)
 
-                    problema.titulo?.let {
-                        Box(
-                            modifier = Modifier
+                        else -> {
+                            painterResource(R.drawable.reporteproblemasicono)
+                        }
+                    }
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        horizontalAlignment = Alignment.Start,
+                        verticalArrangement = Arrangement.spacedBy(8.dp) // Espaciado más pequeño
+                    ) {
+                        Row(
+                            Modifier
                                 .fillMaxWidth()
-                                .height(30.dp)
-                                .background(
-                                    MaterialTheme.colorScheme.primary.copy(alpha = 0.15f),
-                                    shape = RoundedCornerShape(16.dp)
-                                )
-                                .padding(horizontal = 16.dp),
-                            contentAlignment = Alignment.Center
+                                .padding(16.dp)
                         ) {
+                            Image(
+                                painter = icono,
+                                contentDescription = "Icono de reporte de problemas",
+                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary),
+                                modifier = Modifier
+                                    .height(24.dp)
+
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            problema.titulo?.let {
+
+                                Text(
+                                    text = "Reporte: ${it.replaceFirstChar { char -> char.uppercase()}}",
+                                    style = MaterialTheme.typography.titleLarge.copy(
+                                        fontWeight = FontWeight.Bold
+                                    ),
+                                    color = MaterialTheme.colorScheme.primary,
+                                    textAlign = TextAlign.Center,
+
+                                    )
+                            }
+
+                        }
+                        problema.descripcion?.let {
                             Text(
-                                text = it,
-                                style = MaterialTheme.typography.titleMedium.copy(
-                                    fontWeight = FontWeight.Bold
-                                ),
-                                color = MaterialTheme.colorScheme.onPrimary,
-                                textAlign = TextAlign.Center
+                                text = it.replaceFirstChar { char -> char.uppercase() },
+                                style = MaterialTheme.typography.bodyLarge,
+                                textAlign = TextAlign.Left
+                            )
+                        }
+                        if (problema.resuelto) {
+                            Text(
+                                text = "Problema solucionado, esperando por otra confirmacion",
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.error,
+                                textAlign = TextAlign.Left
                             )
                         }
                     }
-                    problema.descripcion?.let {
-                        Text(
-                            text = it,
-                            style = MaterialTheme.typography.bodyMedium,
-                            textAlign = TextAlign.Left
-                        )
-                    }
-                    if (problema.resuelto) {
-                        Text(
-                            text = "Problema solucionado, esperando por otra confirmacion",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.error,
-                            textAlign = TextAlign.Left
-                        )
-                    }
                 }
+
+                Spacer(modifier = Modifier.height(12.dp))
+
             }
-
-            Spacer(modifier = Modifier.height(12.dp))
-
         }
     }
 }
