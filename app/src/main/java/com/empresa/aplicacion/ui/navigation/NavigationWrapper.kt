@@ -52,7 +52,7 @@ fun NavigationWrapper() {
 
                 navigateToProblemas = { navController.navigate(ProblemasSugerencias.route) },
                 navigateToRegistro = { navController.navigate(RegistroUsuario.route) },
-
+                navigateToReportar = { navController.navigate(ReportarProblema.route) },
                 navigateToLogin = { navController.navigate(Login.route) },
                 navigateTo = { ruta ->
                     navController.navigate(ruta)
@@ -75,11 +75,11 @@ fun NavigationWrapper() {
 
 
         composable(route = RegistroUsuario.route) {
-            RegistroProblemasScreen (
+            RegistroProblemasScreen(
                 navigateTo = { ruta ->
                     navController.navigate(ruta)
 
-                    },
+                },
                 navigateToLogin = {
                     navController.navigate(Login.route)
                 }
@@ -104,7 +104,7 @@ fun NavigationWrapper() {
                 },
                 currentScreen = currentScreen,
                 badgeScreens = badgeScreens
-                )
+            )
         }
         //appBar
         composable(Titulo.route) {

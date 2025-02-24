@@ -22,8 +22,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -57,14 +61,15 @@ fun HomeScreen(
     navigateToRegistro: () -> Unit,
     navigateToLogin: () -> Unit,
     navigateTo: (String) -> Unit,
+    navigateToReportar: () -> Unit
 
-) {
+    ) {
     Scaffold(
         topBar = {
             AplicacionTopAppBar(
                 navigateToLogin = navigateToLogin,
 
-            )
+                )
         },
         bottomBar = {
             AplicacionBottomAppBar(
@@ -80,6 +85,7 @@ fun HomeScreen(
         App(
             navigateToProblemas,
             navigateToRegistro,
+            navigateToReportar,
             paddingValues = paddingValues
         )
     }
@@ -90,23 +96,42 @@ fun HomeScreen(
 fun App(
     navigateToProblemas: () -> Unit,
     navigateToRegistro: () -> Unit,
+    navigateToReportar: () -> Unit,
     paddingValues: PaddingValues
 ) {
-    LazyColumn(
-        Modifier
-            .padding(paddingValues)
-    ) {
-        item {
-            Spacer(modifier = Modifier.height(16.dp))
+    Box() {
+        LazyColumn(
+            Modifier
+                .padding(paddingValues)
+        ) {
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+            item {
+                FilaElementosAccesibles(
+                    navigateToProblemas,
+                    navigateToRegistro,
+                )
+            }
+            item {
+                ColumnaCartas()
+            }
+
         }
-        item {
-            FilaElementosAccesibles(
-                navigateToProblemas,
-                navigateToRegistro,
+        FloatingActionButton(
+            onClick = { navigateToReportar()},
+            modifier = Modifier
+                .padding(paddingValues)
+                .padding(16.dp)
+                .align(alignment = Alignment.BottomEnd),
+            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+
+            ) {
+            Icon(
+                imageVector = Icons.Filled.Add, // Correcta referencia al icono
+                contentDescription = "Agregar", // Descripción del icono para accesibilidad
+                tint = MaterialTheme.colorScheme.onSecondaryContainer,
             )
-        }
-        item {
-            ColumnaCartas()
         }
     }
 }
@@ -146,7 +171,6 @@ private fun FilaElementosAccesibles(
         }
     }
 }
-
 
 
 @Composable
