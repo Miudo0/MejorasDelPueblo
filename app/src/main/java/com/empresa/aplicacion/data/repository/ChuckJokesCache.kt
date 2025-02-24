@@ -2,9 +2,9 @@ package com.empresa.aplicacion.data.repository
 
 import android.content.SharedPreferences
 import android.util.Log
-import com.empresa.aplicacion.data.room.ChuckJokesDatabase.ChuckJokeDao
-import com.empresa.aplicacion.data.room.ChuckJokesDatabase.toDomain
-import com.empresa.aplicacion.data.room.ChuckJokesDatabase.toEntity
+import com.empresa.aplicacion.data.room.chuckJokesDatabase.ChuckJokeDao
+import com.empresa.aplicacion.data.room.chuckJokesDatabase.toDomain
+import com.empresa.aplicacion.data.room.chuckJokesDatabase.toEntity
 import com.empresa.aplicacion.domain.ChuckJoke
 import javax.inject.Inject
 

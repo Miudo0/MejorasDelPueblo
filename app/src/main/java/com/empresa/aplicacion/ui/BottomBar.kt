@@ -25,12 +25,8 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.empresa.aplicacion.ui.navigation.DestinosMejorasPueblo
-import com.empresa.aplicacion.ui.navigation.Home
-import com.empresa.aplicacion.ui.navigation.destinosMejoras
-import com.empresa.aplicacion.ui.theme.AppTheme
 
 @Composable
 fun AplicacionBottomAppBar(
@@ -42,16 +38,16 @@ fun AplicacionBottomAppBar(
 ) {
 
     BottomAppBar(
-        containerColor = MaterialTheme.colorScheme.primary,
-        contentColor = MaterialTheme.colorScheme.onPrimary,
-        tonalElevation = 8.dp,
+        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+      //  contentColor = MaterialTheme.colorScheme.tertiaryContainer,
+      
         modifier = Modifier.fillMaxWidth()
 
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 8.dp),
+                .padding(horizontal = 24.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
 
@@ -80,9 +76,9 @@ fun BotonBarItem(
     selected: Boolean,
     modifier: Modifier = Modifier
 ) {
-    val color = MaterialTheme.colorScheme.onSurface
+    val color = MaterialTheme.colorScheme.onTertiary
     val animatedColor by animateColorAsState(
-        targetValue = if (selected) MaterialTheme.colorScheme.primary else color.copy(alpha = 0.6f),
+        targetValue = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else color.copy(alpha = 0.8f),
         animationSpec = tween(durationMillis = 200)
     )
     val scale by animateFloatAsState(
@@ -93,7 +89,7 @@ fun BotonBarItem(
     Column(
         modifier = Modifier
             .clip(RoundedCornerShape(12.dp))
-            .background(if (selected) MaterialTheme.colorScheme.primaryContainer else Color.Transparent)
+            .background(if (selected) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent)
             .padding(vertical = 8.dp, horizontal = 12.dp)
             .clickable(onClick = onSelected)
             .scale(scale),
@@ -109,7 +105,7 @@ fun BotonBarItem(
         if(selected) {
             Text(
                 text = text,
-                style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Medium),
+                style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                 color = animatedColor,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
@@ -119,16 +115,16 @@ fun BotonBarItem(
 }
 
 
-@Preview
-@Composable
-fun AplicacionBottomAppBarPreview() {
-    AppTheme {
-        AplicacionBottomAppBar(
-
-            allScreens = destinosMejoras,
-            onTabSelected = {},
-            currentScreen = Home
-        )
-    }
-
-}
+//@Preview
+//@Composable
+//fun AplicacionBottomAppBarPreview() {
+//    AppTheme {
+//        AplicacionBottomAppBar(
+//
+//            allScreens = destinosMejoras,
+//            onTabSelected = {},
+//            currentScreen = Home
+//        )
+//    }
+//
+//}

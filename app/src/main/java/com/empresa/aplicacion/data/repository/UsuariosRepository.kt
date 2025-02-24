@@ -1,8 +1,8 @@
 package com.empresa.aplicacion.data.repository
 
 import android.content.SharedPreferences
-import com.empresa.aplicacion.data.room.UsuariosDatabase.Usuario
-import com.empresa.aplicacion.data.room.UsuariosDatabase.UsuariosDatabase
+import com.empresa.aplicacion.data.room.usuariosDatabase.Usuario
+import com.empresa.aplicacion.data.room.usuariosDatabase.UsuariosDatabase
 import javax.inject.Inject
 
 class UsuariosRepository @Inject constructor(

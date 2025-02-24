@@ -3,11 +3,11 @@ package com.empresa.aplicacion.data.network
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
-import com.empresa.aplicacion.data.room.ChuckJokesDatabase.ChuckJokeDao
-import com.empresa.aplicacion.data.room.ChuckJokesDatabase.ChuckJokesDatabase
-import com.empresa.aplicacion.data.room.NotificacionesDatabase.NotificacionesDatabase
-import com.empresa.aplicacion.data.room.ProblemasDatabase.ProblemasDatabase
-import com.empresa.aplicacion.data.room.UsuariosDatabase.UsuariosDatabase
+import com.empresa.aplicacion.data.room.chuckJokesDatabase.ChuckJokeDao
+import com.empresa.aplicacion.data.room.chuckJokesDatabase.ChuckJokesDatabase
+import com.empresa.aplicacion.data.room.notificacionesDatabase.NotificacionesDatabase
+import com.empresa.aplicacion.data.room.problemasDatabase.ProblemasDatabase
+import com.empresa.aplicacion.data.room.usuariosDatabase.UsuariosDatabase
 import com.empresa.aplicacion.domain.Problema
 import com.empresa.aplicacion.ui.MejorasDelpueblo
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory

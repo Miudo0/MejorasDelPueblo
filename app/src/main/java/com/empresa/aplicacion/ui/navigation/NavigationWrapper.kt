@@ -9,16 +9,16 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.empresa.aplicacion.ui.AplicacionBottomAppBar
 import com.empresa.aplicacion.ui.AplicacionTopAppBar
-import com.empresa.aplicacion.ui.Home.HomeScreen
-import com.empresa.aplicacion.ui.Login.LoginScreen
-import com.empresa.aplicacion.ui.Login.RegistroScreen
-import com.empresa.aplicacion.ui.ProblemasSugerencias.Infraestructura.InfraestructuraScreen
-import com.empresa.aplicacion.ui.ProblemasSugerencias.MedioAmbiente.MedioAmbienteScreen
-import com.empresa.aplicacion.ui.ProblemasSugerencias.ProblemasScreen
-import com.empresa.aplicacion.ui.ProblemasSugerencias.Reportar.ReportarScreen
-import com.empresa.aplicacion.ui.ProblemasSugerencias.Seguridad.SeguridadScreen
-import com.empresa.aplicacion.ui.ProblemasSugerencias.Trafico.TraficoScreen
-import com.empresa.aplicacion.ui.RegistroTareasPendientes.RegistroProblemasScreen
+import com.empresa.aplicacion.ui.home.HomeScreen
+import com.empresa.aplicacion.ui.login.LoginScreen
+import com.empresa.aplicacion.ui.login.RegistroScreen
+import com.empresa.aplicacion.ui.problemasSugerencias.infraestructura.InfraestructuraScreen
+import com.empresa.aplicacion.ui.problemasSugerencias.medioAmbiente.MedioAmbienteScreen
+import com.empresa.aplicacion.ui.problemasSugerencias.ProblemasScreen
+import com.empresa.aplicacion.ui.problemasSugerencias.reportar.ReportarScreen
+import com.empresa.aplicacion.ui.problemasSugerencias.seguridad.SeguridadScreen
+import com.empresa.aplicacion.ui.problemasSugerencias.trafico.TraficoScreen
+import com.empresa.aplicacion.ui.registroTareasPendientes.RegistroProblemasScreen
 
 
 @Composable

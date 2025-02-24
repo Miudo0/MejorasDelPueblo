@@ -6,8 +6,8 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.provider.BaseColumns
 import android.util.Log
-import com.empresa.aplicacion.data.SqlLite.UsuariosRegistradosDbHelper
-import com.empresa.aplicacion.data.SqlLite.UsuariosRegistradosSqliteContrato
+import com.empresa.aplicacion.data.sqlLite.UsuariosRegistradosDbHelper
+import com.empresa.aplicacion.data.sqlLite.UsuariosRegistradosSqliteContrato
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp

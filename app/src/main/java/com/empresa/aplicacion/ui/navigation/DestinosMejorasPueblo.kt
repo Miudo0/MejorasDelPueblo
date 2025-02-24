@@ -25,7 +25,7 @@ object ProblemasSugerencias : DestinosMejorasPueblo {
 
 object RegistroUsuario : DestinosMejorasPueblo{
     override val image = R.drawable.proyectoscomunitariosicono
-    override val route = "Tus problemas activos"
+    override val route = "Tus reportes"
 }
 //
 //object Proyectos : DestinosMejorasPueblo {

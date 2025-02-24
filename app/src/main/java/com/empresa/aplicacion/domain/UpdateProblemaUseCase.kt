@@ -1,7 +1,7 @@
 package com.empresa.aplicacion.domain
 
 import com.empresa.aplicacion.data.repository.ProblemasRepository
-import com.empresa.aplicacion.data.room.ProblemasDatabase.ProblemasEntity
+import com.empresa.aplicacion.data.room.problemasDatabase.ProblemasEntity
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

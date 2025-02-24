@@ -1,5 +1,6 @@
 package com.empresa.aplicacion.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -58,8 +59,8 @@ fun AplicacionTopAppBar(
 
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            titleContentColor = MaterialTheme.colorScheme.onPrimary
+            containerColor = MaterialTheme.colorScheme.surface,
+            titleContentColor = MaterialTheme.colorScheme.onSecondaryContainer
         ),
         title = {
             Row(
@@ -69,8 +70,8 @@ fun AplicacionTopAppBar(
             ) {
                 Text(
                     text = stringResource(R.string.titulo_aplicacion),
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onPrimary
+                    style = MaterialTheme.typography.displaySmall,
+                    color = MaterialTheme.colorScheme.scrim
                 )
 
                 Row(
@@ -79,29 +80,43 @@ fun AplicacionTopAppBar(
                         .clip(RoundedCornerShape(8.dp))
                         .clickable { expanded = true }
                         .padding(horizontal = 12.dp, vertical = 6.dp)
+                        .weight(1f)
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Person,
-                        contentDescription = "Usuario",
-                        tint = MaterialTheme.colorScheme.onPrimary
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = username,
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onPrimary
-                    )
-                    Icon(
-                        imageVector = Icons.Default.ArrowDropDown,
-                        contentDescription = "Menú usuario",
-                        tint = MaterialTheme.colorScheme.onPrimary
-                    )
+                    Row(
+                        modifier = Modifier
+                            .background(
+                                shape = RoundedCornerShape(8.dp),
+                                color = MaterialTheme.colorScheme.secondaryContainer
+                            )
+
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Person,
+                            contentDescription = "Usuario",
+                            tint = MaterialTheme.colorScheme.onSecondaryContainer,
+
+                            )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = username,
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onSecondaryContainer
+                        )
+                        Icon(
+                            imageVector = Icons.Default.ArrowDropDown,
+                            contentDescription = "Menú usuario",
+                            tint = MaterialTheme.colorScheme.onSecondaryContainer
+                        )
+                    }
                 }
 
                 DropdownMenu(
                     expanded = expanded,
                     onDismissRequest = { expanded = false },
-                    offset = DpOffset(x = 200.dp, y = 0.dp)//nose si esto ira bien en segun que telefono
+                    offset = DpOffset(
+                        x = 200.dp,
+                        y = 0.dp
+                    )//nose si esto ira bien en segun que telefono
                 ) {
                     DropdownMenuItem(
                         text = { Text("Continuar") },

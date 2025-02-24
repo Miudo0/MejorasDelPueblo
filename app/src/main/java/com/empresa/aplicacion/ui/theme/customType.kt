@@ -16,14 +16,14 @@ val fontprovider = GoogleFont.Provider(
 
 val custombodyFontFamily = FontFamily(
     Font(
-        googleFont = GoogleFont("Roboto"),
+        googleFont = GoogleFont("Cormorant Garamond"),
         fontProvider = fontprovider,
     )
 )
 
 val customdisplayFontFamily = FontFamily(
     Font(
-        googleFont = GoogleFont("Montserrat"),
+        googleFont = GoogleFont("EB Garamond"),
         fontProvider = fontprovider,
     )
 )

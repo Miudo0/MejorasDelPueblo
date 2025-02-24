@@ -12,7 +12,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.empresa.aplicacion.ui.navigation.NavigationWrapper
-import com.empresa.aplicacion.ui.theme.AppTheme
+import com.example.compose.AppTheme
+
+
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

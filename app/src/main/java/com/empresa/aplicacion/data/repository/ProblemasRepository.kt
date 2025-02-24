@@ -1,7 +1,7 @@
 package com.empresa.aplicacion.data.repository
 
-import com.empresa.aplicacion.data.room.ProblemasDatabase.ProblemasDatabase
-import com.empresa.aplicacion.data.room.ProblemasDatabase.ProblemasEntity
+import com.empresa.aplicacion.data.room.problemasDatabase.ProblemasDatabase
+import com.empresa.aplicacion.data.room.problemasDatabase.ProblemasEntity
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -32,9 +32,5 @@ class ProblemasRepository @Inject constructor(
         val problemasDao = problemasDatabase.problemasDao()
         problemasDao.update(problema)
     }
-
-
-
-
 
 }

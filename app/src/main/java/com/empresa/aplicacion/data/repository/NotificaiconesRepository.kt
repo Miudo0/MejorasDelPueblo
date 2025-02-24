@@ -1,7 +1,7 @@
 package com.empresa.aplicacion.data.repository
 
-import com.empresa.aplicacion.data.room.NotificacionesDatabase.AlertaNotificaciones
-import com.empresa.aplicacion.data.room.NotificacionesDatabase.NotificacionesDatabase
+import com.empresa.aplicacion.data.room.notificacionesDatabase.AlertaNotificaciones
+import com.empresa.aplicacion.data.room.notificacionesDatabase.NotificacionesDatabase
 import javax.inject.Inject
 
 class NotificaiconesRepository @Inject constructor(

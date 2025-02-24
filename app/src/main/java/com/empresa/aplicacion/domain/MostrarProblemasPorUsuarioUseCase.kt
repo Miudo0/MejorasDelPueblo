@@ -1,7 +1,7 @@
 package com.empresa.aplicacion.domain
 
 import com.empresa.aplicacion.data.repository.ProblemasRepository
-import com.empresa.aplicacion.data.room.ProblemasDatabase.toDomain
+import com.empresa.aplicacion.data.room.problemasDatabase.toDomain
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
