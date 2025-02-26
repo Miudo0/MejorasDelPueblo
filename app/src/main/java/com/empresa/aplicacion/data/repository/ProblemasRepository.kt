@@ -4,21 +4,31 @@ import android.net.Uri
 import com.empresa.aplicacion.data.room.problemasDatabase.ProblemasDatabase
 import com.empresa.aplicacion.data.room.problemasDatabase.ProblemasEntity
 import kotlinx.coroutines.flow.Flow
+import org.osmdroid.util.GeoPoint
 import javax.inject.Inject
 
 class ProblemasRepository @Inject constructor(
     private val problemasDatabase: ProblemasDatabase
 ) {
-    suspend fun newProblema(titulo: String, descripcion: String, tipo: String, username: String, imagenUri: Uri?){
+    suspend fun newProblema(
+        titulo: String,
+        descripcion: String,
+        tipo: String,
+        username: String,
+        imagenUri: Uri?,
+        ubicacion: GeoPoint?
+    ) {
         val problemasDao = problemasDatabase.problemasDao()
         val nuevoProblema =
             ProblemasEntity(
-                uid= 0,
+                uid = 0,
                 titulo = titulo,
                 descripcion = descripcion,
                 tipo = tipo,
                 username = username,
-              imagenUri = imagenUri.toString()
+                imagenUri = imagenUri.toString(),
+                latitud = ubicacion?.latitude,
+                longitud = ubicacion?.longitude
             )
         problemasDao.insertAll(nuevoProblema)
     }
@@ -26,18 +36,18 @@ class ProblemasRepository @Inject constructor(
     fun getByFlowTipo(tipo: String) = problemasDatabase.problemasDao().getByFlowTipo(tipo)
 
     fun getByFlowTipoParaConvertir(tipo: String): Flow<List<ProblemasEntity>> =
-       problemasDatabase.problemasDao().getByFlowTipo(tipo)
+        problemasDatabase.problemasDao().getByFlowTipo(tipo)
 
     fun getByFlowUsername(username: String): Flow<List<ProblemasEntity>> =
         problemasDatabase.problemasDao().getByFlowUsername(username)
 
 
-    suspend fun deleteProblema(problema: ProblemasEntity){
+    suspend fun deleteProblema(problema: ProblemasEntity) {
         val problemasDao = problemasDatabase.problemasDao()
         problemasDao.delete(problema)
     }
 
-    suspend fun updateProblema(problema: ProblemasEntity){
+    suspend fun updateProblema(problema: ProblemasEntity) {
         val problemasDao = problemasDatabase.problemasDao()
         problemasDao.update(problema)
     }

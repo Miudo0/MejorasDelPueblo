@@ -19,8 +19,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -45,12 +43,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
+import com.empresa.aplicacion.R
 import com.empresa.aplicacion.ui.AplicacionBottomAppBar
 import com.empresa.aplicacion.ui.OpenStreetMap
 import com.empresa.aplicacion.ui.navigation.ProblemasSugerencias
@@ -271,6 +271,7 @@ fun ReportarContent(
                                 longitud = selectedLon,
                                 onLocationSelected = { ubicacionSeleccionada ->
                                     selectedLocation = ubicacionSeleccionada
+                                    viewModel.setUbicacionSeleccionada(ubicacionSeleccionada)
                                 }
                             )
                         }
@@ -311,7 +312,7 @@ fun ReportarContent(
 
                     ) {
                     Icon(
-                        imageVector = Icons.Filled.AddCircle,
+                        painter = painterResource(id = R.drawable.videocam_24dp_e8eaed_fill0_wght400_grad0_opsz24),
                         contentDescription = "Agregar",
                         tint = MaterialTheme.colorScheme.onSecondaryContainer,
                     )

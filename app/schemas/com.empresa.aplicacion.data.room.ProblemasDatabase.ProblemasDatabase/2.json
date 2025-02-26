@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "f87e107cddfc816f206da3cfd2530d1e",
+    "identityHash": "afa85fcf1fb4e4abbac02438afa6b02c",
     "entities": [
       {
         "tableName": "ProblemasEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `titulo` TEXT, `descripcion` TEXT, `tipo` TEXT, `username` TEXT, `resuelto` INTEGER NOT NULL, `usuarioQueValida` TEXT, `imagenUri` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `titulo` TEXT, `descripcion` TEXT, `tipo` TEXT, `username` TEXT, `resuelto` INTEGER NOT NULL, `usuarioQueValida` TEXT, `imagenUri` TEXT, `latitud` REAL, `longitud` REAL)",
         "fields": [
           {
             "fieldPath": "uid",
@@ -55,6 +55,18 @@
             "columnName": "imagenUri",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "latitud",
+            "columnName": "latitud",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "longitud",
+            "columnName": "longitud",
+            "affinity": "REAL",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -70,7 +82,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f87e107cddfc816f206da3cfd2530d1e')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'afa85fcf1fb4e4abbac02438afa6b02c')"
     ]
   }
 }

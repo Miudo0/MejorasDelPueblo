@@ -107,7 +107,8 @@ object NetworkModule {
             descripcion = "Descripción del problema",
             tipo = "TipoA",
             usuarioQueValida = "UsuarioValidador",
-            imagenUri = null
+            imagenUri = null,
+            ubicacion = null
         )
     }
 

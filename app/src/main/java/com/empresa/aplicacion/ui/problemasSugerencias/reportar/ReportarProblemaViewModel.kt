@@ -9,6 +9,7 @@ import com.empresa.aplicacion.domain.NuevoProblemaUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import org.osmdroid.util.GeoPoint
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,11 +27,9 @@ class ReportarProblemaViewModel @Inject constructor(
     private var _imagenUri = MutableStateFlow<Uri?>(null)
     val imagenUri: MutableStateFlow<Uri?> = _imagenUri
 
+    private var _ubicacionSeleccionada = MutableStateFlow<GeoPoint?>(null)
+    val ubicacionSeleccionada: MutableStateFlow<GeoPoint?> = _ubicacionSeleccionada
 
-
-    init {
-        Log.d("ReportarProblemaViewModel", "Usuario actual: $usuarioActual")
-    }
 
     //prueba para incluir imagenes
     fun setImagen(uri: Uri) {
@@ -38,17 +37,22 @@ class ReportarProblemaViewModel @Inject constructor(
         Log.d("ReportarProblemaViewModel", "Imagen guardada en ViewModel: $uri")
     }
 
+    fun setUbicacionSeleccionada(ubicacion: GeoPoint) {
+        _ubicacionSeleccionada.value = ubicacion
+        Log.d("ReportarProblemaViewModel", "Ubicación seleccionada guardada en ViewModel: Lat: ${ubicacion.latitude}, Lon: ${ubicacion.longitude}")
+    }
 
 
     fun nuevoProblema(titulo: String, descripcion: String, tipo: String) {
         viewModelScope.launch {
             try {
                 val imagen = _imagenUri.value
+                val ubicacion = _ubicacionSeleccionada.value
                 Log.d("ReportarProblemaViewModel", "Intentando reportar problema con imagen: $imagen")
 
 
                 Log.d("ReportarProblemaViewModel", "Intentando reportar problema...")
-                nuevoProblemaUseCase(titulo, descripcion, tipo, usuarioActual,imagen)
+                nuevoProblemaUseCase(titulo, descripcion, tipo, usuarioActual,imagen,ubicacion)
                 _state.value = NewProblemState.Success("Reporte realizado")
                 Log.d("ReportarProblemaViewModel", "Reporte exitoso")
                 Log.d("ReportarProblemaViewModel", "Reporte realizado")
