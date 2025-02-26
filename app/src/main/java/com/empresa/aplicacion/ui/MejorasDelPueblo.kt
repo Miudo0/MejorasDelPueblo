@@ -9,6 +9,7 @@ import android.util.Log
 import com.empresa.aplicacion.data.sqlLite.UsuariosRegistradosDbHelper
 import com.empresa.aplicacion.data.sqlLite.UsuariosRegistradosSqliteContrato
 import dagger.hilt.android.HiltAndroidApp
+import org.osmdroid.config.Configuration
 
 @HiltAndroidApp
 class MejorasDelpueblo : Application() {
@@ -20,6 +21,8 @@ class MejorasDelpueblo : Application() {
         Log.d(TAG, "onCreate: La aplicación se ha creado.")
         appContext = applicationContext
        incializarDB()
+        val sharedPreferences = getSharedPreferences("osmdroid_prefs", MODE_PRIVATE)
+        Configuration.getInstance().load(this, sharedPreferences)
     }
     //obtener el contexto glogal
     companion object {

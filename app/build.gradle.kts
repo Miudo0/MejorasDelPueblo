@@ -109,5 +109,9 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    //mapas
+    implementation (libs.play.services.maps)
+    implementation (libs.play.services.location)
 
+    implementation(libs.osmdroid.android.get())
 }

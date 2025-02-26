@@ -4,6 +4,7 @@ package com.empresa.aplicacion.ui.problemasSugerencias.componentes
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -152,7 +153,9 @@ fun CartaItem(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(200.dp) // Ajusta el tamaño de la imagen como desees
-                                .clip(RoundedCornerShape(12.dp)) // Puedes redondear las esquinas
+                                .clip(RoundedCornerShape(16.dp)) // Redondear las esquinas
+                                .border(1.dp, MaterialTheme.colorScheme.scrim, RoundedCornerShape(16.dp)),
+                            contentScale = ContentScale.Crop
                         )
 
                     }
